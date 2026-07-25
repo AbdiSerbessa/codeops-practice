@@ -222,7 +222,7 @@ class AccountRegistry:
         self._accounts = {}  
 
     def add(self, account):
-        """Adds/registers an account in the dictionary."""
+        
         if not account:
             alert_service.error("Registry Error: Cannot add a None account.")
             return False
@@ -277,7 +277,7 @@ class AccountRegistry:
         return None
 
 class Branch:
-    """Tree Node representing a bank branch that can have child sub-branches."""
+   
     def __init__(self, name):
         self.name = name
         self.accounts = []
@@ -290,7 +290,7 @@ class Branch:
         self.sub_branches.append(sub_branch)
 
     def get_total_balance_recursive(self):
-        """Recursively calculates total balance across this branch and all sub-branches."""
+        
         total = sum(acc.balance for acc in self.accounts)
         for child in self.sub_branches:
             total += child.get_total_balance_recursive()
@@ -298,12 +298,12 @@ class Branch:
 
 
 class TransfersGraph:
-    """Graph structure modeling transfers between account numbers (directed edges)."""
+    
     def __init__(self):
         self.adj_list = {}
 
     def add_transfer(self, sender_acc, receiver_acc, amount):
-        """Records a transfer edge from sender to receiver and executes the transfer."""
+        
         s_num = str(sender_acc.account_number)
         r_num = str(receiver_acc.account_number)
 
@@ -319,7 +319,7 @@ class TransfersGraph:
         return False
 
     def bfs_find_path(self, start_acc_num, target_acc_num):
-        """Uses Breadth-First Search (BFS) to traverse the transfer graph and find a path."""
+       
         start = str(start_acc_num).strip()
         target = str(target_acc_num).strip()
 
@@ -365,7 +365,7 @@ if __name__ == "__main__":
             acc.subscribe(sms_alert)
             registry.add(acc)
 
-    print("\n--- DAY 09: BRANCH TREE & RECURSIVE BALANCE ---")
+    print("\n")
    
     head_office = Branch("Head Office - Addis Ababa")
     ambo_branch = Branch("Ambo Branch")
@@ -383,7 +383,7 @@ if __name__ == "__main__":
     print(f"Adama Branch Recursive Total: {adama_branch.get_total_balance_recursive():.2f} ETB")
     print(f"Head Office Recursive Total (All Branches): {head_office.get_total_balance_recursive():.2f} ETB")
 
-    print("\n--- DAY 09: TRANSFERS GRAPH & BFS TRAVERSAL ---")
+    print("\n")
     graph = TransfersGraph()
 
   

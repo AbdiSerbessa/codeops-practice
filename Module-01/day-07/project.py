@@ -1,4 +1,4 @@
-# day06/bank.py
+# day07/bank.py
 class AlertService:
     def success(self, message):
         print(f"✔ {message}")
