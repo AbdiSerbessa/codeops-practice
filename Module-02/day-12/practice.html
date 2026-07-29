@@ -1,0 +1,69 @@
+<!-- exercise 1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethio Telecom Service Registration</title>
+</head>
+<body>
+
+
+  <form action="/register-service" method="post">
+    <h2>Ethio Telecom Service Registration</h2>
+
+      <label for="fullName">Full Name:</label>
+      <input 
+        type="text" 
+        id="fullName" 
+        name="fullName" 
+        required 
+        placeholder="e.g. Abebe Bikila"
+      >
+    
+
+    <br><br>
+    
+      <label for="email">Email Address:</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        required 
+        placeholder="name@example.com">
+      
+
+    <br><br>
+    
+      <label for="phone">Phone Number:</label>
+      <input 
+        type="tel" 
+        id="phone" 
+        name="phone" 
+        required 
+        pattern="\+251[0-9]{9}" 
+        title="Phone number must start with +251 followed by 9 digits (e.g., +251911234567)" 
+        placeholder="+251911234567"
+      >
+    
+<br>
+    <br>
+
+    <!-- Branch Selection -->
+    
+      <label for="branch">Preferred Branch:</label>
+      <select id="branch" name="branch" required>
+        <option value="" disabled selected>-- Select a Branch --</option>
+        <option value="bole">Bole</option>
+        <option value="kazanchis">Kazanchis</option>
+        <option value="piassa">Piassa</option>
+      </select>
+    
+
+    <br>
+
+    <button type="submit">Register Service</button>
+  </form>
+
+</body>
+</html>
