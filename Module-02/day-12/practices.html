@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethio Telecom Registration Services Portal</title>
+  <meta name="description" content="Register for Ethio Telecom services, view Ethiopian Airlines flight schedules, and explore cultural landmarks in Ethiopia.">
+</head>
+<body>
+
+  <header>
+    <h1>Ethio Telecom & Ethiopian Services Portal</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Ethio Telecom Service Registration</h2>
+      <form id="ethioTelecomForm" action="#" method="post">
+        <div>
+          <label for="fullName">Full Name:</label>
+          <input type="text" id="fullName" name="fullName" required minlength="2">
+        </div>
+
+        <div>
+          <label for="userEmail">Email Address:</label>
+          <input type="email" id="userEmail" name="userEmail" required>
+        </div>
+
+        <div>
+          <label for="userPhone">Phone Number (+251 followed by 9 digits):</label>
+          <input 
+            type="tel" 
+            id="userPhone" 
+            name="userPhone" 
+            placeholder="+251912345678" 
+            pattern="^\+251\d{9}$" 
+            required 
+            title="Please enter a valid phone number starting with +251 followed by exactly 9 digits (e.g. +251912345678)">
+        </div>
+
+        <div>
+          <label for="branchSelect">Select Preferred Branch:</label>
+          <select id="branchSelect" name="branchSelect" required>
+            <option value="">-- Please Choose a Branch --</option>
+            <option value="bole">Bole</option>
+            <option value="kazanchis">Kazanchis</option>
+            <option value="piassa">Piassa</option>
+          </select>
+        </div>
+
+        <div>
+          <button type="submit">Register Service</button>
+        </div>
+      </form>
+    </section>
+
+    <hr>
+    <section>
+      <h2>2. Ethiopian Airlines Flight Schedule</h2>
+      <table>
+        
+        <table border="1" cellpadding="8" cellspacing="0">
+  
+  <thead>
+    <tr>
+      <th scope="col">Flight</th>
+      <th scope="col">From</th>
+      <th scope="col">To</th>
+      <th scope="col">Departs</th>
+      <th scope="col">Price ETB</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ET 302</td>
+      <td>Addis Ababa (ADD)</td>
+      <td>Nairobi (NBO)</td>
+      <td>08:15 AM</td>
+      <td>18,500</td>
+    </tr>
+    <tr>
+      <td>ET 608</td>
+      <td>Addis Ababa (ADD)</td>
+      <td>Bangkok (BKK)</td>
+      <td>11:40 PM</td>
+      <td>45,200</td>
+    </tr>
+    <tr>
+      <td>ET 500</td>
+      <td>Addis Ababa (ADD)</td>
+      <td>Washington D.C. (IAD)</td>
+      <td>10:00 AM</td>
+      <td>68,000</td>
+    </tr>
+    <tr>
+      <td>ET 700</td>
+      <td>Addis Ababa (ADD)</td>
+      <td>London (LHR)</td>
+      <td>01:30 AM</td>
+      <td>54,300</td>
+    </tr>
+    <tr>
+      <td>ET 809</td>
+      <td>Addis Ababa (ADD)</td>
+      <td>Johannesburg (JNB)</td>
+      <td>08:45 AM</td>
+      <td>28,900</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>3. Featured Landmark & Location Map</h2>
+      
+      <figure>
+          <img 
+            src="tuludimtu.jpg"
+            width="100%"
+            height="280"
+          >
+          <figcaption>
+            <strong>Tullu Dimtu </strong>- is the second-highest mountain in Ethiopia (after Ras Dashen) and the highest peak in the Bale Mountains range, rising 4,377 meters (14,360 feet) above sea level.
+          </figcaption>
+        </figure>
+
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31692.264457934714!2d39.819399999999995!3d6.8264999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17b61821d2c1dcc7%3A0x877a14395618c266!2sMount%20Tullu%20Dimtu!5e0!3m2!1sen!2set!4v1785445859133!5m2!1sen!2set" width="600" height="295" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </section>
+
+    <hr>
+
+    <!-- REQUIREMENT 4: Rewritten Inaccessible Snippet with Accessibility Explanations -->
+    <section>
+      <h2>4. Accessible Snippet Fixes</h2>
+
+      <!-- 
+        FIX 1: Replaced <div class="btn" onclick="..."> with a native <button> element.
+        SCREEN-READER / KEYBOARD BENEFIT: 
+        Native buttons automatically gain keyboard focus via the Tab key, can be triggered using 
+        Enter or Spacebar without custom JavaScript event listeners, and explicitly announce 
+        their interactive role as a "button" to screen readers.
+      -->
+     
+
+      <!-- 
+        FIX 3: Added a descriptive 'alt' attribute to the <img> tag.
+        SCREEN-READER / KEYBOARD BENEFIT: 
+        Screen readers announce the alt text aloud to visually impaired users, providing equal context 
+        about the image's content instead of reading raw file names or skipping it entirely. 
+        It also serves as fallback text if the image fails to load.
+      -->
+      <img src="doro-wat.jpg" alt="Traditional Ethiopian Doro Wat served on injera with boiled eggs" width="300" height="200">
+      <br><br>
+      
+
+      <!-- 
+        FIX 2: Added an explicit <label> element linked via 'for' and 'id' attributes.
+        SCREEN-READER / KEYBOARD BENEFIT: 
+        Screen readers announce the visual label text when the field gains focus. It also expands 
+        the interactive hit area so clicking or tapping the label text moves focus directly into the input field.
+      -->
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter username">
+        <br>
+        <button type="button" onclick="alert('Form submitted!')">Submit</button>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
