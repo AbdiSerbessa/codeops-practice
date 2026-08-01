@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/reserve" method="post">
+        
+        
+
+        <fieldset>
+            <legend>your details</legend>
+        <label for="fullName" name="fullName">Full Name</label>
+        <input id ="fullName" required placeholder="fullName"> <br>
+
+        <label for="guests" name="guests"> Guests</label>
+        <input type="number" min="3" max="20"> <br>
+
+        <label for="date" name="date">Date</label>
+        <input type="date" required><br>
+
+        <label for="phonenumber" name="phonenumber">Phone Number</label>
+        <input type="tel">
+        <br>
+        <label for="gender"><label>Gender </label>
+            <input type="radio" name="gender">Male
+            <input type="radio" name="gender" >Female
+        </label>
+        <br>
+        <p>Select your Gender</p>
+        <select name="gender" id="gender">
+            <option value="gender">--select--</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+
+        </select><br><br>
+        <button type="submit">Reserve</button>
+        
+        </fieldset><br>
+        
+        <table border="9" cellpadding="8" cellspacing ="0">
+            <caption> Awash Bank Rates</caption>
+            
+            <thead>
+                <tr>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Buy</th>
+                    <th scope="col">Sell</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">USD</th> <td>57.20</td> <td>58.34</td>          
+                </tr>
+                <tr>
+                    <th scope="row">EUP</th> <td>61.8</td> <td>62.0</td>
+                </tr>
+                <tr>
+                    <th scope="row">GBP</th> <td>80.12</td> <td>83.45</td>
+                </tr>
+            </tbody>
+        </table><br>
+    <img src="doro-wat.jpg" alt="Doro wat food of Ethiopia" width="800" height="250" loading="lazy">
+
+
+    </form><br>
+<video controls width="600" poster="doro-wat.jpg" >
+    <source src="ux.mp4" type="video/mp4">
+    <!-- <track kind="captions" src="am.vtt"
+    srclang="am" label ="Amharic">
+    your browser cannot play this video. -->
+</video> 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31692.264457934714!2d39.819399999999995!3d6.8264999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17b61821d2c1dcc7%3A0x877a14395618c266!2sMount%20Tullu%20Dimtu!5e0!3m2!1sen!2set!4v1785445859133!5m2!1sen!2set" width="600" height="295" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Map to tullu Dimtu" loading="lazy" sandbox="allow-scripts">
+</iframe><br><br><br>
+<footer>
+<h3>YourBrand</h3>
+<p>&copy; 2026 YourBrand. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
