@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habesha Eatery | Table Reservation &amp; Cultural Menu</title>
+  <meta name="description" content="Reserve a table at Habesha Eatery to experience authentic Ethiopian cuisine, view our traditional menu, and find our location.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Semantic Landmark: Header -->
+  <header>
+    <h1>Habesha Eatery</h1>
+    <!-- Semantic Landmark: Nav -->
+    <nav aria-label="Main Navigation">
+      <ul>
+        <li><a href="#reservation">Reservation</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#location">Location</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Semantic Landmark: Main -->
+  <main>
+
+    <!-- Section 1: Reservation Form -->
+    <section id="reservation">
+      <h2>Book a Table</h2>
+      <form action="#" method="post">
+        <div>
+          <label for="fullName">Full Name:</label>
+          <input type="text" id="fullName" name="fullName" required minlength="2">
+        </div>
+
+        <div>
+          <label for="userEmail">Email Address:</label>
+          <input type="email" id="userEmail" name="userEmail" required>
+        </div>
+
+        <div>
+          <label for="userPhone">Phone Number (+251 followed by 9 digits):</label>
+          <input 
+            type="tel" 
+            id="userPhone" 
+            name="userPhone" 
+            placeholder="+251912345678" 
+            pattern="^\+251\d{9}$" 
+            required
+            title="Please enter a valid phone number starting with +251 followed by 9 digits">
+        </div>
+
+        <div>
+          <label for="resDate">Reservation Date:</label>
+          <input type="date" id="resDate" name="resDate" required>
+        </div>
+
+        <div>
+          <label for="partySize">Party Size (Number of Guests):</label>
+          <input type="number" id="partySize" name="partySize" min="1" max="20" required>
+        </div>
+
+        <div>
+          <label for="specialRequests">Special Requests:</label>
+          <textarea id="specialRequests" name="specialRequests" rows="4" cols="50" placeholder="Let us know about dietary requirements or seating preferences..."></textarea>
+        </div>
+
+        <div>
+          <button type="submit">Reserve Table</button>
+        </div>
+      </form>
+    </section>
+
+    <hr>
+
+    <!-- Section 2: Menu Table -->
+    <section id="menu">
+      <h2>Our Traditional Menu</h2>
+      <table border="5" cellpadding="0" cellspacing="0">
+        <caption>Habesha Eatery Traditional Dishes and Beverages</caption>
+        <thead>
+          <tr>
+            <th scope="col">Dish Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price ETB</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Doro Wat</td>
+            <td>Main Dish</td>
+            <td>Spicy chicken stew served with boiled eggs and fresh injera</td>
+            <td>650</td>
+          </tr>
+          <tr>
+            <td>Beyaynetu</td>
+            <td>Vegetarian</td>
+            <td>Assorted traditional vegan stews served on injera</td>
+            <td>450</td>
+          </tr>
+          <tr>
+            <td>Special Kitfo</td>
+            <td>Main Dish</td>
+            <td>Minced lean beef seasoned with mitmita and niter kibbeh</td>
+            <td>700</td>
+          </tr>
+          <tr>
+            <td>Shiro Tegabeno</td>
+            <td>Vegetarian</td>
+            <td>Slow-cooked chickpea powder stew served bubbling in a clay pot</td>
+            <td>380</td>
+          </tr>
+          <tr>
+            <td>Traditional Coffee</td>
+            <td>Beverage</td>
+            <td>Freshly roasted Ethiopian coffee brewed in a traditional jebena</td>
+            <td>120</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Section 3: Media Block -->
+    <section id="location">
+      <h2>Featured Dish &amp; Location Map</h2>
+
+      <!-- Dish Image with figure/figcaption and meaningful alt text -->
+      <figure>
+        <img 
+          src="assets/doro_wat.jpg" 
+          alt="Traditional Ethiopian Doro Wat chicken stew with boiled egg served over flatbread injera" 
+          width="800" 
+          height="500">
+        <figcaption>Signature Dish: Authentic Ethiopian Doro Wat served daily.</figcaption>
+      </figure>
+
+      <!-- Map iframe with accessible title -->
+      <div>
+        <iframe 
+          title="Google Map showing the geographic location of Habesha Eatery in Addis Ababa" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15762.573216859!2d38.7577605!3d9.0107934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa!5e0!3m2!1sen!2set!4v1700000000000!5m2!1sen!2set" 
+          width="600" 
+          height="400" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Landmark: Footer -->
+  <footer>
+    <p>&copy; 2026 Habesha Eatery. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
