@@ -1,0 +1,99 @@
+/* Step 4: Define colors in :root tokens */
+:root {
+  --primary-gold: #d4af37;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --text-main: #1a202c;
+  --text-muted: #4a5568;
+  --stripe-bg: #f7fafc;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Step 1: Global reset with box-sizing: border-box */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Step 2: Set base font-family and line-height on body */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-main);
+  background-color: var(--stripe-bg);
+  padding: 2rem;
+}
+
+/* Step 3 & 4: Card box model, padding, border, gold accent & var() colors */
+.menu-card {
+  max-width: 380px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-top: 5px solid var(--primary-gold); /* Gold top accent */
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Step 5 (Part 1): Hover state pseudo-class */
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+/* Card typography */
+.dish-name {
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.menu-card h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* Step 5 (Part 2): ::before pseudo-element prefixing price with "ETB " */
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 1.25rem;
+}
+
+.price::before {
+  content: "ETB ";
+  color: var(--primary-gold);
+  font-weight: 600;
+}
+
+/* Step 6: Zebra-stripe ingredient list with :nth-child(even) */
+.ingredients-list {
+  list-style: none;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ingredients-list li {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.ingredients-list li:nth-child(even) {
+  background-color: var(--stripe-bg);
+}
