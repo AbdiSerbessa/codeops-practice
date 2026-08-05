@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><Habesha>Habesha Eatery Landing Page</title>
+  <link rel="stylesheet" href="layout.css">
+</head>
+<body class="page"> <!-- Step 1: .page container -->
+
+  <!-- Step 2: Sticky Flexbox Navbar -->
+  <header class="navbar">
+    <div class="logo">H.E</div>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reservation">Reservation</a></li>
+      <li><a href="#location">Location</a></li>
+    </ul>
+  </header>
+
+  <!-- Step 3: Main section with .menu-grid -->
+  <main>
+    <section id="menu">
+      <h2>Our Menu</h2>
+      <div class="menu-grid">
+
+        <!-- Card 1 (with Popular Badge) -->
+        <article class="card">
+          <!-- Step 5: Popular badge -->
+          <span class="badge-popular">Popular</span>
+          <h3>Doro Wat</h3>
+          <p>Traditional slow-cooked chicken stew served with fresh injera.</p>
+          <!-- Step 4: Pinned price -->
+          <div class="price">ETB 650</div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+          <h3>Beyaynetu</h3>
+          <p>Assorted traditional vegan stews served on injera.</p>
+          <div class="price">ETB 450</div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+          <h3>Special Kitfo</h3>
+          <p>Minced lean beef seasoned with mitmita and niter kibbeh.</p>
+          <div class="price">ETB 700</div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 Habesha Eatery. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

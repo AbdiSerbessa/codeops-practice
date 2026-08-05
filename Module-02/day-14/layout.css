@@ -1,0 +1,96 @@
+/* Step 1: Make .page a CSS Grid skeleton with rows: auto / 1fr / auto */
+.page {
+  display:grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Step 2: Flexbox Navbar - Logo left, links right, sticky to top */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #e3caca;
+  box-shadow: 0 10px 4px rgba(27, 240, 3, 0.1);
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 3.5rem;
+  list-style: none;
+}
+
+/* Step 3: Responsive Menu Grid with auto-fit */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* Step 4 & 5: Flexbox Card layout with pinned price and absolute badge */
+.card {
+  position: relative; /* Step 5: Anchor for absolute badge */
+  display: flex;
+  flex-direction: column; /* Flex column */
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+/* Pushes the price element cleanly to the bottom of the card */
+.card .price {
+  margin-top: auto; /* Step 4: Pins price to bottom */
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+/* Step 5: Pin "Popular" badge to card corner using absolute positioning */
+.badge-popular {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #d4af37; /* Gold accent */
+  color:white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.logo {
+  width: 60px;          /* Ensure container width */
+  height: 60px;         /* Match container height */
+  border-radius: 50%;   /* Keeps circle shape */
+  background-color: #ffffff;
+  
+  /* Flexbox alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  /* Prevent text wrapping & overflow */
+  white-space: nowrap; 
+  font-size: 1.55rem;    /* Adjust size to fit comfortable inside circle */
+  font-weight: 600;
+}
+
+#menu{
+    background-color: rgb(236, 239, 238);
+    text-align: center;
+
+}
+
+
+.footer{
+    background-color: rgb(60, 50, 50);
+    color: white;
+    font-size: 1.5rem;
+}
+
