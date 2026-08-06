@@ -1,0 +1,142 @@
+/* Step 1: Make .page a CSS Grid skeleton with rows: auto / 1fr / auto */
+.page {
+  display:grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Step 2: Flexbox Navbar - Logo left, links right, sticky to top */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #e3caca;
+  box-shadow: 0 10px 4px rgba(27, 240, 3, 0.1);
+  border-radius: 10px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 3.5rem;
+  list-style: none;
+}
+
+/* Step 3: Responsive Menu Grid with auto-fit */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* Step 4 & 5: Flexbox Card layout with pinned price and absolute badge */
+.card {
+  position: relative; /* Step 5: Anchor for absolute badge */
+  display: flex;
+  flex-direction: column; /* Flex column */
+  padding: 1.5rem;
+  border: 1px solid #a5a5a7;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+/* Pushes the price element cleanly to the bottom of the card */
+.card .price {
+  margin-top: auto; /* Step 4: Pins price to bottom */
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+/* Step 5: Pin "Popular" badge to card corner using absolute positioning */
+.badge-popular {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #d4af37; /* Gold accent */
+  color:white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.logo {
+  width: 60px;          /* Ensure container width */
+  height: 60px;         /* Match container height */
+  border-radius: 50%;   /* Keeps circle shape */
+  background-color: #ffffff;
+  
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+ 
+  
+  font-size: 1.55rem;  
+  font-weight: 600;
+}
+
+#menu{
+    background-color: rgb(182, 191, 188);
+    text-align: center;
+
+}
+
+
+/* Step 2: Mobile-First Base (Single Column) */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Base layout for mobile screens (<768px) */
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* Card Base Styling & Transition Setup */
+.card {
+  background-color: #dce4dc;
+  border: 1px solid #086ef3;
+  border-radius: 8px;
+  padding: 1.5rem;
+  
+  /* Step 4: Add transition for smooth hover movement */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Step 3: Media Queries for Tablet and Desktop Breakpoints */
+
+/* 2-Column layout for screens 768px and wider */
+@media (min-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 3-Column layout for screens 1024px and wider */
+@media (min-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+/* Steps 4 & 5: Hover Animation with prefers-reduced-motion Guard */
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    /* translateY lift combined with a slight scale expansion */
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.footer{
+    background-color: rgb(75, 66, 66);
+    color: white;
+    font-size: 1.5rem;
+}
+
