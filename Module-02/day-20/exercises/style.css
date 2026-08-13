@@ -1,0 +1,35 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 400px;
+      background-color:rgb(195, 195, 184);
+    }
+
+    /* State Styling */
+    .loading {
+      color: #0284c7;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #dc2626;
+      background-color: #fef2f2;
+      padding: 12px;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+    }
+
+    .data {
+      background-color: #f0fdf4;
+      padding: 12px;
+      border: 1px solid #86efac;
+      border-radius: 6px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  
