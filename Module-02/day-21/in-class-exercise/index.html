@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Project - Signup Form</title>
+</head>
+<body>
+ <p id="signup-count-container">
+  Total Signups: <strong id="signup-count">0</strong>
+</p>
+  <main class="container">
+    <h2>Signup Form</h2>
+
+    <form id="signup-form" novalidate>
+      
+      <div id="error-message" class="error-area" role="alert" style="display: none;"></div>
+
+      
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+      </div>
+
+  
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+      </div>
+
+      
+      <button type="submit" id="submit-btn">Submit</button>
+    </form>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
