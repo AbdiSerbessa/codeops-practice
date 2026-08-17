@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency App </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Birr Watch</h2>
+    <div id="status" class="status-container"></div>
+
+    <form id="convert-form">
+      <div class="form-group">
+        <label for="amount">Amount (ETB):</label>
+        <input type="number" id="amount" placeholder="Enter amount in ETB" step="any">
+      </div>
+
+      <div class="form-group">
+        <label for="currency-select">Target Currency:</label>
+        <select id="currency-select">
+          <option value="">-- Select Currency --</option>
+        </select>
+      </div>
+
+      <button type="submit">Convert</button>
+    </form>
+
+    <div class="conversions-section">
+      <h3>Converted Currencies</h3>
+      <ul id="conversions-list" class="conversions-container"></ul>
+    </div>
+  </div>
+
+</body>
+
+  <script src="app.js"></script>
+</html>
