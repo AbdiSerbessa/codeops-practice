@@ -69,15 +69,15 @@
   border-radius: 50%;   /* Keeps circle shape */
   background-color: #ffffff;
   
-  /* Flexbox alignment */
+  
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   
-  /* Prevent text wrapping & overflow */
-  white-space: nowrap; 
-  font-size: 1.55rem;    /* Adjust size to fit comfortable inside circle */
+ 
+  
+  font-size: 1.55rem;  
   font-weight: 600;
 }
 

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Step 5: SEO Title & Description -->
+  <title>Habesha Eatery | Traditional Ethiopian Restaurant &amp; Reservations</title>
+  <meta name="description" content="Reserve a table at Habesha Eatery in Addis Ababa. Explore our authentic Ethiopian menu, view dishes, and find our exact location.">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Semantic Landmark: Header -->
+  <header>
+    <!-- Step 5: Ordered Heading Outline (Single h1) -->
+    <h1>Habesha Eatery</h1>
+    <nav aria-label="Main Navigation">
+      <ul>
+        <li><a href="#reservation">Reservations</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#location">Location</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Step 3: Hero Image with meaningful alt and loading="lazy" -->
+  <section id="hero">
+    <figure>
+      <img 
+        src="assets/hero.jpg" 
+        alt="Traditional Ethiopian feast served on injera with an assortment of authentic stews" 
+        width="1200" 
+        height="600" 
+        loading="lazy">
+      <figcaption>Experience authentic Ethiopian dining at Habesha Eatery.</figcaption>
+    </figure>
+  </section>
+
+  <!-- Semantic Landmark: Main -->
+  <main>
+
+    <!-- Step 1: Reservation Form -->
+    <section id="reservation">
+      <h2>Table Reservation</h2>
+      <form action="#" method="post">
+        <div>
+          <label for="userName">Full Name:</label>
+          <input 
+            type="text" 
+            id="userName" 
+            name="userName" 
+            required 
+            minlength="2">
+        </div>
+
+        <div>
+          <label for="userTel">Phone Number (09xxxxxxxx):</label>
+          <input 
+            type="tel" 
+            id="userTel" 
+            name="userTel" 
+            placeholder="0912345678" 
+            pattern="^09\d{8}$" 
+            required 
+            title="Please enter a valid 10-digit phone number starting with 09 (e.g. 0912345678)">
+        </div>
+
+        <div>
+          <label for="guestCount">Guests (1–20):</label>
+          <input 
+            type="number" 
+            id="guestCount" 
+            name="guestCount" 
+            min="1" 
+            max="20" 
+            required>
+        </div>
+
+        <div>
+          <label for="resDate">Reservation Date:</label>
+          <input 
+            type="date" 
+            id="resDate" 
+            name="resDate" 
+            required>
+        </div>
+
+        <div>
+          <button type="submit">Complete Reservation</button>
+        </div>
+      </form>
+    </section>
+
+    <hr>
+
+    <!-- Step 2: Menu Table -->
+    <section id="menu">
+      <h2>Our Menu</h2>
+      <table border="5" cellpadding ="6">
+        <caption>Habesha Eatery Traditional Dishes and Pricing</caption>
+        <thead>
+          <tr>
+            <th scope="col">Dish</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price (ETB)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Doro Wat</td>
+            <td>Spicy tender chicken stew cooked with berbere and served with boiled eggs</td>
+            <td>650 ETB</td>
+          </tr>
+          <tr>
+            <td>Beyaynetu</td>
+            <td>Combination of delicious traditional vegetarian stews served on injera</td>
+            <td>450 ETB</td>
+          </tr>
+          <tr>
+            <td>Special Kitfo</td>
+            <td>Minced extra-lean beef spiced with mitmita and herbal niter kibbeh</td>
+            <td>700 ETB</td>
+          </tr>
+          <tr>
+            <td>Shiro Tegabeno</td>
+            <td>Rich chickpea flour stew served bubbling hot in a clay pot</td>
+            <td>380 ETB</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Step 4: Google Map iframe with title attribute -->
+    <section id="location">
+      <h2>Find Us</h2>
+      <div>
+        <iframe 
+          title="Google Map showing the geographic location of Habesha Eatery in Addis Ababa" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15762.573216859!2d38.7577605!3d9.0107934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa!5e0!3m2!1sen!2set!4v1700000000000!5m2!1sen!2set" 
+          width="600" 
+          height="400" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Landmark: Footer -->
+  <footer>
+    <p>&copy; 2026 Habesha Eatery. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
