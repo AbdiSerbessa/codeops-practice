@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AddisEats | Food Ordering </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <span>Addis</span><span>Eats</span>
+    </div>
+    <div class="cart-pill">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span>Cart (0)</span>
+    </div>
+  </header>
+
+
+  <div class="container">
+    <main class="menu-section">
+  
+      <div class="search-box">
+        <input type="text" placeholder="Search delicious food..." disabled />
+      </div>
+
+    
+      <div class="categories">
+        <button class="pill-btn active">All</button>
+        <button class="pill-btn">Traditional</button>
+        <button class="pill-btn">Fast Food</button>
+        <button class="pill-btn">Drinks</button>
+      </div>
+
+     
+      <div class="menu-grid">
+       
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60" alt="Special Kitfo">
+          <div class="card-body">
+            <h3>Special Kitfo</h3>
+            <p>Finely minced beef spiced with mitmita and niter kibbeh, served with ayib and gomen.</p>
+            <div class="card-footer">
+              <span class="price">450 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+      
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop&q=60" alt="Doro Wat">
+          <div class="card-body">
+            <h3>Doro Wat</h3>
+            <p>Slow-cooked spicy chicken stew with berbere sauce, served with boiled eggs and injera.</p>
+            <div class="card-footer">
+              <span class="price">500 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+       
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=60" alt="Yetsom Beyaynetu">
+          <div class="card-body">
+            <h3>Yetsom Beyaynetu</h3>
+            <p>Assorted vegetarian platter featuring misir, shiro, kik alicha, and gomen on injera.</p>
+            <div class="card-footer">
+              <span class="price">280 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+       
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" alt="Beef Shekla Tibs">
+          <div class="card-body">
+            <h3>Beef Shekla Tibs</h3>
+            <p>Tender beef strips sautéed with onions, rosemary, and green peppers served in a clay pot.</p>
+            <div class="card-footer">
+              <span class="price">420 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" alt="Addis Club Burger">
+          <div class="card-body">
+            <h3>Addis Club Burger</h3>
+            <p>Double beef patty, cheddar cheese, caramelized onions, and house sauce with seasoned fries.</p>
+            <div class="card-footer">
+              <span class="price">320 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop&q=60" alt="Fresh Mango Juice">
+          <div class="card-body">
+            <h3>Fresh Mango Juice</h3>
+            <p>100% natural blended fresh tropical mango juice.</p>
+            <div class="card-footer">
+              <span class="price">120 ETB</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <div class="cart-box">
+        <h2>Your Order</h2>
+        <div class="empty-msg">Your cart is empty.</div>
+        <div class="total-row">
+          <span>Total:</span>
+          <strong>0 ETB</strong>
+        </div>
+        <button class="checkout-btn" disabled>Proceed to Checkout</button>
+      </div>
+    </aside>
+  </div>
+ 
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <span>Addis</span><span>Eats</span>
+        </div>
+        <p>Your favorite local meals, delivered fast and fresh.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">Categories</a></li>
+          
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 AddisEats</p>
+    </div>
+  </footer>
+</body>
+</html>
