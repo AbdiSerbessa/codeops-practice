@@ -1,0 +1,109 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+body { background: #f8fafc; color: #0f172a; }
+
+.navbar { background: #0f172a; color: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.navbar span { color: hsl(125, 92%, 48%); }
+.cart-pill { background: #1e293b; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; }
+
+.app-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+
+.controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+#search-input { padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; width: 100%; outline: none; }
+#search-input:focus { border-color: #d97706; }
+
+.categories { display: flex; gap: 0.5rem; }
+.cat-btn { padding: 0.4rem 0.8rem; border: 1px solid #cbd5e1; background: #fff; border-radius: 16px; cursor: pointer; }
+.cat-btn.active { background: #d97706; color: #fff; border-color: #d97706; }
+
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.card img { width: 100%; height: 130px; object-fit: cover; }
+.card-body { padding: 0.85rem; display: flex; flex-direction: column; flex: 1; }
+.card-body h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+.card-body p { font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem; flex: 1; }
+.price-row { display: flex; justify-content: space-between; align-items: center; }
+.price { color: #d97706; font-weight: 700; }
+.add-btn { background: #d97706; color: #fff; border: none; padding: 0.4rem 0.75rem; border-radius: 6px; cursor: pointer; }
+
+.cart-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; height: fit-content; }
+.cart-items { max-height: 200px; overflow-y: auto; margin: 1rem 0; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-size: 0.85rem; }
+.qty-btn { background: #e2e8f0; border: none; width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+.summary { border-top: 1px solid #e2e8f0; padding-top: 0.75rem; margin-bottom: 1rem; }
+.total-row { display: flex; justify-content: space-between; font-size: 1rem; }
+
+.checkout-form { border-top: 1px solid #e2e8f0; padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.checkout-form h3 { font-size: 0.9rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.2rem; }
+.form-group input { padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.8rem; outline: none; }
+.form-group input.invalid { border-color: #ef4444; background: #fef2f2; }
+.error { color: #ef4444; font-size: 0.7rem; min-height: 14px; }
+
+.submit-btn { padding: 0.65rem; background: #16a34a; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.submit-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+.footer {
+  background: #0f172a;
+  color: #94a3b8;
+  margin-top: 3rem;
+  border-top: 1px solid #1e293b;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand h3 {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.footer-brand span {
+  color: #06d92d;
+}
+
+.footer-brand p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #d97706;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1e293b;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 768px) { .app-layout { grid-template-columns: 1fr; } }

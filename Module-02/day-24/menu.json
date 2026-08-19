@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Special Kitfo",
+    "category": "Main",
+    "price": 450,
+    "description": "Finely minced beef with mitmita and niter kibbeh.",
+    "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&q=80"
+  },
+  {
+    "id": 2,
+    "name": "Doro Wat",
+    "category": "Main",
+    "price": 500,
+    "description": "Slow-cooked chicken stew with berbere sauce and egg.",
+    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Yetsom Beyaynetu",
+    "category": "Vegetarian",
+    "price": 280,
+    "description": "Assorted vegetarian platter with injera.",
+    "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Fresh Mango Juice",
+    "category": "Drinks",
+    "price": 120,
+    "description": "100% natural blended tropical mango juice.",
+    "image": "https://images.unsplash.com/photo-1546173159-315724a31696?w=400&q=80"
+  }
+]
