@@ -5,7 +5,7 @@
     "category": "Main",
     "price": 450,
     "description": "Finely minced beef with mitmita and niter kibbeh.",
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"
+    "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&q=80" 
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "category": "Main",
     "price": 500,
     "description": "Slow-cooked chicken stew with berbere sauce and egg.",
-    "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&q=80"
+    "image":"https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"
   },
   {
     "id": 3,
