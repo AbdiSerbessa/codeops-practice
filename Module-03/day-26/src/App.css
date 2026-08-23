@@ -1,0 +1,12 @@
+.app-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.section-title {
+  color: #f8fafc;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 0.5rem;
+}
