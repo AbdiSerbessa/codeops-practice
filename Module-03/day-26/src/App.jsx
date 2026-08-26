@@ -1,9 +1,9 @@
-import Header from './components/Header';
-import Dish from './components/Dish';
-import './App.css';
+import Header from './components/Header/Header';
+import Dish from './components/Dish/Dish';
 
 export default function App() {
-  const menuItems = [
+  // Static array of menu items
+  const dishes = [
     { id: 1, name: 'Doro Wat', price: 15.99 },
     { id: 2, name: 'Kitfo', price: 14.50 },
     { id: 3, name: 'Tibs', price: 13.99 },
@@ -14,9 +14,8 @@ export default function App() {
   return (
     <div className="app-container">
       <Header />
-      <main>
-        <h2 className="section-title">Menu</h2>
-        {menuItems.map((dish) => (
+      <main className="menu-list">
+        {dishes.map((dish) => (
           <Dish key={dish.id} name={dish.name} price={dish.price} />
         ))}
       </main>

@@ -1,5 +1,4 @@
-import './Dish.css';
-
+import './Dish.css'
 export default function Dish({ name, price }) {
   return (
     <div className="dish-card">
