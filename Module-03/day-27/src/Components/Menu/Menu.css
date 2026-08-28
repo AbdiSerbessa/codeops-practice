@@ -1,0 +1,64 @@
+.menu-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: sans-serif;
+  color: #ffffff;
+}
+
+.menu-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #f8fafc;
+}
+
+/* Category Filter Bar */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.category-buttons button {
+  padding: 0.5rem 1.25rem;
+  background-color: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.category-buttons button:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.category-buttons button.active {
+  background-color: #059669;
+  border-color: #10b981;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Grid Layout for Dishes */
+.dish-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Empty State Message */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background-color: #1e293b;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  border: 1px dashed #334155;
+}
