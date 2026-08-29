@@ -1,0 +1,29 @@
+.category-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 0.5rem 1.25rem;
+  background-color: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.chip.active {
+  background-color: #2563eb;
+  border-color: #3b82f6;
+  color: #ffffff;
+  font-weight: bold;
+}
