@@ -1,0 +1,81 @@
+.dish-card {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.dish-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  color: #ffffff;
+}
+
+.spicy-badge {
+  font-size: 0.75rem;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.price {
+  color: #38bdf8;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.dish-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count-badge {
+  font-size: 0.85rem;
+  color: #a7f3d0;
+  background: #064e3b;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.add-btn {
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+  background-color: #059669;
+}
+.remove-btn {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: #c1121f;
+}
