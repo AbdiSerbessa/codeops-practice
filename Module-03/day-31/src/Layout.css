@@ -1,0 +1,62 @@
+.layout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  gap: 12px;
+  flex-wrap: wrap; /* Allows items to stack cleanly if screen is too narrow */
+}
+
+.brand-link {
+  text-decoration: none;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.brand-link h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.nav-item {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-item.active {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.total-badge {
+  white-space: nowrap;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .main-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+}

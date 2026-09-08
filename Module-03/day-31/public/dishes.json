@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "Doro Wat",
+    "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947",
+    "price": 350.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Traditional spicy chicken stew slow-cooked with berbere, clarified spiced butter (niter kibbeh), and served with a hard-boiled egg on injera."
+  },
+  {
+    "id": "2",
+    "name": "Special Kitfo",
+    "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947",
+    "price": 320.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Minced lean beef seasoned with mitmita and warm niter kibbeh. Served lightly warmed (mitin) with ayib (cottage cheese) and gomen (collard greens)."
+  },
+  {
+    "id": "3",
+    "name": "Beef Tibs",
+    "imageUrl": "https://images.unsplash.com/photo-1603048588665-791ca8aea617",
+    "price": 280.00,
+    "category": "Mains",
+    "spicy": false,
+    "description": "Tender tenderloin beef cubes sautéed with onions, rosemary, jalapeños, and garlic. Served hot in a clay pan."
+  },
+  {
+    "id": "4",
+    "name": "Shiro Wat",
+    "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d",
+    "price": 140.00,
+    "category": "Vegan",
+    "spicy": false,
+    "description": "Rich and savory chickpea flour stew simmered with garlic, onions, and local spices. Served bubbling hot with injera."
+  },
+  {
+    "id": "5",
+    "name": "Yetsom Beyaynetu",
+    "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+    "price": 180.00,
+    "category": "Vegan",
+    "spicy": false,
+    "description": "A colorful sampler platter featuring misir wat, kik alicha, gomen, tikil gomen, and beet salad arrayed over fresh injera."
+  },
+  {
+    "id": "6",
+    "name": "Special Firfir",
+    "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641",
+    "price": 220.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Shredded injera sautéed in a rich berbere tomato sauce with spiced butter, topped with tender beef cubes and boiled eggs."
+  },
+  {
+    "id": "7",
+    "name": "Shekla Tibs",
+    "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
+    "price": 310.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Marinated beef strips stir-fried with berbere, chili peppers, and onions, served sizzling over a traditional charcoal-heated clay dish."
+  },
+  {
+    "id": "8",
+    "name": "Spicy Misir Wat",
+    "imageUrl": "https://images.unsplash.com/photo-1585937421612-70a008356fbe",
+    "price": 120.00,
+    "category": "Vegan",
+    "spicy": true,
+    "description": "Red split lentils simmered slowly in a fiery berbere, onion, and garlic sauce until thick and flavorful."
+  },
+  {
+    "id": "9",
+    "name": "Kik Alicha",
+    "imageUrl": "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+    "price": 110.00,
+    "category": "Vegan",
+    "spicy": false,
+    "description": "Yellow split peas stewed with turmeric, ginger, garlic, and sweet onions for a mild, comforting flavor."
+  },
+  {
+    "id": "10",
+    "name": "Gomen besiga",
+    "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947",
+    "price": 260.00,
+    "category": "Mains",
+    "spicy": false,
+    "description": "Fresh Ethiopian collard greens stewed together with bone-in beef chunks, garlic, ginger, and green peppers."
+  },
+  {
+    "id": "11",
+    "name": "Gomen (Collard Greens)",
+    "imageUrl": "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+    "price": 105.00,
+    "category": "Vegan",
+    "spicy": false,
+    "description": "Finely chopped fresh collard greens steamed and sautéed with onions, garlic, and mild Ethiopian green peppers."
+  },
+  {
+    "id": "12",
+    "name": "Bozena Shiro",
+    "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d",
+    "price": 210.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Creamy chickpea shiro stew cooked with tender strips of marinated beef cubes, served steaming hot in a clay bowl."
+  },
+  {
+    "id": "13",
+    "name": "Lamb Yebeg Alicha",
+    "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641",
+    "price": 290.00,
+    "category": "Mains",
+    "spicy": false,
+    "description": "Tender lamb cooked on the bone in a savory, mild turmeric broth seasoned with garlic, ginger, and rosemary."
+  },
+  {
+    "id": "14",
+    "name": "Key Wat",
+    "imageUrl": "https://images.unsplash.com/photo-1585937421612-70a008356fbe",
+    "price": 270.00,
+    "category": "Mains",
+    "spicy": true,
+    "description": "Hearty beef stew slow-simmered in a dark red berbere sauce with caramelized onions, garlic, and cardamom."
+  },
+  {
+    "id": "15",
+    "name": "Fosolia and Karot",
+    "imageUrl": "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+    "price": 115.00,
+    "category": "Vegan",
+    "spicy": false,
+    "description": "Tender green beans and sweet carrot sticks sautéed with caramelized onions, garlic, and subtle Ethiopian herbs."
+  },
+  {
+    "id": "16",
+    "name": "Ethiopian Spiced Coffee (Buna)",
+    "imageUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd",
+    "price": 40.00,
+    "category": "Drinks",
+    "spicy": false,
+    "description": "Traditionally roasted single-origin Ethiopian Arabica coffee brewed strong and served with fresh rue (tenadam)."
+  },
+  {
+    "id": "17",
+    "name": "Honey Tej",
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
+    "price": 120.00,
+    "category": "Drinks",
+    "spicy": false,
+    "description": "Traditional sweet honey wine fermented with gesho leaves, served in a classic glass flask (berele)."
+  },
+  {
+    "id": "18",
+    "name": "Bedele Premium Beer",
+    "imageUrl": "https://images.unsplash.com/photo-1608270586620-248524c67de9",
+    "price": 75.00,
+    "category": "Drinks",
+    "spicy": false,
+    "description": "Crisp and refreshing Ethiopian pale lager beer brewed from local barley."
+  },
+  {
+    "id": "19",
+    "name": "Fresh Mango Juice",
+    "imageUrl": "https://images.unsplash.com/photo-1546173159-315724a31696",
+    "price": 70.00,
+    "category": "Drinks",
+    "spicy": false,
+    "description": "Thick, 100% natural organic fresh mango juice blended fresh to order."
+  },
+  {
+    "id": "20",
+    "name": "Ethiopian Herbal Tea (Shai)",
+    "imageUrl": "https://images.unsplash.com/photo-1576092768241-dec231879fc3",
+    "price": 35.00,
+    "category": "Drinks",
+    "spicy": false,
+    "description": "Black tea spiced with cinnamon bark, cardamom pods, and cloves."
+  }
+]

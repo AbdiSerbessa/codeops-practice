@@ -1,0 +1,84 @@
+.order-form {
+  background-color: #1a2238;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 30px;
+  border: 1px solid #2a3558;
+}
+
+.order-form h3 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #0f172a;
+  border: 1px solid #2a3558;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: #10b981;
+}
+
+/* Red border when validation fails */
+.form-group input.input-error {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Error text styling */
+.error-text {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  text-align: left;
+}
+
+/* Place Order Button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 8px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.submit-btn:disabled {
+  background-color: #374151;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Confirmation Message */
+.success-message {
+  color: #34d399;
+  text-align: center;
+  margin-top: 16px;
+  font-weight: 500;
+}
