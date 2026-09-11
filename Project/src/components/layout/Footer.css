@@ -1,0 +1,121 @@
+.main-footer {
+  background-color: #fceee3;
+  color: #4a3e35;
+  padding-top: 48px;
+  margin-top: 60px;
+  border-top: 1px solid #ebd8ca;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 40px;
+}
+
+.footer-logo {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #6b1313;
+  margin-bottom: 12px;
+}
+
+.footer-tagline {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #61554c;
+  margin-bottom: 16px;
+}
+
+.coffee-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8e1d0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #520e0e;
+}
+
+.footer-col h4 {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #2b2b2b;
+  margin-bottom: 16px;
+}
+
+.footer-col p {
+  font-size: 0.825rem;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: 8px;
+}
+
+.footer-col a {
+  color: #61554c;
+  text-decoration: none;
+  font-size: 0.825rem;
+}
+
+.accent-text {
+  color: #a36118;
+  font-weight: 600;
+  font-size: 0.8rem !important;
+}
+
+.phone-number {
+  font-weight: 700;
+  color: #6b1313;
+  font-size: 1rem !important;
+  margin-top: 6px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #ebd8ca;
+  padding: 20px 0;
+  font-size: 0.75rem;
+  color: #7a6e65;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-legal {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-legal a {
+  color: #7a6e65;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  /* Stack footer feature cards/columns vertically */
+  .footer-features,
+  .footer-trust-badges,
+  .footer-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 16px !important;
+  }
+
+  .footer-feature-item,
+  .footer-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}

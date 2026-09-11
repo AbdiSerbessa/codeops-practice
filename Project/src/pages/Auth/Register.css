@@ -1,0 +1,508 @@
+/* Container & Main Layout */
+.register-container {
+  width: 100%;
+  max-width: 1184px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+  box-sizing: border-box;
+}
+
+.breadcrumb {
+  font-size: 0.75rem;
+  color: #8c7b70;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 20px 0;
+}
+
+.breadcrumb span {
+  color: #8b261d;
+  font-weight: 600;
+}
+
+.register-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: BANNER & QUOTE
+   ========================================================================== */
+
+.register-banner-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Top Banner Card */
+.register-banner-card {
+  background-color: #f7ebe1;
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+/* Member Circle Pill Badge */
+.member-circle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #e2c1a6;
+  color: #704423;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.badge-star-icon {
+  background-color: #704423;
+  color: #e2c1a6;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+}
+
+.badge-bars {
+  letter-spacing: -2px;
+  font-size: 0.55rem;
+  opacity: 0.6;
+}
+
+.banner-title {
+  font-size: 1.85rem;
+  line-height: 1.15;
+  color: #721c14;
+  margin: 0 0 12px 0;
+  font-family: Georgia, serif;
+  font-weight: bold;
+}
+
+.banner-desc {
+  font-size: 0.825rem;
+  color: #6e5c52;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+
+.banner-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Perk Cards */
+.perk-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.perk-card.transparent-card {
+  background-color: transparent;
+  padding: 2px 0;
+}
+
+.perk-card h4 {
+  margin: 0 0 3px 0;
+  font-size: 0.825rem;
+  color: #2b231f;
+  font-weight: 700;
+}
+
+.perk-card p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6e5c52;
+  line-height: 1.35;
+}
+
+/* Icon Color Badges */
+.perk-icon-bg {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.icon-wine { background-color: #f7e1db; }
+.icon-green { background-color: #e3ebd8; }
+.icon-teal { background-color: #e2eeea; }
+.icon-yellow { background-color: #fbeed2; }
+.icon-red { background-color: #f8dedd; }
+
+/* Separate Bottom Quote Box */
+.quote-box-standalone {
+  background-color: #f7ebe1;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.quote-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.quote-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-badge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #925324;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.quote-text {
+  margin: 0 0 4px 0;
+  font-size: 0.775rem;
+  font-style: italic;
+  color: #3b2d26;
+  line-height: 1.3;
+}
+
+.quote-author {
+  font-size: 0.7rem;
+  color: #8c7b70;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: REGISTER FORM CARD
+   ========================================================================== */
+
+.register-card {
+  background-color: #ffffff;
+  border: 1px solid #ebd8ca;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.register-card h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.35rem;
+  color: #2b2b2b;
+}
+
+.card-subtext {
+  margin: 0 0 20px 0;
+  font-size: 0.825rem;
+  color: #7a6e65;
+}
+
+.social-login-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.btn-social {
+  width: 100%;
+  background-color: #fffaf5;
+  border: 1px solid #ebd8ca;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #332722;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.btn-social:hover {
+  background-color: #f7ede2;
+}
+
+.divider-text {
+  text-align: center;
+  font-size: 0.725rem;
+  color: #8c7b70;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.divider-text::before,
+.divider-text::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 25%;
+  height: 1px;
+  background-color: #ebd8ca;
+}
+
+.divider-text::before {
+  left: 0;
+}
+
+.divider-text::after {
+  right: 0;
+}
+
+/* Form Controls & Vertical Stacking */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2b2b2b;
+  margin-bottom: 6px;
+}
+
+.register-card input[type="text"],
+.register-card input[type="tel"],
+.register-card input[type="email"],
+.register-card input[type="password"] {
+  width: 100%;
+  background-color: #fffaf5;
+  border: 1px solid #ebd8ca;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #332722;
+  box-sizing: border-box;
+}
+
+.register-card input:focus {
+  outline: none;
+  border-color: #8b261d;
+  background-color: #ffffff;
+}
+
+/* Phone Input Wrapper */
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fffaf5;
+  border: 1px solid #ebd8ca;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.phone-code {
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  color: #594c44;
+  background-color: #f7ede2;
+  border-right: 1px solid #ebd8ca;
+  white-space: nowrap;
+}
+
+.phone-input-wrapper input {
+  border: none !important;
+  background: transparent !important;
+  padding: 10px 12px;
+}
+
+.phone-input-wrapper input:focus {
+  outline: none;
+}
+
+.input-helper-text {
+  display: block;
+  font-size: 0.725rem;
+  color: #8c7b70;
+  margin-top: 5px;
+  line-height: 1.3;
+}
+
+/* Password Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Preferences Chips */
+.section-sublabel {
+  margin-bottom: 2px !important;
+}
+
+.preference-hint {
+  display: block;
+  font-size: 0.725rem;
+  color: #8c7b70;
+  margin-bottom: 8px;
+}
+
+.preference-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip-btn {
+  background-color: #fffaf5;
+  border: 1px solid #ebd8ca;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #594c44;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip-btn.active,
+.chip-btn:hover {
+  background-color: #8b261d;
+  color: #ffffff;
+  border-color: #8b261d;
+}
+
+/* Terms Checkbox */
+.terms-checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 0.8rem;
+  color: #594c44;
+}
+
+.terms-checkbox-group input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: #8b261d;
+}
+
+.terms-checkbox-group label {
+  font-size: 0.775rem;
+  line-height: 1.4;
+  margin-bottom: 0 !important;
+}
+
+.terms-link {
+  color: #594c44;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.terms-link:hover {
+  color: #8b261d;
+}
+
+/* Submit Button & Redirect */
+.btn-submit-register {
+  width: 100%;
+  background-color: #8b261d;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-register:hover {
+  background-color: #701d15;
+}
+
+.login-redirect-text {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #61554c;
+  margin-top: 16px;
+}
+
+.login-redirect-text a {
+  color: #8b261d;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-redirect-text a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Figma Design Overrides (Screen width < 768px) */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 12px 12px 80px; /* Extra bottom padding for mobile tab bar */
+  }
+
+  .breadcrumb {
+    margin: 10px 0;
+    font-size: 0.7rem;
+  }
+
+  .register-main {
+    display: flex;
+    flex-direction: column-reverse; /* Places Form Card on TOP and Banner/Perks BELOW */
+    gap: 20px;
+  }
+
+  .register-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr; /* Single column inputs */
+    gap: 12px;
+  }
+
+  .social-login-group {
+    grid-template-columns: 1fr; /* Stacked social buttons on mobile */
+  }
+
+  .register-banner-card {
+    padding: 20px 16px;
+  }
+
+  .banner-title {
+    font-size: 1.4rem;
+  }
+
+  .quote-box-standalone {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .quote-img {
+    width: 100%;
+    height: 120px;
+  }
+}
