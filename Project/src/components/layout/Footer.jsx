@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="footer-col">
           <h4>ADDIS LOCATION</h4>
           <p>Bole Medhanialem, Addis Ababa & express delivery across town.</p>
-          <p className="phone-number">+251 911 234 567</p>
+          <p className="phone-number">+251 909090909</p>
           <div className="social-icons">
             <span>🍽️</span> <span>☕</span> <span>🔗</span>
           </div>
@@ -48,7 +48,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <div className="container footer-bottom-content">
-          <p>© 2025 Mesob House Habesha Dining. Authentic Ethiopian & Eritrean Heritage.</p>
+          <p>© 2026 Mesob House Habesha Dining. Authentic Ethiopian & Eritrean Heritage.</p>
           <div className="footer-legal">
             <a href="#gursha">Gursha Hospitality</a>
             <a href="#privacy">Privacy Policy</a>

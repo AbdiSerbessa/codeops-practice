@@ -7,7 +7,7 @@ function TrustBadges() {
     { icon: '🛡️', title: 'ENCRYPTED SECURITY', subtitle: 'Telebirr PIN & CBE Birr verified' },
     { icon: '🌿', title: 'FASTING FEASTS', subtitle: 'Tsom Beyaynetu on Wed & Fri' },
     { icon: '💨', title: 'FRESH INJERA STEAM', subtitle: 'Baked three times each day' },
-    { icon: '📞', title: 'BOLE CONCIERGE', subtitle: '+251 911 234 567' },
+    { icon: '📞', title: 'BOLE CONCIERGE', subtitle: '+251 909090909' },
   ];
 
   return (
@@ -107,7 +107,7 @@ export default function Login() {
             <p className="quote-text">
               "The table ordering is as seamless as eating from our grandmother's mesob."
             </p>
-            <p className="quote-author">DR. SELAMAWIT H. — BOLE MEMBER</p>
+            <p className="quote-author">Dr. Tola — BOLE MEMBER</p>
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export default function Login() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="0911234567"
+                    placeholder="0909090909"
                     required
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function Login() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="guest@mesobhouse.com"
+                  placeholder="name@mesobhouse.com"
                   required
                 />
               </div>

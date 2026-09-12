@@ -125,7 +125,7 @@ export default function Register() {
 
           <div className="social-login-group">
             <button type="button" className="btn-social">📱 Telebirr Quick Sign</button>
-            <button type="button" className="btn-social">G Continue with Google</button>
+            <button type="button" className="btn-social"> Continue with Google</button>
           </div>
 
           <div className="divider-text">Or register with your details</div>
@@ -149,7 +149,7 @@ export default function Register() {
                 <input
                   type="tel"
                   name="mobileNumber"
-                  placeholder="911 234 567"
+                  placeholder="909090909"
                   value={formData.mobileNumber}
                   onChange={handleChange}
                 />
@@ -164,7 +164,7 @@ export default function Register() {
               <input
                 type="email"
                 name="email"
-                placeholder="guest@mesobhouse.com"
+                placeholder="name@mesobhouse.com"
                 value={formData.email}
                 onChange={handleChange}
               />
