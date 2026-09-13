@@ -1,0 +1,58 @@
+{
+  "id": "royal-doro-wat",
+  "title": "Royal Doro Wat",
+  "price": 650,
+  "description": "Tender slow-braised free-range chicken drumstick and thigh infused with aromatic Ethiopian berbere, n'it'r qibe, and a whole simmered seasoned farm egg.",
+  "heroImage": "doro-wat.jpg",
+  "gallery": [
+    "doro-wat.jpg",
+    "doro-wat.jpg",
+    "doro-wat.jpg"
+  ],
+  "heritage": {
+    "tag": "HERITAGE & LINEAGE — The Crown Jewel",
+    "title": "Royal Feast of the Highlands",
+    "description": "Traditionally reserved for festive holidays such as Fasika and Enkutatash, Doro Wat is the ultimate test of culinary mastery. Each pot demands simmering over 3 kilograms of hand-chopped sweet red onions without a single drop of water, patiently reduced for half a day with our hand-milled berbere spice blend and n'it'r qibe (aromatic clarified butter).",
+    "prep": "Slow Stewed",
+    "origin": "Highland Shewa",
+    "allergens": "Poultry, Dairy (Butter)"
+  },
+  "sideAccents": [
+    "Fresh Ayib",
+    "Stewed Gomen",
+    "House Awaze Paste",
+    "Extra Braised Egg"
+  ],
+  "crossSells": [
+    {
+      "id": 1,
+      "badge": "Signature Sip",
+      "badgeClass": "badge-orange",
+      "name": "House Traditional Tej",
+      "price": 350,
+      "description": "Pure golden fermented highland honey wine infused with gesho leaves. Served in a traditional round-bottom flask.",
+      "volume": "500ml Flask (12% ABV)",
+      "image": "house-tej-carafe.jpg"
+    },
+    {
+      "id": 2,
+      "badge": "Vegan / Tsom",
+      "badgeClass": "badge-green",
+      "name": "Fresh Timatim Fitfit",
+      "price": 180,
+      "description": "Crisp ripe heirloom tomatoes, minced red shallots, and sliced green peppers tossed with torn cold injera and...",
+      "volume": "Palate Cleanser",
+      "image": "fresh-timatim-fitfit.jpg"
+    },
+    {
+      "id": 3,
+      "badge": "Fresh Roast",
+      "badgeClass": "badge-grey",
+      "name": "Jebena Spiced Coffee",
+      "price": 70,
+      "description": "Addis-style freshly pan-roasted Yirgacheffe arabica beans boiled in clay jebena with a hint of cardamom and...",
+      "volume": "Ceremonial Cup",
+      "image": "jebena-spiced-coffee.jpg"
+    }
+  ]
+}

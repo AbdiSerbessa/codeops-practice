@@ -1,0 +1,520 @@
+/* ==========================================================================
+   MENU PAGE STYLES
+   ========================================================================== */
+.menu-page {
+  background-color: #fdfbf7;
+  padding: 40px 0 100px;
+  min-height: 100vh;
+}
+
+/* Header */
+.menu-header {
+  max-width: 768px;
+  margin: 0 auto 32px;
+}
+
+.menu-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.5rem;
+  color: #2b1810;
+  margin-bottom: 12px;
+}
+
+.menu-subtitle {
+  color: #665248;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+/* Outer Card Shell */
+.search-dietary-container {
+  background: #ffffff;
+  border: 1px solid #f1e5d1;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+/* Left Search Input Box */
+.search-input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fdf3eb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  flex: 1;
+  max-width: 480px;
+}
+
+.search-icon {
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+
+.menu-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.85rem;
+  color: #2b1810;
+}
+
+.menu-search-input::placeholder {
+  color: #a38c80;
+}
+
+/* Right Dietary Pills */
+.dietary-pills-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dietary-pill-btn {
+  background: #fdf3eb;
+  border: none;
+  color: #4a3b32;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.dietary-pill-btn:hover {
+  background: #f5e2d3;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+  .search-dietary-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-box {
+    max-width: 100%;
+  }
+
+  .dietary-pills-wrapper {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+}
+/* Category Filter Pills */
+.category-filter-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 32px;
+}
+
+.category-pill {
+  background: #ffffff;
+  border: 1px solid #e7dbc9;
+  color: #665248;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.category-pill.active,
+.category-pill:hover {
+  background: #8b261d;
+  color: #ffffff;
+  border-color: #8b261d;
+}
+
+/* Food Menu Grid */
+.food-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.food-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #f3ebd8;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+}
+
+.food-image-wrapper {
+  position: relative;
+  height: 180px;
+  width: 100%;
+}
+
+.food-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.food-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.food-tag.amber { background: #fef3c7; color: #92400e; }
+.food-tag.green { background: #d1fae5; color: #065f46; }
+
+.food-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.food-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  color: #2b1810;
+  margin: 0 0 8px;
+}
+
+.food-card-desc {
+  font-size: 0.8rem;
+  color: #665248;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.food-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f8f1e5;
+  padding-top: 12px;
+}
+
+.food-price {
+  font-weight: 800;
+  color: #8b261d;
+  font-size: 1rem;
+}
+
+.btn-add-item {
+  background: #8b261d;
+  color: #ffffff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add-item:hover {
+  background: #6b1d18;
+}
+
+/* Communal Notice Banner */
+.communal-banner {
+  background: #fdf3e7;
+  border: 1px solid #f3d7bd;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.communal-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.communal-icon {
+  font-size: 1.8rem;
+}
+
+.communal-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2b1810;
+  margin: 0 0 4px;
+}
+
+.communal-desc {
+  font-size: 0.8rem;
+  color: #785a4a;
+  margin: 0;
+}
+
+.btn-reserve-group {
+  background: transparent;
+  border: 1px solid #8b261d;
+  color: #8b261d;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+/* Floating Popup Tray */
+.sticky-order-tray {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 768px;
+  background-color: #2b1810; /* Dark brown theme */
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.tray-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tray-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.tray-badge {
+  background-color: #d97706; /* Accent pill icon/badge */
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tray-total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.btn-proceed-cart {
+  background-color: #8b261d;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-proceed-cart:hover {
+  background-color: #701c15;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .sticky-order-tray {
+    bottom: 80px; /* Positions above mobile navigation */
+    padding: 10px 14px;
+  }
+
+  .btn-proceed-cart {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .food-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .food-menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-dietary-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dietary-pills {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .communal-banner {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .btn-reserve-group {
+    width: 100%;
+  }
+}
+/* Add clearance at the bottom of the page container */
+.menu-page {
+  padding-bottom: 160px; /* Ensures footer content isn't covered */
+}
+
+/* On mobile, lift the sticky order tray above the bottom navigation bar */
+@media (max-width: 768px) {
+  .menu-page {
+    padding-bottom: 200px;
+  }
+
+  .sticky-order-tray {
+    bottom: 60px; /* Adjust this value to match your mobile nav bar height */
+    padding: 10px 16px;
+  }
+
+  .tray-container {
+    gap: 8px;
+  }
+
+  .tray-total {
+    font-size: 0.95rem;
+  }
+
+  .btn-proceed-cart {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+}
+.food-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.food-card-amharic {
+  font-size: 0.85rem;
+  color: #8b261d;
+  font-weight: 700;
+}
+
+.food-spice-level {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: #a15c00;
+  background: #fff8eb;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #fae6c8;
+}
+
+
+/* Communal Dining Banner */
+.communal-banner {
+  width: 100%;
+  box-sizing: border-box;
+  background: #fdf6ed;
+  border: 1px solid #f1e5d1;
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin: 40px 0 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.communal-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.communal-icon-box {
+  background: #8b261d;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.communal-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2b1810;
+}
+
+.communal-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #785a4a;
+}
+
+.btn-reserve-mesob {
+  background: transparent;
+  border: 1px solid #8b261d;
+  color: #8b261d;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-reserve-mesob:hover {
+  background: #8b261d;
+  color: #ffffff;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .communal-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-reserve-mesob {
+    width: 100%;
+    text-align: center;
+  }
+}

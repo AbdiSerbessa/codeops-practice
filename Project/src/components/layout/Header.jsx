@@ -1,3 +1,4 @@
+
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 
@@ -15,6 +16,9 @@ export default function Header() {
           </NavLink>
           <NavLink to="/menu" className={({ isActive }) => (isActive ? 'active' : '')}>
             Featured Menu
+          </NavLink>
+          <NavLink to="/featured-dish" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Featured Dish
           </NavLink>
           <NavLink to="/checkout" className={({ isActive }) => (isActive ? 'active' : '')}>
             Checkout

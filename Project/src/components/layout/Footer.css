@@ -119,3 +119,16 @@
     box-sizing: border-box !important;
   }
 }
+/* Add bottom margin/padding directly to the Footer element */
+footer, 
+.footer-container {
+  padding-bottom: 140px !important;
+}
+
+/* Mobile responsive adjustment */
+@media (max-width: 768px) {
+  footer, 
+  .footer-container {
+    padding-bottom: 180px !important; /* Ensures copyright & links clear both sticky tray and bottom nav */
+  }
+}

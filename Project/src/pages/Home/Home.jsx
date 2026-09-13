@@ -7,7 +7,7 @@ export default function Home() {
       {/* 1. Fasting Observance Banner */}
       <div className="fasting-banner">
         <span>🥦 Tsom / Fasting Observance: 12-item Royal Beyaynetu Vegan Platter simmered fresh all day.</span>
-        <a href="#menu" className="banner-link">100% Pure Teff Injera Available • See Fasting Specialties →</a>
+        <a href='/menu' className="banner-link">100% Pure Teff Injera Available • See Fasting Specialties →</a>
       </div>
 
       {/* 2. Hero Section */}

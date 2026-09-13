@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function TrustBadges() {
@@ -28,6 +28,7 @@ function TrustBadges() {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const [loginMethod, setLoginMethod] = useState('phone'); // 'phone' or 'email'
   const [formData, setFormData] = useState({
     phone: '',
@@ -38,15 +39,72 @@ export default function Login() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === 'checkbox' ? checked : value,
-    });
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login Submitted:', formData);
+
+    // 1. Retrieve registered user from local storage
+    const storedUserRaw = localStorage.getItem('mesob_registered_user');
+
+    if (!storedUserRaw) {
+      alert('No registered account found. Please create an account first.');
+      return;
+    }
+
+    const storedUser = JSON.parse(storedUserRaw);
+
+    // 2. Validate identifier (Phone or Email)
+    if (loginMethod === 'phone') {
+      const inputPhone = formData.phone.trim();
+      if (!inputPhone) {
+        alert('Please enter your Ethiopian mobile number.');
+        return;
+      }
+      if (inputPhone !== storedUser.phone) {
+        alert('Mobile number not recognized. Please check your input or register.');
+        return;
+      }
+    } else {
+      const inputEmail = formData.email.trim().toLowerCase();
+      if (!inputEmail) {
+        alert('Please enter your email address.');
+        return;
+      }
+      if (inputEmail !== storedUser.email) {
+        alert('Email address not recognized. Please check your input or register.');
+        return;
+      }
+    }
+
+    // 3. Validate Password Length (8 characters minimum)
+    if (!formData.password) {
+      alert('Please enter your password.');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      alert('Password must be at least 8 characters long.');
+      return;
+    }
+
+    // 4. Compare Password against stored registration credential
+    if (formData.password !== storedUser.password) {
+      alert('Incorrect password. Please try again.');
+      return;
+    }
+
+    // 5. Store authentication status
+    localStorage.setItem('mesob_is_authenticated', 'true');
+
+    alert(`Welcome back, ${storedUser.fullName}!`);
+
+    // Redirect to Home page
+    navigate('/');
   };
 
   return (
@@ -150,7 +208,7 @@ export default function Login() {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="auth-form">
+          <form onSubmit={handleSubmit} className="auth-form" noValidate>
             {loginMethod === 'phone' ? (
               <div className="form-group">
                 <div className="label-row">
@@ -165,7 +223,6 @@ export default function Login() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="0909090909"
-                    required
                   />
                 </div>
               </div>
@@ -178,7 +235,6 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="name@mesobhouse.com"
-                  required
                 />
               </div>
             )}
@@ -193,8 +249,7 @@ export default function Login() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="🔒 Enter your confidential password"
-                required
+                placeholder="🔒 Enter your confidential password (min 8 chars)"
               />
             </div>
 
@@ -215,22 +270,22 @@ export default function Login() {
               Sign in to Mesob House →
             </button>
           </form>
-<div className="login-footer-row">
-  <div className="login-footer-text">
-    <p>New to our dining family?</p>
-    <Link to="/register">
-      Join the Mesob Table & Register ›
-    </Link>
-  </div>
 
-  <Link to="/guest" className="btn-guest-continue">
-    <span>🛍️</span> Continue as Guest
-  </Link>
-</div>
+          <div className="login-footer-row">
+            <div className="login-footer-text">
+              <p>New to our dining family?</p>
+              <Link to="/register">
+                Join the Mesob Table &amp; Register ›
+              </Link>
+            </div>
+
+            <Link to="/guest" className="btn-guest-continue">
+              <span>🛍️</span> Continue as Guest
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Trust Badges Container placed specifically on the Login page above Footer */}
       <TrustBadges />
     </div>
   );

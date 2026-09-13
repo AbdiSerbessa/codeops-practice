@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Register.css';
 
 export default function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     mobileNumber: '',
@@ -23,7 +24,62 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Register Submitted:', formData);
+
+    // 1. Full Name Check
+    if (!formData.fullName.trim()) {
+      alert('Please enter your full name.');
+      return;
+    }
+
+    // 2. Mobile Number Check
+    if (!formData.mobileNumber.trim()) {
+      alert('Please enter your Ethiopian mobile number.');
+      return;
+    }
+
+    // 3. Email Check
+    if (!formData.email.trim() || !formData.email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    // 4. Password Length Check (8 characters minimum)
+    if (!formData.password) {
+      alert('Please enter a password.');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      alert('Password must be at least 8 characters long.');
+      return;
+    }
+
+    // 5. Password Match Check
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    // 6. Terms & Conditions Check
+    if (!formData.agreeToTerms) {
+      alert('You must agree to the Mesob House Hospitality Terms & Privacy Guidelines.');
+      return;
+    }
+
+    // Save registered user details to localStorage for Login validation
+    const userAccount = {
+      fullName: formData.fullName.trim(),
+      phone: formData.mobileNumber.trim(),
+      email: formData.email.trim().toLowerCase(),
+      password: formData.password,
+    };
+
+    localStorage.setItem('mesob_registered_user', JSON.stringify(userAccount));
+
+    alert('Account created successfully! Please sign in with your credentials.');
+
+    // Redirect to Login page
+    navigate('/login');
   };
 
   return (
@@ -34,89 +90,88 @@ export default function Register() {
 
       <div className="register-main">
         {/* Left Column Section */}
-<div className="register-banner-column">
-  {/* Top Main Banner Card */}
-  <div className="register-banner-card">
-    <div className="member-circle-badge">
-      <span className="badge-star-icon">★</span>
-      <span className="badge-bars">||||||||</span>
-      <span className="badge-text-val">• MEMBER CIRCLE</span>
-    </div>
+        <div className="register-banner-column">
+          <div className="register-banner-card">
+            <div className="member-circle-badge">
+              <span className="badge-star-icon">★</span>
+              <span className="badge-bars">||||||||</span>
+              <span className="badge-text-val">• MEMBER CIRCLE</span>
+            </div>
 
-    <h2 className="banner-title">Become an Honored Table Guest</h2>
-    <p className="banner-desc">
-      Immerse yourself in authentic highland hospitality, where every shared meal honors community, connection, and craft.
-    </p>
+            <h2 className="banner-title">Become an Honored Table Guest</h2>
+            <p className="banner-desc">
+              Immerse yourself in authentic highland hospitality, where every shared meal honors community, connection, and craft.
+            </p>
 
-    <div className="banner-cards">
-      <div className="perk-card">
-        <div className="perk-icon-bg icon-wine">🍷</div>
-        <div>
-          <h4>Welcome Gift: Pure Tej or Buna</h4>
-          <p>
-            Enjoy a complimentary flask of house-fermented Tej (pure honey wine) or a personalized Jebena Buna coffee ceremony with your inaugural banquet booking.
-          </p>
+            <div className="banner-cards">
+              <div className="perk-card">
+                <div className="perk-icon-bg icon-wine">🍷</div>
+                <div>
+                  <h4>Welcome Gift: Pure Tej or Buna</h4>
+                  <p>
+                    Enjoy a complimentary flask of house-fermented Tej (pure honey wine) or a personalized Jebena Buna coffee ceremony with your inaugural banquet booking.
+                  </p>
+                </div>
+              </div>
+
+              <div className="perk-card transparent-card">
+                <div className="perk-icon-bg icon-green">🏅</div>
+                <div>
+                  <h4>Communal Gursha Points</h4>
+                  <p>
+                    Earn generous loyalty points redeemable for hand-poured pure Teff injera, prime Siga Tibs, and bespoke banquet upgrades.
+                  </p>
+                </div>
+              </div>
+
+              <div className="perk-card transparent-card">
+                <div className="perk-icon-bg icon-teal">🔔</div>
+                <div>
+                  <h4>Fasting Calendar Alerts</h4>
+                  <p>
+                    Timely seasonal notifications for Tsom fasting periods, Chef's Bayaynetu spreads, and lenten specialties.
+                  </p>
+                </div>
+              </div>
+
+              <div className="perk-card transparent-card">
+                <div className="perk-icon-bg icon-yellow">🛵</div>
+                <div>
+                  <h4>Express Addis Delivery</h4>
+                  <p>
+                    Save Bole, Kazanchis, Old Airport, or Sarbet drop-offs for fast clay-pot temperature delivery straight to your doorstep.
+                  </p>
+                </div>
+              </div>
+
+              <div className="perk-card transparent-card">
+                <div className="perk-icon-bg icon-red">🏛️</div>
+                <div>
+                  <h4>Priority Mesob Table Reservations</h4>
+                  <p>
+                    Skip standard waitlists for weekend live Kirar acoustic sets and evening green-coffee roasting ceremonies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Quote Card */}
+          <div className="quote-box-standalone">
+            <img 
+              src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&q=80&w=200" 
+              alt="Traditional Mesob Feast" 
+              className="quote-img"
+            />
+            <div className="quote-content">
+              <div className="quote-badge">TRADITION IN EVERY BITE</div>
+              <p className="quote-text">
+                "Sharing from the same mesob is the ancient covenant of love and trust."
+              </p>
+              <span className="quote-author">— Habesha Proverb</span>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="perk-card transparent-card">
-        <div className="perk-icon-bg icon-green">🏅</div>
-        <div>
-          <h4>Communal Gursha Points</h4>
-          <p>
-            Earn generous loyalty points redeemable for hand-poured pure Teff injera, prime Siga Tibs, and bespoke banquet upgrades.
-          </p>
-        </div>
-      </div>
-
-      <div className="perk-card transparent-card">
-        <div className="perk-icon-bg icon-teal">🔔</div>
-        <div>
-          <h4>Fasting Calendar Alerts</h4>
-          <p>
-            Timely seasonal notifications for Tsom fasting periods, Chef's Bayaynetu spreads, and lenten specialties.
-          </p>
-        </div>
-      </div>
-
-      <div className="perk-card transparent-card">
-        <div className="perk-icon-bg icon-yellow">🛵</div>
-        <div>
-          <h4>Express Addis Delivery</h4>
-          <p>
-            Save Bole, Kazanchis, Old Airport, or Sarbet drop-offs for fast clay-pot temperature delivery straight to your doorstep.
-          </p>
-        </div>
-      </div>
-
-      <div className="perk-card transparent-card">
-        <div className="perk-icon-bg icon-red">🏛️</div>
-        <div>
-          <h4>Priority Mesob Table Reservations</h4>
-          <p>
-            Skip standard waitlists for weekend live Kirar acoustic sets and evening green-coffee roasting ceremonies.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* Separate Bottom Quote Card */}
-  <div className="quote-box-standalone">
-    <img 
-      src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&q=80&w=200" 
-      alt="Traditional Mesob Feast" 
-      className="quote-img"
-    />
-    <div className="quote-content">
-      <div className="quote-badge">TRADITION IN EVERY BITE</div>
-      <p className="quote-text">
-        "Sharing from the same mesob is the ancient covenant of love and trust."
-      </p>
-      <span className="quote-author">— Habesha Proverb</span>
-    </div>
-  </div>
-</div>
 
         {/* Right Form Card */}
         <div className="register-card">
@@ -130,7 +185,7 @@ export default function Register() {
 
           <div className="divider-text">Or register with your details</div>
 
-          <form onSubmit={handleSubmit} className="register-form">
+          <form onSubmit={handleSubmit} className="register-form" noValidate>
             <div className="form-group">
               <label>Full Name</label>
               <input
@@ -226,7 +281,7 @@ export default function Register() {
             </div>
 
             <button type="submit" className="btn-submit-register">
-              Create Account & Receive Welcome Gursha →
+              Create Account &amp; Receive Welcome Gursha →
             </button>
           </form>
 
