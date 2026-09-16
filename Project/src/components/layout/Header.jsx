@@ -1,36 +1,44 @@
-
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Header.css';
 
 export default function Header() {
+  const { user, logout } = useAuth();
+
   return (
-    <header className="main-header">
-      <div className="container header-content">
+    <header className="site-header">
+      <div className="header-container">
+        {/* Brand Logo */}
         <Link to="/" className="brand-logo">
-          <h2>Mesob House</h2>
+          Mesob House
         </Link>
 
-        <nav className="header-nav">
-          <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
-            Home
-          </NavLink>
-          <NavLink to="/menu" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Featured Menu
-          </NavLink>
-          <NavLink to="/featured-dish" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Featured Dish
-          </NavLink>
-          <NavLink to="/checkout" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Checkout
-          </NavLink>
+        {/* Center Navigation Links */}
+        <nav className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/menu">Menu</Link>
+          <Link to="/featured-dish">Featured Dish</Link>
+          <Link to="/cart">Cart</Link>
+          <Link to="/checkout">Checkout</Link>
         </nav>
 
-        <div className="header-actions">
-          <Link to="/cart" className="cart-badge">
-            🛒 12 items <span className="cart-price">(4,200 ETB)</span>
-          </Link>
-          <Link to="/login" className="btn-signin">Sign In</Link>
-          <Link to="/register" className="btn-register">Register</Link>
+        {/* User Account / Auth Action Section */}
+        <div className="auth-section">
+          {user ? (
+            <div className="user-profile-badge">
+              <span className="welcome-message">
+                Welcome, <strong className="user-name-highlight">{user.fullName || 'Guest'}</strong> ✨
+              </span>
+              <button onClick={logout} className="btn-logout">
+                Log Out
+              </button>
+            </div>
+          ) : (
+            <div className="guest-actions">
+              <Link to="/login" className="btn-login">Sign In</Link>
+              <Link to="/register" className="btn-register">Register</Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

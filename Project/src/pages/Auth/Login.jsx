@@ -1,292 +1,267 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
-
-function TrustBadges() {
-  const badges = [
-    { icon: '🛡️', title: 'ENCRYPTED SECURITY', subtitle: 'Telebirr PIN & CBE Birr verified' },
-    { icon: '🌿', title: 'FASTING FEASTS', subtitle: 'Tsom Beyaynetu on Wed & Fri' },
-    { icon: '💨', title: 'FRESH INJERA STEAM', subtitle: 'Baked three times each day' },
-    { icon: '📞', title: 'BOLE CONCIERGE', subtitle: '+251 909090909' },
-  ];
-
-  return (
-    <div className="trust-badges-wrapper">
-      <div className="trust-badges-grid">
-        {badges.map((item, index) => (
-          <div className="trust-badge-item" key={index}>
-            <span className="badge-icon">{item.icon}</span>
-            <div className="badge-text">
-              <span className="badge-title">{item.title}</span>
-              <span className="badge-subtitle">{item.subtitle}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function Login() {
   const navigate = useNavigate();
-  const [loginMethod, setLoginMethod] = useState('phone'); // 'phone' or 'email'
-  const [formData, setFormData] = useState({
-    phone: '',
-    email: '',
-    password: '',
-    rememberMe: false,
-  });
+  const { login } = useAuth();
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+  // State Management
+  const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [selectedCode, setSelectedCode] = useState('+251');
+  const [errorMessage, setErrorMessage] = useState('');
 
+  // Telebirr Modal State
+  const [showTelebirrModal, setShowTelebirrModal] = useState(false);
+  const [telebirrPhone, setTelebirrPhone] = useState('');
+
+  // Google OAuth Handler
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        });
+        const googleUser = await res.json();
+        login({ fullName: googleUser.name, email: googleUser.email, authType: 'google' });
+        navigate('/');
+      } catch (err) {
+        console.error('Google Auth Error:', err);
+        setErrorMessage('Failed to sign in with Google. Please try again.');
+      }
+    },
+    onError: () => setErrorMessage('Google Login failed or was cancelled.'),
+  });// Credential Submit Handler
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorMessage('');
 
-    // 1. Retrieve registered user from local storage
-    const storedUserRaw = localStorage.getItem('mesob_registered_user');
+    // Fetch registered accounts array
+    const storedUsers = JSON.parse(
+      localStorage.getItem('registered_users') || '[]'
+    );
 
-    if (!storedUserRaw) {
-      alert('No registered account found. Please create an account first.');
+    // Helper to strip non-digit characters and country code prefixes
+    const cleanPhone = (numStr) => {
+      if (!numStr) return '';
+      let cleaned = String(numStr).replace(/\D/g, '');
+      if (cleaned.startsWith('251')) cleaned = cleaned.slice(3);
+      if (cleaned.startsWith('0')) cleaned = cleaned.slice(1);
+      return cleaned;
+    };
+
+    const targetInput = authMethod === 'phone' ? phone.trim() : email.trim();
+
+    // Find account by matching normalized phone or email
+    const foundUser = storedUsers.find((u) => {
+      if (!u) return false;
+
+      if (authMethod === 'phone') {
+        const inputPhoneClean = cleanPhone(`${selectedCode}${targetInput}`);
+        const userPhoneClean = cleanPhone(u.phone || u.mobile || '');
+        return userPhoneClean && userPhoneClean === inputPhoneClean;
+      }
+
+      return (u.email || '').toLowerCase() === targetInput.toLowerCase();
+    });
+
+    if (!foundUser) {
+      setErrorMessage('No account found with these credentials. Please check or register.');
       return;
     }
 
-    const storedUser = JSON.parse(storedUserRaw);
-
-    // 2. Validate identifier (Phone or Email)
-    if (loginMethod === 'phone') {
-      const inputPhone = formData.phone.trim();
-      if (!inputPhone) {
-        alert('Please enter your Ethiopian mobile number.');
-        return;
-      }
-      if (inputPhone !== storedUser.phone) {
-        alert('Mobile number not recognized. Please check your input or register.');
-        return;
-      }
-    } else {
-      const inputEmail = formData.email.trim().toLowerCase();
-      if (!inputEmail) {
-        alert('Please enter your email address.');
-        return;
-      }
-      if (inputEmail !== storedUser.email) {
-        alert('Email address not recognized. Please check your input or register.');
-        return;
-      }
-    }
-
-    // 3. Validate Password Length (8 characters minimum)
-    if (!formData.password) {
-      alert('Please enter your password.');
+    if (foundUser.password !== password) {
+      setErrorMessage('Incorrect password. Please try again.');
       return;
     }
 
-    if (formData.password.length < 8) {
-      alert('Password must be at least 8 characters long.');
+    login(foundUser);
+    navigate('/');
+  };
+  const handleTabSwitch = (method) => {
+    setAuthMethod(method);
+    setPhone('');
+    setEmail('');
+    setPassword('');
+    setErrorMessage('');
+  };
+
+  const handleTelebirrSubmit = () => {
+    if (!telebirrPhone.trim()) {
+      alert('Please enter your Telebirr mobile number.');
       return;
     }
-
-    // 4. Compare Password against stored registration credential
-    if (formData.password !== storedUser.password) {
-      alert('Incorrect password. Please try again.');
-      return;
-    }
-
-    // 5. Store authentication status
-    localStorage.setItem('mesob_is_authenticated', 'true');
-
-    alert(`Welcome back, ${storedUser.fullName}!`);
-
-    // Redirect to Home page
+    login({
+      fullName: 'Telebirr Member',
+      phone: `+251${telebirrPhone.trim()}`,
+      authType: 'telebirr',
+    });
+    setShowTelebirrModal(false);
     navigate('/');
   };
 
   return (
-    <div className="container register-container">
-      <div className="breadcrumb">
-        HOME / ACCOUNT / <span>SIGN IN</span>
-      </div>
+    <div className="login-page-container">
+      <div className="login-card">
+        <h2 className="login-title">Sign In to Mesob House</h2>
 
-      <div className="register-main">
-        {/* Left Side Banner */}
-        <div className="register-banner">
-          <div className="member-badge">
-            <span className="badge-star">★</span> MESOB FEAST CIRCLE & PERKS
-          </div>
-          <h2>A table shared is a bond celebrated.</h2>
-          <div className="banner-divider">« |||| |||| |||| »</div>
+        {/* Dynamic Error Alert */}
+        {errorMessage && <div className="auth-error-alert">{errorMessage}</div>}
 
-          <p className="banner-subtitle">
-            Sign in to your culinary sanctuary. Track your seasonal fasting platters, express your Jebena preferences, and summon traditional Addis feasts straight to your door.
-          </p>
-
-          <div className="banner-image-card">
-            <img 
-              src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=600&q=80" 
-              alt="Sunday Jebena Buna Circle" 
-            />
-            <div className="image-card-caption">
-              <h4>Sunday Jebena Buna Circle</h4>
-              <p>Exclusive roasting access for verified members</p>
-            </div>
-          </div>
-
-          <div className="perk-card">
-            <span className="perk-icon">🎁</span>
-            <div>
-              <h4>10 Gursha Points / ETB 100</h4>
-              <p>Redeem against rare honey tej batches or special communal platters.</p>
-            </div>
-          </div>
-
-          <div className="perk-card">
-            <span className="perk-icon">🚚</span>
-            <div>
-              <h4>Free Bole & Kazanchis Delivery</h4>
-              <p>Priority courier dispatch with heat-insulated clay-stone trays.</p>
-            </div>
-          </div>
-
-          <div className="perk-card">
-            <span className="perk-icon">⚡</span>
-            <div>
-              <h4>Instant Telebirr & CBE Birr</h4>
-              <p>Zero-fee instant table settlement and 1-tap reordering.</p>
-            </div>
-          </div>
-
-          <div className="banner-quote">
-            <p className="quote-text">
-              "The table ordering is as seamless as eating from our grandmother's mesob."
-            </p>
-            <p className="quote-author">Dr. Tola — BOLE MEMBER</p>
-          </div>
+        {/* Social Authentication */}
+        <div className="social-buttons">
+          <button
+            type="button"
+            className="btn-social"
+            onClick={() => setShowTelebirrModal(true)}
+          >
+            📱 Telebirr
+          </button>
+          <button
+            type="button"
+            className="btn-social"
+            onClick={() => handleGoogleLogin()}
+          >
+            🌐 Google
+          </button>
         </div>
 
-        {/* Right Side Login Card */}
-        <div className="register-card">
-          <div className="card-header-badge">MEMBER PORTAL</div>
-          <h2 className="card-title">Welcome to the Mesob Table</h2>
-          <p className="card-subtitle">
-            Sign in to manage your feasts, Telebirr rewards, and reserved dining mesobs.
-          </p>
+        <div className="divider">
+          <span>OR SIGN IN WITH CREDENTIALS</span>
+        </div>
 
-          <div className="social-buttons">
-            <button className="btn-social" type="button">
-              <span>📱</span> Telebirr SuperApp
-            </button>
-            <button className="btn-social" type="button">
-              <span>G</span> Google Sign-In
-            </button>
-          </div>
+        {/* Tab Selection */}
+        <div className="auth-tabs">
+          <button
+            type="button"
+            className={`tab-btn ${authMethod === 'phone' ? 'active' : ''}`}
+            onClick={() => handleTabSwitch('phone')}
+          >
+            Phone Number
+          </button>
+          <button
+            type="button"
+            className={`tab-btn ${authMethod === 'email' ? 'active' : ''}`}
+            onClick={() => handleTabSwitch('email')}
+          >
+            Email Address
+          </button>
+        </div>
 
-          <div className="divider">
-            <span>OR WITH PHONE / EMAIL</span>
-          </div>
-
-          {/* Toggle Tabs */}
-          <div className="login-tabs">
-            <button
-              type="button"
-              className={`tab-btn ${loginMethod === 'phone' ? 'active' : ''}`}
-              onClick={() => setLoginMethod('phone')}
-            >
-              Ethiopian Mobile (+251)
-            </button>
-            <button
-              type="button"
-              className={`tab-btn ${loginMethod === 'email' ? 'active' : ''}`}
-              onClick={() => setLoginMethod('email')}
-            >
-              Email Address
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="auth-form" noValidate>
-            {loginMethod === 'phone' ? (
-              <div className="form-group">
-                <div className="label-row">
-                  <label>Ethiopian Mobile Number</label>
-                  <span className="subtle-hint">SMS OTP Supported</span>
-                </div>
-                <div className="phone-input-group">
-                  <span className="country-code">🇪🇹 +251</span>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="0909090909"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="form-group">
-                <label>Email Address</label>
+        {/* Credentials Form */}
+        <form onSubmit={handleSubmit} className="auth-form" autoComplete="off">
+          {authMethod === 'phone' ? (
+            <div className="form-group">
+              <label>Mobile Number</label>
+              <div className="phone-input-row">
+                <select
+                  value={selectedCode}
+                  onChange={(e) => setSelectedCode(e.target.value)}
+                >
+                  <option value="+251">+251 (Ethiopia)</option>
+                  <option value="+1">+1 (US)</option>
+                </select>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="name@mesobhouse.com"
+                  type="tel"
+                  placeholder="0911234567"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  autoComplete="off"
+                  required
                 />
               </div>
-            )}
-
+            </div>
+          ) : (
             <div className="form-group">
-              <div className="label-row">
-                <label>Password</label>
-                <a href="#forgot" className="forgot-link">Forgot Password?</a>
-              </div>
+              <label>Email Address</label>
               <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="🔒 Enter your confidential password (min 8 chars)"
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+                required
               />
             </div>
+          )}
 
-            <div className="form-options">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                />
-                Keep me signed in on this device
-              </label>
-              <span className="subtle-hint">🔒 Remember Addis address</span>
+          <div className="form-group">
+            <label>Password</label>
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
             </div>
-
-            <button type="submit" className="btn-submit">
-              Sign in to Mesob House →
-            </button>
-          </form>
-
-          <div className="login-footer-row">
-            <div className="login-footer-text">
-              <p>New to our dining family?</p>
-              <Link to="/register">
-                Join the Mesob Table &amp; Register ›
-              </Link>
-            </div>
-
-            <Link to="/guest" className="btn-guest-continue">
-              <span>🛍️</span> Continue as Guest
-            </Link>
           </div>
+
+          <button type="submit" className="btn-submit">
+            Sign In
+          </button>
+        </form>
+
+        <div className="login-footer-row">
+          <p>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
         </div>
       </div>
 
-      <TrustBadges />
+      {/* Telebirr Modal Window */}
+      {showTelebirrModal && (
+        <div className="telebirr-modal-overlay">
+          <div className="telebirr-modal-card">
+            <h3 className="telebirr-modal-title">Telebirr Quick Sign-In</h3>
+            <div className="telebirr-form-group">
+              <label>Enter Telebirr Phone Number</label>
+              <div className="telebirr-phone-input-group">
+                <span className="telebirr-phone-prefix">+251</span>
+                <input
+                  type="tel"
+                  className="telebirr-input"
+                  placeholder="911234567"
+                  value={telebirrPhone}
+                  onChange={(e) => setTelebirrPhone(e.target.value)}
+                  autoFocus
+                />
+              </div>
+            </div>
+            <div className="telebirr-modal-actions">
+              <button
+                type="button"
+                className="btn-telebirr-cancel"
+                onClick={() => setShowTelebirrModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn-telebirr-submit"
+                onClick={handleTelebirrSubmit}
+              >
+                Authenticate
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

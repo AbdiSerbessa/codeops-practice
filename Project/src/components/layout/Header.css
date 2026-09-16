@@ -1,91 +1,136 @@
-.main-header {
+/* Header Base Layout */
+.site-header {
+  width: 100%;
   background-color: #ffffff;
-  border-bottom: 1px solid var(--color-border);
-  padding: 16px 0;
+  border-bottom: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
-.header-content {
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Brand Logo */
 .brand-logo {
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #8b0000; /* Deep Habesha Crimson */
   text-decoration: none;
-  color: var(--color-primary);
-  font-size: 1.2rem;
 }
 
-.header-nav {
+/* Navigation Links */
+.nav-links,
+.nav-menu {
   display: flex;
+  align-items: center;
   gap: 24px;
 }
 
-.header-nav a {
+.nav-links a,
+.nav-item {
   text-decoration: none;
-  color: var(--color-text-muted);
-  font-weight: 500;
+  color: #333333;
   font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.header-nav a.active {
-  color: var(--color-primary);
-  font-weight: 700;
+.nav-links a:hover,
+.nav-item:hover {
+  color: #8b0000;
 }
 
+/* Auth & Action Section Layout */
+.auth-section,
 .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* User Profile Badge & Welcome Greeting */
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fdfbf7;
+  border: 1px solid #e6d5bc;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(139, 0, 0, 0.06);
+}
+
+.welcome-message {
+  font-size: 0.9rem;
+  color: #4a3b32;
+  font-weight: 500;
+}
+
+/* Gold/Amber Highlighted Name Gradient */
+.user-name-highlight {
+  background: linear-gradient(135deg, #b8860b 0%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Cart & Guest Auth Buttons */
+.cart-badge-btn {
+  background-color: #2e7d32; /* Green badge */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.auth-buttons,
+.guest-actions {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.cart-badge {
-  background-color: var(--color-accent-green);
-  color: #ffffff;
+.btn-login {
+  text-decoration: none;
+  color: #333333;
+  font-weight: 600;
   padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.btn-signin, .btn-register {
-  text-decoration: none;
-  font-size: 0.85rem;
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-}
-
-.btn-signin {
-  color: var(--color-primary);
 }
 
 .btn-register {
-  background-color: var(--color-primary);
+  text-decoration: none;
+  background-color: #8b0000;
   color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
 }
 
-/* Mobile Header Adjustments */
-@media (max-width: 768px) {
-  /* Hide the horizontal desktop links */
-  .nav-links, 
-  .header-menu,
-  nav a {
-    display: none; 
-  }
-
-  /* Keep container tight and clean */
-  .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-  }
-
-  /* Ensure Logo stays prominent */
-  .logo {
-    font-size: 1.2rem;
-  }
+.btn-logout {
+  background-color: #8b0000;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
 }
 
+.btn-logout:hover {
+  background-color: #a00000;
+}

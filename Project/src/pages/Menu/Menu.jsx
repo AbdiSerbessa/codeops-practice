@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Menu.css';
 import menuResponse from '../../data/menu.json';
+import { useCart } from '../../context/CartContext';
 
 // Get items array safely from the JSON response object
 const menuItems = menuResponse.data || [];
@@ -13,7 +14,8 @@ const CATEGORIES = [
 ];
 
 export default function Menu() {
-  const navigate = useNavigate();  
+  const navigate = useNavigate(); 
+  const { addToCart } = useCart(); 
   const [activeCategory, setActiveCategory] = useState('All Dishes');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCount, setSelectedCount] = useState(0);
@@ -79,53 +81,51 @@ export default function Menu() {
         {/* --- Food Menu Grid --- */}
         <div className="food-menu-grid">
           {filteredItems.map((item) => (
-            <div key={item.id} className="food-card">
-              <div className="food-image-wrapper">
-                <img
-  src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href}
-  alt={item.nameEn}
-  className="food-image"
-  onError={(e) => {
-    e.target.src = 'https://placehold.co/400x250?text=Habesha+Dish';
-  }}
-/>
-                {item.isSpecial && (
-                  <span className="food-tag amber">CHEF SPECIAL</span>
-                )}
-                {item.isFasting && !item.isSpecial && (
-                  <span className="food-tag green">TSOM / VEGAN</span>
-                )}
-              </div>
+  <div key={item.id} className="food-card">
+    <div className="food-image-wrapper">
+      <img
+        src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href}
+        alt={item.nameEn}
+        className="food-image"
+        onError={(e) => {
+          e.target.src = 'https://placehold.co/400x250?text=Habesha+Dish';
+        }}
+      />
+      {item.isSpecial && (
+        <span className="food-tag amber">CHEF SPECIAL</span>
+      )}
+      {item.isFasting && !item.isSpecial && (
+        <span className="food-tag green">TSOM / VEGAN</span>
+      )}
+    </div>
 
-              <div className="food-card-body">
-                <div className="food-card-title-row">
-                  <h3 className="food-card-title">{item.nameEn}</h3>
-                  {item.nameAm && (
-                    <span className="food-card-amharic">{item.nameAm}</span>
-                  )}
-                </div>
+    <div className="food-card-body">
+      <div className="food-card-title-row">
+        <h3 className="food-card-title">{item.nameEn}</h3>
+        {item.nameAm && (
+          <span className="food-card-amharic">{item.nameAm}</span>
+        )}
+      </div>
 
-                <p className="food-card-desc">{item.description}</p>
+      <p className="food-card-desc">{item.description}</p>
 
-                {item.spiceLevel && (
-                  <span className="food-spice-level">🌶️ {item.spiceLevel}</span>
-                )}
+      {item.spiceLevel && (
+        <span className="food-spice-level">🌶️ {item.spiceLevel}</span>
+      )}
 
-                <div className="food-card-footer">
-                  <span className="food-price">ETB {item.priceETB}</span>
-                  <button
-                    className="btn-add-item"
-                    onClick={() => {
-                      setSelectedCount((prev) => prev + 1);
-                      setTotalPrice((prev) => prev + item.priceETB);
-                    }}
-                  >
-                    + Add
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+      {/* --- ADD THIS FOOTER SECTION WITH THE BUTTON --- */}
+      <div className="food-card-footer">
+        <span className="food-price">ETB {item.priceETB}</span>
+        <button 
+          className="add-to-cart-btn"
+          onClick={() => addToCart(item)}
+        >
+          + Add to Basket
+        </button>
+      </div>
+    </div>
+  </div>
+))}
         </div>
 
          {/* Communal Dining Banner  */}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useCart } from '../../context/CartContext';
 import dishData from '../../data/featuredDish.json';
 import './FeaturedDish.css';
 
@@ -8,6 +9,8 @@ const getImageUrl = (imageName) => {
 };
 
 export default function FeaturedDish() {
+  const { addToCart } = useCart(); // 1. Extract addToCart from Context
+
   // 1. Default spice level set to 'Mild'
   const [spiceLevel, setSpiceLevel] = useState('Mild');
   const [injeraBase, setInjeraBase] = useState('Standard');
@@ -16,6 +19,10 @@ export default function FeaturedDish() {
   const [selectedAccents, setSelectedAccents] = useState(['Fresh Ayib']);
   const [quantity, setQuantity] = useState(1);
   const [activeThumb, setActiveThumb] = useState(0);
+
+  // Dynamic price calculation including organic teff extra charge
+  const extraInjeraPrice = injeraBase === 'Organic Teff' ? 60 : 0;
+  const unitPrice = dishData.price + extraInjeraPrice;
 
   // Toggle accents with 2-item maximum limit
   const toggleAccent = (accentId) => {
@@ -27,6 +34,31 @@ export default function FeaturedDish() {
         return [...prev, accentId];
       }
       return prev;
+    });
+  };
+
+  // 2. Main Dish Add Handler
+  const handleAddMainDish = () => {
+    addToCart({
+      id: `${dishData.id || 'featured'}-${Date.now()}`,
+      nameEn: dishData.title,
+      nameAm: 'የዶሮ ወጥ',
+      price: unitPrice,
+      quantity: quantity,
+      slug: 'doro-wat',
+      description: `Spice: ${spiceLevel} | Base: ${injeraBase} | Sides: ${selectedAccents.join(', ') || 'None'}`,
+    });
+  };
+
+  // 3. Gursha Pairing Add Handler
+  const handleAddPairing = (item) => {
+    addToCart({
+      id: item.id,
+      nameEn: item.name,
+      price: item.price,
+      quantity: 1,
+      slug: item.image ? item.image.replace('.jpg', '') : 'default',
+      description: item.description,
     });
   };
 
@@ -226,8 +258,9 @@ export default function FeaturedDish() {
                 <button onClick={() => setQuantity(quantity + 1)}>+</button>
               </div>
 
-              <button className="btn-primary-order">
-                🛍️ Add to Order • ETB {dishData.price * quantity}
+              {/* Updated main button with onClick */}
+              <button className="btn-primary-order" onClick={handleAddMainDish}>
+                🛍️ Add to Order • ETB {unitPrice * quantity}
               </button>
             </div>
 
@@ -263,7 +296,10 @@ export default function FeaturedDish() {
 
                 <div className="card-footer-row">
                   <span className="card-subtext">{item.volume}</span>
-                  <button className="btn-add-sm">+ Add</button>
+                  {/* Updated pairing button with onClick */}
+                  <button className="btn-add-sm" onClick={() => handleAddPairing(item)}>
+                    + Add
+                  </button>
                 </div>
               </div>
             ))}
@@ -283,25 +319,26 @@ export default function FeaturedDish() {
         </div>
 
       </div>
+
       {/* Sticky Bottom Mobile Navigation Bar */}
-<div className="mobile-bottom-bar">
-  <button className="mobile-nav-btn active">
-    <span className="icon">🏠</span>
-    <span className="label">Home</span>
-  </button>
-  <button className="mobile-nav-btn">
-    <span className="icon">🍽️</span>
-    <span className="label">Menu</span>
-  </button>
-  <button className="mobile-nav-btn">
-    <span className="icon">🛒</span>
-    <span className="label">Cart</span>
-  </button>
-  <button className="mobile-nav-btn">
-    <span className="icon">👤</span>
-    <span className="label">Account</span>
-  </button>
-</div>
+      <div className="mobile-bottom-bar">
+        <button className="mobile-nav-btn active">
+          <span className="icon">🏠</span>
+          <span className="label">Home</span>
+        </button>
+        <button className="mobile-nav-btn">
+          <span className="icon">🍽️</span>
+          <span className="label">Menu</span>
+        </button>
+        <button className="mobile-nav-btn">
+          <span className="icon">🛒</span>
+          <span className="label">Cart</span>
+        </button>
+        <button className="mobile-nav-btn">
+          <span className="icon">👤</span>
+          <span className="label">Account</span>
+        </button>
+      </div>
     </div>
   );
 }
