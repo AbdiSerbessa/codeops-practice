@@ -11,6 +11,7 @@ import FeaturedDish from './pages/FeaturedDish/FeaturedDish';
 import Cart from './pages/Cart/Cart';
 import Checkout from './pages/Checkout/Checkout';
 import { CartProvider } from './context/CartContext';
+import Confirmation from './pages/Confirmation/Confirmation';
 export default function App() {
   return (
     <AuthProvider>
@@ -41,9 +42,17 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-            </Route>
+              <Route
+                path="/confirmation"
+                element={
+                  <ProtectedRoute>
+                    <Confirmation />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </CartProvider>

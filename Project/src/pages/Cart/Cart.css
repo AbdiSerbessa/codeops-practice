@@ -407,3 +407,15 @@
   color: #8B261D;
   transform: scale(1.1);
 }
+
+.cart-error-banner {
+  background-color: #fde8e8;
+  border: 1px solid #f8b4b4;
+  color: #9b1c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}

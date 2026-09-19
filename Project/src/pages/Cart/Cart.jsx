@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,NavLink } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { Stepper } from '../Checkout/Checkout';
 import './Cart.css';
+
+
 
 const getDishImage = (slug) => {
   try {
@@ -14,7 +17,22 @@ const getDishImage = (slug) => {
 export default function Cart() {
   const navigate = useNavigate();
   const { cartItems, handleQuantityChange, handleRemoveItem, handleClearBasket } = useCart();
+// State for error feedback
+  const [errorMessage, setErrorMessage] = useState('');
 
+  // Click Handler for Checkout Button
+  const handleProceedToCheckout = () => {
+    setErrorMessage('');
+
+    if (!cartItems || cartItems.length === 0) {
+      setErrorMessage('Your Gursha basket is empty! Please add dishes from our menu before proceeding.');
+      return;
+    }
+
+    navigate('/checkout');
+  };
+
+  
   const [includeHandwash, setIncludeHandwash] = useState(true);
   const [noCutlery, setNoCutlery] = useState(false);
   const [kitchenNote, setKitchenNote] = useState('');
@@ -30,10 +48,14 @@ export default function Cart() {
 
   return (
     <div className="cart-page">
+      
       <div className="announce-ribbon">
         <p>🚚 <strong>Free Highland Delivery:</strong> Complimentary delivery across Bole, Hawassa, and Sarbet on orders over ETB 1,200.</p>
         <span className="threshold-tag">✓ THRESHOLD UNLOCKED</span>
       </div>
+      <div style={{ marginTop: '24px', marginBottom: '32px' }}>
+    <Stepper />
+  </div>
 
       <main className="cart-container">
         <section className="left-column">
@@ -42,11 +64,52 @@ export default function Cart() {
               <span className="sub-tag">COMMUNAL FEASTING</span>
               <h2>Your Gursha Basket</h2>
             </div>
-            <div className="stepper-pills">
-              <span className="pill active">1 Review Basket</span>
-              <span className="pill">2 Delivery Details</span>
-              <span className="pill">3 Confirmation</span>
-            </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+    <NavLink
+      to="/cart"
+      style={({ isActive }) => ({
+        padding: '6px 16px',
+        borderRadius: '20px',
+        fontSize: '13px',
+        fontWeight: '600',
+        textDecoration: 'none',
+        backgroundColor: isActive ? '#8B261D' : '#EFECE6',
+        color: isActive ? '#FFFFFF' : '#666666',
+      })}
+    >
+      1 Review Basket
+    </NavLink>
+
+    <NavLink
+      to="/checkout"
+      style={({ isActive }) => ({
+        padding: '6px 16px',
+        borderRadius: '20px',
+        fontSize: '13px',
+        fontWeight: '600',
+        textDecoration: 'none',
+        backgroundColor: isActive ? '#8B261D' : '#EFECE6',
+        color: isActive ? '#FFFFFF' : '#666666',
+      })}
+    >
+      2 Delivery Details
+    </NavLink>
+
+    <NavLink
+      to="/confirmation"
+      style={({ isActive }) => ({
+        padding: '6px 16px',
+        borderRadius: '20px',
+        fontSize: '13px',
+        fontWeight: '600',
+        textDecoration: 'none',
+        backgroundColor: isActive ? '#8B261D' : '#EFECE6',
+        color: isActive ? '#FFFFFF' : '#666666',
+      })}
+    >
+      3 Confirmation
+    </NavLink>
+  </div>
           </div>
 
           <div className="basket-header-bar">
@@ -183,13 +246,19 @@ export default function Cart() {
               <h2>ETB {grandTotal}</h2>
             </div>
 
-            <button 
-              className="checkout-btn"
-              disabled={cartItems.length === 0}
-              onClick={() => navigate('/checkout')}
-            >
-              Proceed to Delivery Checkout →
-            </button>
+            {errorMessage && (
+  <div className="cart-error-banner">
+    ⚠️ {errorMessage}
+  </div>
+)}
+
+<button
+  type="button"
+  className="checkout-btn"
+  onClick={handleProceedToCheckout}
+>
+  Proceed to Delivery Checkout ➔
+</button>
 
             <Link to="/menu" className="more-dishes-link">
               + Add more dishes from our Menu

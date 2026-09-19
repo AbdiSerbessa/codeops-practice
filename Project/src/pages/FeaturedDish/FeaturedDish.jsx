@@ -294,6 +294,9 @@ export default function FeaturedDish() {
                   <p className="card-desc">{item.description}</p>
                 </div>
 
+                    
+
+
                 <div className="card-footer-row">
                   <span className="card-subtext">{item.volume}</span>
                   {/* Updated pairing button with onClick */}
@@ -301,6 +304,7 @@ export default function FeaturedDish() {
                     + Add
                   </button>
                 </div>
+
               </div>
             ))}
           </div>
@@ -317,8 +321,10 @@ export default function FeaturedDish() {
           </div>
           <button className="btn-explore-feast">Explore Full Feast Menu</button>
         </div>
-
+ 
       </div>
+              
+                  
 
       {/* Sticky Bottom Mobile Navigation Bar */}
       <div className="mobile-bottom-bar">

@@ -1,13 +1,14 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import  { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  // Load saved cart from localStorage or start empty []
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem('gursha_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+
+  const [deliveryFee, setDeliveryFee] = useState(150); // Default delivery fee ETB 150
 
   useEffect(() => {
     localStorage.setItem('gursha_cart', JSON.stringify(cartItems));
@@ -52,6 +53,19 @@ export function CartProvider({ children }) {
 
   const handleClearBasket = () => setCartItems([]);
 
+  // Base calculations
+  const itemsSubtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const injeraUpgradeFee = cartItems.length > 0 ? 60 : 0;
+  const clayPakFee = cartItems.length > 0 ? 40 : 0;
+  const vatAndLevy = Math.round(itemsSubtotal * 0.15);
+
+  // Grand Total incorporating the delivery fee
+  const grandTotal = itemsSubtotal + injeraUpgradeFee + clayPakFee + vatAndLevy + deliveryFee;
+
   return (
     <CartContext.Provider
       value={{
@@ -60,6 +74,13 @@ export function CartProvider({ children }) {
         handleQuantityChange,
         handleRemoveItem,
         handleClearBasket,
+        deliveryFee,
+        setDeliveryFee,
+        itemsSubtotal,
+        injeraUpgradeFee,
+        clayPakFee,
+        vatAndLevy,
+        grandTotal,
       }}
     >
       {children}
@@ -67,4 +88,7 @@ export function CartProvider({ children }) {
   );
 }
 
-export const useCart = () => useContext(CartContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export function useCart() {
+  return useContext(CartContext);
+}
