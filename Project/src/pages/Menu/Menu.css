@@ -343,6 +343,40 @@
   background-color: #701c15;
 }
 
+
+/* --- Modern Add to Basket Button Style --- */
+.add-to-cart-btn {
+  background: linear-gradient(135deg, #8b0000 0%, #a81c1c 100%);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  box-shadow: 0 3px 8px rgba(139, 0, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+/* Hover & Focus State */
+.add-to-cart-btn:hover {
+  background: linear-gradient(135deg, #a81c1c 0%, #c02424 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(139, 0, 0, 0.35);
+}
+
+/* Active Click Effect */
+.add-to-cart-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 5px rgba(139, 0, 0, 0.2);
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .sticky-order-tray {
@@ -505,6 +539,69 @@
   background: #8b261d;
   color: #ffffff;
 }
+
+
+
+
+
+/* --- Floating Notification Popup --- */
+.menu-toast-popup {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  animation: popupSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.menu-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-left: 4px solid #16a34a;
+}
+
+.menu-toast-content .toast-icon {
+  font-size: 1.2rem;
+}
+
+.menu-toast-content .toast-message {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.menu-toast-content .toast-action-btn {
+  background-color: #8b0000;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.menu-toast-content .toast-action-btn:hover {
+  background-color: #6b0000;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {

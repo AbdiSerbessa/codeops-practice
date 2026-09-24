@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
 import './Header.css';
 
 export default function Header() {
-  const { user, logout } = useAuth();
+const user = useAuthStore((state) => state.user);
+const logout = useAuthStore((state) => state.logout);
 
   return (
     <header className="site-header">
@@ -17,7 +18,7 @@ export default function Header() {
         <nav className="nav-links">
           <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
-          <Link to="/featured-dish">Featured Dish</Link>
+          {/* <Link to="/featured-dish">Featured Dish</Link> */}
           <Link to="/cart">Cart</Link>
           <Link to="/checkout">Checkout</Link>
         </nav>

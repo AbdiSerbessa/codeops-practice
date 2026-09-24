@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate,NavLink } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCartStore } from '../../store/useCartStore';
 import { Stepper } from '../Checkout/Checkout';
 import './Cart.css';
 
@@ -16,7 +16,10 @@ const getDishImage = (slug) => {
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cartItems, handleQuantityChange, handleRemoveItem, handleClearBasket } = useCart();
+ const cartItems = useCartStore((state) => state.cart || state.cartItems);
+const handleQuantityChange = useCartStore((state) => state.updateQuantity || state.handleQuantityChange);
+const handleRemoveItem = useCartStore((state) => state.removeFromCart || state.handleRemoveItem);
+const handleClearBasket = useCartStore((state) => state.clearCart || state.handleClearBasket);
 // State for error feedback
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -146,9 +149,9 @@ export default function Cart() {
 
                     <div className="quantity-and-remove">
                       <div className="quantity-controls">
-                        <button onClick={() => handleQuantityChange(item.id, -1)}>-</button>
+                        <button onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>-</button>
                         <span>{item.quantity}</span>
-                        <button onClick={() => handleQuantityChange(item.id, 1)}>+</button>
+                        <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
                       </div>
 
                       <button

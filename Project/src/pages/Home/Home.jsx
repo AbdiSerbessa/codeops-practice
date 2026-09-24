@@ -1,6 +1,5 @@
 import './Home.css';
 import specialsData from '../../data/specials.json';
-
 export default function Home() {
   return (
     <div className="home-page">

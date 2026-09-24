@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate,useLocation} from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCartStore } from '../../store/useCartStore';
+import { useAuthStore } from '../../store/useAuthStore';
 import './Checkout.css';
 
 
@@ -93,20 +94,19 @@ export function Stepper() {
   );
 }// 2. MAIN CHECKOUT PAGE COMPONENT
 export default function Checkout() {
-  // 1. Destructure context hooks first (ONLY ONCE)
-  const {
-    cartItems,
-    itemsSubtotal,
-    injeraUpgradeFee,
-    clayPakFee,
-    vatAndLevy,
-    deliveryFee,
-    setDeliveryFee,
-    grandTotal,
-    handleClearBasket,
-  } = useCart();
+  // 1. Pull state from Zustand store right here:
+  const cartItems = useCartStore((state) => state.cart || state.cartItems || []);
+  const itemsSubtotal = useCartStore((state) => state.subtotal || state.itemsSubtotal || 0);
+  const injeraUpgradeFee = useCartStore((state) => state.injeraUpgradeFee || 0);
+  const clayPakFee = useCartStore((state) => state.clayPakFee || 0);
+  const vatAndLevy = useCartStore((state) => state.vatAndLevy || 0);
+  const deliveryFee = useCartStore((state) => state.deliveryFee || 0);
+  const grandTotal = useCartStore((state) => state.grandTotal || state.total || 0);
+  const handleClearBasket = useCartStore((state) => state.clearCart || state.handleClearBasket);
+  const setDeliveryFee = useCartStore((state) => state.setDeliveryFee);
 
   const navigate = useNavigate();
+ 
 
   // 2. State hooks
   const [errorMessage, setErrorMessage] = useState('');

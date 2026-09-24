@@ -1,18 +1,28 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import './Login.css';
+
+// 1. Define Zod Validation Schema for form fields
+const loginSchema = z.object({
+  phone: z.string().optional(),
+  email: z.string().optional(),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+}).refine((data) => data.phone || data.email, {
+  message: 'Please provide either a phone number or email address',
+  path: ['phone'],
+});
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login || state.handleLogin);
 
-  // State Management
+  // State Management (Preserving original logic states)
   const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [selectedCode, setSelectedCode] = useState('+251');
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,7 +31,22 @@ export default function Login() {
   const [showTelebirrModal, setShowTelebirrModal] = useState(false);
   const [telebirrPhone, setTelebirrPhone] = useState('');
 
-  // Google OAuth Handler
+  // React Hook Form Setup with Zod Resolver
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      phone: '',
+      email: '',
+      password: '',
+    },
+  });
+
+  // Google OAuth Handler (Unchanged working logic)
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
@@ -37,9 +62,10 @@ export default function Login() {
       }
     },
     onError: () => setErrorMessage('Google Login failed or was cancelled.'),
-  });// Credential Submit Handler
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  });
+
+  // Credential Submit Handler integrated with Zod data output
+  const onSubmit = (formData) => {
     setErrorMessage('');
 
     // Fetch registered accounts array
@@ -56,7 +82,12 @@ export default function Login() {
       return cleaned;
     };
 
-    const targetInput = authMethod === 'phone' ? phone.trim() : email.trim();
+    const targetInput = authMethod === 'phone' ? (formData.phone || '').trim() : (formData.email || '').trim();
+
+    if (!targetInput) {
+      setErrorMessage(authMethod === 'phone' ? 'Please enter your mobile number.' : 'Please enter your email address.');
+      return;
+    }
 
     // Find account by matching normalized phone or email
     const foundUser = storedUsers.find((u) => {
@@ -76,7 +107,7 @@ export default function Login() {
       return;
     }
 
-    if (foundUser.password !== password) {
+    if (foundUser.password !== formData.password) {
       setErrorMessage('Incorrect password. Please try again.');
       return;
     }
@@ -84,11 +115,12 @@ export default function Login() {
     login(foundUser);
     navigate('/');
   };
+
   const handleTabSwitch = (method) => {
     setAuthMethod(method);
-    setPhone('');
-    setEmail('');
-    setPassword('');
+    setValue('phone', '');
+    setValue('email', '');
+    setValue('password', '');
     setErrorMessage('');
   };
 
@@ -154,8 +186,8 @@ export default function Login() {
           </button>
         </div>
 
-        {/* Credentials Form */}
-        <form onSubmit={handleSubmit} className="auth-form" autoComplete="off">
+        {/* Credentials Form managed via React Hook Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="auth-form" autoComplete="off">
           {authMethod === 'phone' ? (
             <div className="form-group">
               <label>Mobile Number</label>
@@ -170,12 +202,11 @@ export default function Login() {
                 <input
                   type="tel"
                   placeholder="0911234567"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  {...register('phone')}
                   autoComplete="off"
-                  required
                 />
               </div>
+              {errors.phone && <span className="error-text" style={{ color: 'red', fontSize: '0.8rem' }}>{errors.phone.message}</span>}
             </div>
           ) : (
             <div className="form-group">
@@ -183,11 +214,10 @@ export default function Login() {
               <input
                 type="email"
                 placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email')}
                 autoComplete="off"
-                required
               />
+              {errors.email && <span className="error-text" style={{ color: 'red', fontSize: '0.8rem' }}>{errors.email.message}</span>}
             </div>
           )}
 
@@ -197,10 +227,8 @@ export default function Login() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register('password')}
                 autoComplete="new-password"
-                required
               />
               <button
                 type="button"
@@ -210,6 +238,7 @@ export default function Login() {
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
+            {errors.password && <span className="error-text" style={{ color: 'red', fontSize: '0.8rem' }}>{errors.password.message}</span>}
           </div>
 
           <button type="submit" className="btn-submit">

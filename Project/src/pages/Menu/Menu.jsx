@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Menu.css';
 import menuResponse from '../../data/menu.json';
-import { useCart } from '../../context/CartContext';
+import { useCartStore } from '../../store/useCartStore';
 
 // Get items array safely from the JSON response object
 const menuItems = menuResponse.data || [];
@@ -14,12 +14,37 @@ const CATEGORIES = [
 ];
 
 export default function Menu() {
-  const navigate = useNavigate(); 
-  const { addToCart } = useCart(); 
+  const navigate = useNavigate();
+  const addToCart = useCartStore((state) => state.addToCart);
   const [activeCategory, setActiveCategory] = useState('All Dishes');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCount, setSelectedCount] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedCount] = useState(0);
+  const [totalPrice] = useState(0);
+
+  // Toast notification state
+  const [activeToast, setActiveToast] = useState(null);
+
+  const handleQuickAdd = (e, dish) => {
+    e.stopPropagation(); // Prevents navigating to dish detail on card click
+
+    addToCart({
+      id: dish.id,
+      nameEn: dish.nameEn,
+      nameAm: dish.nameAm || '',
+      price: dish.priceETB || dish.price || 0,
+      quantity: 1,
+      slug: dish.slug,
+      description: 'Standard Preparation',
+    });
+
+    // Show pop-up toast message
+    setActiveToast(`${dish.nameEn} added to your basket!`);
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      setActiveToast(null);
+    }, 3000);
+  }; // Fixed missing closing bracket here!
 
   // Filter menu items by category and search term
   const filteredItems = menuItems.filter((item) => {
@@ -35,6 +60,19 @@ export default function Menu() {
 
   return (
     <div className="menu-page">
+      {/* Pop-up Notification Banner */}
+      {activeToast && (
+        <div className="menu-toast-popup">
+          <div className="menu-toast-content">
+            <span className="toast-icon">🛍️</span>
+            <span className="toast-message">{activeToast}</span>
+            <button className="toast-action-btn" onClick={() => navigate('/cart')}>
+              View Cart &rarr;
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         {/* --- Header Section --- */}
         <header className="menu-header-card">
@@ -81,71 +119,74 @@ export default function Menu() {
         {/* --- Food Menu Grid --- */}
         <div className="food-menu-grid">
           {filteredItems.map((item) => (
-  <div key={item.id} className="food-card">
-    <div className="food-image-wrapper">
-      <img
-        src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href}
-        alt={item.nameEn}
-        className="food-image"
-        onError={(e) => {
-          e.target.src = 'https://placehold.co/400x250?text=Habesha+Dish';
-        }}
-      />
-      {item.isSpecial && (
-        <span className="food-tag amber">CHEF SPECIAL</span>
-      )}
-      {item.isFasting && !item.isSpecial && (
-        <span className="food-tag green">TSOM / VEGAN</span>
-      )}
-    </div>
+            <div
+              key={item.id}
+              className="food-card"
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate(`/menu/${item.id}`)}
+            >
+              <div className="food-image-wrapper">
+                <img
+                  src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href}
+                  alt={item.nameEn}
+                  className="food-image"
+                  onError={(e) => {
+                    e.target.src = 'https://placehold.co/400x250?text=Habesha+Dish';
+                  }}
+                />
+                {item.isSpecial && (
+                  <span className="food-tag amber">CHEF SPECIAL</span>
+                )}
+                {item.isFasting && !item.isSpecial && (
+                  <span className="food-tag green">TSOM / VEGAN</span>
+                )}
+              </div>
 
-    <div className="food-card-body">
-      <div className="food-card-title-row">
-        <h3 className="food-card-title">{item.nameEn}</h3>
-        {item.nameAm && (
-          <span className="food-card-amharic">{item.nameAm}</span>
-        )}
-      </div>
+              <div className="food-card-body">
+                <div className="food-card-title-row">
+                  <h3 className="food-card-title">{item.nameEn}</h3>
+                  {item.nameAm && (
+                    <span className="food-card-amharic">{item.nameAm}</span>
+                  )}
+                </div>
 
-      <p className="food-card-desc">{item.description}</p>
+                <p className="food-card-desc">{item.description}</p>
 
-      {item.spiceLevel && (
-        <span className="food-spice-level">🌶️ {item.spiceLevel}</span>
-      )}
+                {item.spiceLevel && (
+                  <span className="food-spice-level">🌶️ {item.spiceLevel}</span>
+                )}
 
-      {/* --- ADD THIS FOOTER SECTION WITH THE BUTTON --- */}
-      <div className="food-card-footer">
-        <span className="food-price">ETB {item.priceETB}</span>
-        <button 
-          className="add-to-cart-btn"
-          onClick={() => addToCart(item)}
-        >
-          + Add to Basket
-        </button>
-      </div>
-    </div>
-  </div>
-))}
+                <div className="food-card-footer">
+                  <span className="food-price">ETB {item.priceETB || item.price}</span>
+                  <button 
+                    type="button"
+                    className="add-to-cart-btn"
+                    onClick={(e) => handleQuickAdd(e, item)}
+                  >
+                    + Add to Basket
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-         {/* Communal Dining Banner  */}
-        
+        {/* Communal Dining Banner */}
         <div className="communal-banner">
-    <div className="communal-banner-content">
-      <div className="communal-icon-box">
-        <span>🍽️</span>
+          <div className="communal-banner-content">
+            <div className="communal-icon-box">
+              <span>🍽️</span>
+            </div>
+            <div className="communal-text">
+              <h4>Experience Communal Dining Around the Mesob</h4>
+              <p>All platters served with unlimited warm Teff Injera rolls and fresh house-made Ayib.</p>
+            </div>
+          </div>
+          <button className="btn-reserve-mesob">
+            Reserve a Group Mesob Table
+          </button>
+        </div>
       </div>
-      <div className="communal-text">
-        <h4>Experience Communal Dining Around the Mesob</h4>
-        <p>All platters served with unlimited warm Teff Injera rolls and fresh house-made Ayib.</p>
-      </div>
-    </div>
-    <button className="btn-reserve-mesob">
-      Reserve a Group Mesob Table
-    </button>
-  </div>
-      </div>
-      
 
       {/* --- Sticky Bottom Tray --- */}
       {selectedCount > 0 && (

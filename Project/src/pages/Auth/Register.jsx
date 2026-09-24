@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
 import './Register.css';
 
 export default function Register() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+ const login = useAuthStore((state) => state.login || state.handleLogin);
+
 
   // 1. State Declarations
   const [showTelebirrModal, setShowTelebirrModal] = useState(false);
