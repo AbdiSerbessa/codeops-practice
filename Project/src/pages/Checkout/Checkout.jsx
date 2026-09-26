@@ -94,25 +94,18 @@ export function Stepper() {
   );
 }// 2. MAIN CHECKOUT PAGE COMPONENT
 export default function Checkout() {
-  // 1. Pull state from Zustand store right here:
+  // 1. Pull state from Zustand store & navigation hooks first
   const cartItems = useCartStore((state) => state.cart || state.cartItems || []);
-  const itemsSubtotal = useCartStore((state) => state.subtotal || state.itemsSubtotal || 0);
-  const injeraUpgradeFee = useCartStore((state) => state.injeraUpgradeFee || 0);
-  const clayPakFee = useCartStore((state) => state.clayPakFee || 0);
-  const vatAndLevy = useCartStore((state) => state.vatAndLevy || 0);
-  const deliveryFee = useCartStore((state) => state.deliveryFee || 0);
-  const grandTotal = useCartStore((state) => state.grandTotal || state.total || 0);
   const handleClearBasket = useCartStore((state) => state.clearCart || state.handleClearBasket);
+  const deliveryFee = useCartStore((state) => state.deliveryFee ?? 0);
   const setDeliveryFee = useCartStore((state) => state.setDeliveryFee);
-
   const navigate = useNavigate();
- 
 
-  // 2. State hooks
+  // 2. Declare your state hooks next (so they exist before calculations)
   const [errorMessage, setErrorMessage] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('delivery');
   const [dispatchType, setDispatchType] = useState('immediate');
-  const [paymentMethod, setPaymentMethod] = useState('televirr');
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   const [formData, setFormData] = useState({
     recipientName: 'Abdi Serbessa',
@@ -122,6 +115,13 @@ export default function Checkout() {
     houseNo: 'Building 2, Edna Mall, House No. 102, 2nd Floor',
     landmark: 'Opposite to Boston Day Spa, entrance through dark green gate',
   });
+
+  // 3. Now compute your totals safely using deliveryMode
+  const itemsSubtotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0);
+  const injeraUpgradeFee = cartItems.length > 0 ? 60 : 0;
+  const clayPakFee = cartItems.length > 0 ? 40 : 0;
+  const vatAndLevy = Math.round(itemsSubtotal * 0.15);
+  const grandTotal = Math.max(0, itemsSubtotal + injeraUpgradeFee + clayPakFee + vatAndLevy + (deliveryMode === 'delivery' ? deliveryFee : 0));
 
   // 3. Handlers
   const handleDeliveryModeChange = (mode) => {
@@ -137,21 +137,33 @@ export default function Checkout() {
   const handleConfirmOrder = () => {
     setErrorMessage('');
 
+    // 1. Check if cart is empty
     if (!cartItems || cartItems.length === 0) {
       setErrorMessage('Your basket is empty! Please add dishes to your cart before proceeding.');
       return;
     }
 
+    // 2. Validate required contact and delivery details
+    if (!formData.recipientName || !formData.phone || !formData.deliveryArea) {
+      setErrorMessage('Please complete all required contact and delivery details.');
+      return;
+    }
+
+    // 3. Validate payment method selection
+    if (!paymentMethod) {
+  setErrorMessage('Please select a payment method before confirming your order.');
+  return;
+}
     const orderSummary = {
       orderId: `MH-${Math.floor(100000 + Math.random() * 900000)}`,
       amountPaid: grandTotal,
       items: cartItems,
+      paymentMethod,
     };
 
     handleClearBasket();
     navigate('/confirmation', { state: { orderSummary } });
   };
-
   
   return (
     <div className="checkout-page-container">

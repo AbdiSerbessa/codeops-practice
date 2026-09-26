@@ -1,12 +1,18 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../store/useCartStore';
+import NotFound from '../NotFound/NotFound'; // ✅ Fixed: Imported NotFound component
 import menuResponse from '../../data/menu.json';
-
+import specialsData from '../../data/specials.json';
 import './DishDetail.css';
 
-const menuItems = menuResponse.data || [];
+const menuItems = Array.isArray(menuResponse) 
+  ? menuResponse 
+  : (menuResponse?.menu || menuResponse?.dishes || Object.values(menuResponse || {}).find(Array.isArray) || []);
 
+const specialsItems = Array.isArray(specialsData) ? specialsData : (specialsData?.specials || []);
+
+const allDishes = [...menuItems, ...specialsItems];
 
 const PAIRING_ITEMS = [
   {
@@ -41,14 +47,12 @@ const PAIRING_ITEMS = [
   },
 ];
 
-
-
 export default function DishDetail() {
-  const { id } = useParams();
+  // 1. ALL HOOKS FIRST
+  const { id, slug } = useParams();
   const navigate = useNavigate();
   const addToCart = useCartStore((state) => state.addToCart);
-
-  // 1. ALL HOOKS FIRST 
+  
   const [addedItemId, setAddedItemId] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
@@ -57,16 +61,24 @@ export default function DishDetail() {
   const [selectedAccents, setSelectedAccents] = useState(['Fresh Ayib']);
   const [quantity, setQuantity] = useState(1);
 
-  // 2. Data lookup 
-  const rawId = decodeURIComponent(id || '').trim();
-  const normalizedId = rawId.includes('menu ') ? rawId.replace('menu ', 'menu-') : rawId;
+  // 2. DATA LOOKUP ACROSS ALL DATASETS
+  const searchKey = (slug || id || '').toLowerCase().trim();
 
-  const dish = menuItems.find(
-    (item) => 
-      String(item.id).toLowerCase() === normalizedId.toLowerCase() || 
-      String(item.id).toLowerCase() === rawId.toLowerCase() || 
-      item.slug === rawId
-  );
+const dish = allDishes.find((item) => {
+    const itemSlug = (item.slug || '').toLowerCase();
+    const itemId = (item.id || '').toLowerCase();
+    const itemName = (item.nameEn || '').toLowerCase().replace(/\s+/g, '-');
+    
+    return (
+      itemSlug === searchKey || 
+      itemId === searchKey || 
+      itemName === searchKey ||
+      itemSlug.includes(searchKey) ||
+      searchKey.includes(itemSlug)
+    );
+  });
+
+  console.log("Searching for:", searchKey, "Found dish:", dish);
 
   // 3. Safe early return AFTER all hooks have executed
   if (!dish) {
@@ -107,13 +119,15 @@ export default function DishDetail() {
     }, 3000);
   };
 
-  
-  
-  const dishImage = new URL(`../../assets/images/${dish.slug}.jpg`, import.meta.url).href;
-  
-
- // State to track feedback per item
-
+  // ✅ Safe image fallback handling for Vite
+  let dishImage = 'https://placehold.co/500x350?text=Habesha+Dish';
+  try {
+    if (dish?.slug) {
+      dishImage = new URL(`../../assets/images/${dish.slug}.jpg`, import.meta.url).href;
+    }
+  } catch (err) {
+    console.warn(`Local image not found for slug: ${dish?.slug}, using fallback placeholder.`);
+  }
 
   const handleAddPairing = (e, item) => {
     e.stopPropagation();
@@ -136,6 +150,7 @@ export default function DishDetail() {
       setAddedItemId(null);
     }, 1500);
   };
+
   return (
     <div className="dish-detail-page">
       {/* Pop-up Notification Toast */}
@@ -255,7 +270,8 @@ export default function DishDetail() {
 
           </div>
         </div>
-{/* --- Cross-Sell Section --- */}
+
+        {/* --- Cross-Sell Section --- */}
         <section className="pairs-with-section">
           <div className="pairs-header-row">
             <div>
@@ -327,7 +343,6 @@ export default function DishDetail() {
         </section>
 
       </div>
-
     </div>
   );
 }

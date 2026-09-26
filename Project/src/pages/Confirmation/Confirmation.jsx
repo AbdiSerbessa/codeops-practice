@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Stepper } from '../Checkout/Checkout';
-import { useCart } from '../../context/CartContext';
+import { useCartStore } from "../../store/useCartStore";
 
 export default function Confirmation() {
   const location = useLocation();
-  const { cartItems, grandTotal } = useCart();
+  const cartItems = useCartStore((state) => state.cart || state.cartItems || []);
+  const grandTotal = cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0);
 
   // Retrieve passed order details
   const orderSummary = location.state?.orderSummary;
@@ -21,6 +22,7 @@ export default function Confirmation() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div style={{ paddingTop: '120px', paddingBottom: '60px', maxWidth: '900px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
       {/* Stepper Progress Bar */}

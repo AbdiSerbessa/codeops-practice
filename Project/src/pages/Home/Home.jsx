@@ -1,8 +1,59 @@
 import './Home.css';
 import specialsData from '../../data/specials.json';
+import { useRef,useState} from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import { useCartStore } from '../../store/useCartStore';
+
+
 export default function Home() {
+  const navigate = useNavigate();
+  const specialsRef = useRef(null);
+  const [addedMessage, setAddedMessage] = useState(null);
+ 
+  const [activeTab, setActiveTab] = useState('chef');
+  const addToCart = useCartStore((state) => state.addToCart);
+  const handleAddToCart = (item) => {
+  const price = Number(item.priceETB || item.price || item.unitPrice || 0);
+  const name = item.nameEn || item.name || item.title || 'Special Item';
+  
+  addToCart({
+    id: item.id || item.slug || `item-${Date.now()}`,
+    nameEn: name,
+    name: name,
+    title: name,
+    priceETB: price,
+    price: price,
+    unitPrice: price,
+    image: item.image || '/assets/images/default.jpg',
+    quantity: 1
+  });
+  
+  setAddedMessage(`Added "${name}" to your table!`);
+  setTimeout(() => setAddedMessage(null), 3000);
+};
   return (
+    
+    
     <div className="home-page">
+      {addedMessage && (
+  <div className="cart-toast-banner" style={{
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    zIndex: 9999,
+    background: '#1a1a1a',
+    color: '#fff',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    animation: 'fadeIn 0.3s ease'
+  }}>
+    ✓ {addedMessage}
+  </div>
+)}
       {/* 1. Fasting Observance Banner */}
       <div className="fasting-banner">
         <span>🥦 Tsom / Fasting Observance: 12-item Royal Beyaynetu Vegan Platter simmered fresh all day.</span>
@@ -11,7 +62,9 @@ export default function Home() {
 
       {/* 2. Hero Section */}
       <section className="hero-section">
+        
         <div className="hero-container">
+          
           <div className="hero-text-content">
             <span className="section-badge">||||| ||||| TRADITIONAL HABESHA HEARTH</span>
             <h1 className="hero-title">
@@ -23,10 +76,21 @@ export default function Home() {
               simmered in 72-hour infused niter kibbeh and heirloom berbere 
               harvested from the Ethiopian highlands.
             </p>
-
-            <div className="hero-actions">
-              <button className="btn-primary">Explore Today's Specials ↓</button>
-              <button className="btn-secondary">Full Banquet Menu</button>
+<div className="hero-actions">
+  
+  <button 
+  type="button" 
+  className="btn-primary"
+  onClick={() => {
+    specialsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }}
+>
+  Explore Today's Specials ↓
+</button>
+  
+  <Link to="/menu" className="btn-secondary">
+    Full Banquet Menu
+  </Link>
               <span className="hero-note">☕ Buna Ceremony 4:00 PM Daily</span>
             </div>
 
@@ -45,8 +109,9 @@ export default function Home() {
               </div>
             </div>
           </div>
+<Link to="/dish/great-mesob-feast" style={{ textDecoration: 'none', display: 'block' }}>
 
-          <div className="hero-image-card">
+<div className="hero-image-card">
             <div className="image-wrapper">
               <img src={new URL('../../assets/images/doro-wat.jpg', import.meta.url).href} alt="Great Mesob Feast" />
               <div className="floating-badge">
@@ -62,11 +127,14 @@ export default function Home() {
               <span className="card-price">ETB 1000</span>
             </div>
           </div>
+          
+          </Link>
+          
         </div>
       </section>
 
       {/* 3. Today's Curated Chef Specials */}
-      <section className="specials-section">
+      <section ref={specialsRef} className="specials-section">
         <div className="specials-header">
           <div className="header-text">
             <span className="section-subtitle">FROM THE CLAY POTS</span>
@@ -77,46 +145,85 @@ export default function Home() {
           </div>
 
           <div className="filter-tabs">
-            <button className="tab-btn active">Chef's Special Today</button>
-            <button className="tab-btn">Tibs & Grills</button>
-            <button className="tab-btn">Fasting / Tsom</button>
-          </div>
+  <button 
+    type="button" 
+    className={`tab-btn ${activeTab === 'chef' ? 'active' : ''}`}
+    onClick={() => setActiveTab('chef')}
+  >
+    Chef's Special Today
+  </button>
+  <button 
+    type="button" 
+    className={`tab-btn ${activeTab === 'tibs' ? 'active' : ''}`}
+    onClick={() => setActiveTab('tibs')}
+  >
+    Tibs & Grills
+  </button>
+  <button 
+    type="button" 
+    className={`tab-btn ${activeTab === 'fasting' ? 'active' : ''}`}
+    onClick={() => setActiveTab('fasting')}
+  >
+    Fasting / Tsom
+  </button>
+</div>
+
         </div>
 
         {/* Dynamic Card Grid Mapping */}
         <div className="specials-grid">
-          {specialsData.map((item) => (
-            <div key={item.id} className="special-card">
-              <div className="card-image-wrap">
-                <img src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href} alt={item.nameEn} />
-                {item.isFasting ? (
-                  <span className="badge-tag green">Fasting / Tsom</span>
-                ) : (
-                  <span className="badge-tag">House Special</span>
-                )}
-              </div>
-              
-              <div className="card-body">
-                <div className="card-title-row">
-                  <h3>{item.nameEn}</h3>
-                  <span className="amharic-title">{item.nameAm}</span>
-                </div>
-                
-                <p>{item.description}</p>
-                
-                <div className="card-meta">
-                  <span className="spice-tag">🌶️ {item.spiceLevel}</span>
-                  <span className="servings-tag">👥 {item.servings}</span>
-                </div>
+          {specialsData
+  .filter((item) => {
+    const cat = (item.category || '').toLowerCase();
+    if (activeTab === 'chef') return cat.includes('traditional') || cat.includes('raw') || item.isSpecial;
+    if (activeTab === 'tibs') return cat.includes('tibs') || cat.includes('grills');
+    if (activeTab === 'fasting') return cat.includes('fasting') || cat.includes('vegan') || cat.includes('tsom') || item.isFasting;
+    return true;
+  })
+  .map((item) => (
+    <div key={item.id} className="special-card">
+      <div 
+        className="card-image-wrap" 
+        style={{ cursor: 'pointer' }}
+        onClick={() => navigate(`/dish/${item.slug || item.id}`)}
+      >
+        <img src={new URL(`../../assets/images/${item.slug}.jpg`, import.meta.url).href} alt={item.nameEn} />
+        {item.isFasting ? (
+          <span className="badge-tag green">Fasting / Tsom</span>
+        ) : (
+          <span className="badge-tag">House Special</span>
+        )}
+      </div>
 
-                <div className="card-action">
-                  <span className="price">ETB {item.priceETB.toLocaleString()}</span>
-                  <button className="add-btn">+ Add to Table</button>
-                </div>
-                
-              </div>
-            </div>
-          ))}
+      <div className="card-body">
+        <div 
+          className="card-title-row" 
+          style={{ cursor: 'pointer' }}
+          onClick={() => navigate(`/dish/${item.slug || item.id}`)}
+        >
+          <h3>{item.nameEn}</h3>
+          <span className="amharic-title">{item.nameAm}</span>
+        </div>
+
+        <p>{item.description}</p>
+
+        <div className="card-meta">
+          <span className="spice-tag">🌶️ {item.spiceLevel}</span>
+          <span className="servings-tag">👥 {item.servings}</span>
+        </div>
+
+        <div className="card-action">
+          <span className="price">ETB {item.priceETB.toLocaleString()}</span>
+          <button 
+            className="add-btn"
+            onClick={() => handleAddToCart(item)}
+          >
+            + Add to Table
+          </button>
+        </div>
+      </div>
+    </div>
+  ))}
         </div>
       </section>
      {/* --- 4. GURSHA & BEVERAGE SECTION --- */}
@@ -149,7 +256,18 @@ export default function Home() {
           <p>Crafted in-house using raw Ethiopian wild honey and dried Gesho (indigenous hops), cold-aged for 21 days in glass carafes (Berele).</p>
           <div className="bev-card-footer">
             <span className="bev-meta">500ml Carafe • 11% ABV</span>
-            <button className="btn-add-sm">+ Add Carafe</button>
+            <button 
+  type="button" 
+  className="btn-add-sm"
+onClick={() => handleAddToCart({
+  id: 'tej-1',
+  nameEn: 'Golden Tej (Honey Wine)',
+  priceETB: 380,
+  image: '/assets/images/house-tej-carafe.jpg'
+})}
+>
+  + Add Carafe
+</button>
           </div>
         </div>
 
@@ -163,7 +281,18 @@ export default function Home() {
           <p>Slow-simmered highland black tea leaves infused with crushed cinnamon bark, fragrant cardamom pods, cloves, and a hint of wild ginger.</p>
           <div className="bev-card-footer">
             <span className="bev-meta">Served with Raw Sugar</span>
-            <button className="btn-add-sm">+ Add Cup</button>
+            <button 
+  type="button" 
+  className="btn-add-sm"
+ onClick={() => handleAddToCart({
+  id: 'coffee-1',
+  nameEn: 'Highland Spiced Shai',
+  priceETB: 100,
+  image: '/assets/images/shai.jpg'
+})}
+>
+  + Add Cup
+</button>
           </div>
         </div>
       </div>
@@ -176,7 +305,18 @@ export default function Home() {
         </div>
         <div className="injera-action">
           <span className="bev-price">ETB 100</span>
-          <button className="btn-add-dark">+ Add Extra</button>
+          <button 
+  type="button" 
+  className="btn-add-dark"
+ onClick={() => handleAddToCart({
+  id: 'injera-extra-3',
+  nameEn: 'Extra Teff Injera Rolls (Basket of 3)',
+  priceETB: 100,
+  image: '/assets/images/injera.jpg'
+})}
+>
+  + Add Extra
+</button>
         </div>
       </div>
     </div>
@@ -239,9 +379,9 @@ export default function Home() {
         <p>Whether gathering around our circular mesobs for communal dining or ordering freshly baked injera to your home in Addis Ababa.</p>
       </div>
       <div className="cta-buttons">
-        <button className="btn-cta-cream">Book a Mesob Table</button>
-        <button className="btn-cta-outline">View Complete Menu</button>
-      </div>
+  <Link to="/menu" className="btn-cta-cream">Book a Mesob Table</Link>
+  <Link to="/menu" className="btn-cta-outline">View Complete Menu</Link>
+</div>
     </div>
   </div>
 </section>

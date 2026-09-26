@@ -1,9 +1,10 @@
-import  { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import Layout from './components/layout/Layout';
 import NotFound from './pages/NotFound/NotFound';
+
 // Lazy loaded page components
 const Login = lazy(() => import('./pages/Auth/Login'));
 const Register = lazy(() => import('./pages/Auth/Register'));
@@ -23,12 +24,17 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
+              
+              {/* Routes for Dish details (Home specials & Menu items) */}
+              <Route path="/dish/:slug" element={<DishDetail />} />
+              <Route path="/dish/:id" element={<DishDetail />} />
+              <Route path="/menu/:slug" element={<DishDetail />} />
               <Route path="/menu/:id" element={<DishDetail />} />
+
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="*" element={<NotFound />} />
 
               {/* Protected Routes */}
               <Route
@@ -36,8 +42,12 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <Confirmation />
-                  </ProtectedRoute> } />
-              <Route path="*" element={<Navigate to="/" replace />} />
+                  </ProtectedRoute>
+                } 
+              />
+
+              {/* Catch-all for unknown routes */}
+              <Route path="*" element={<NotFound />} />
 
             </Route>
           </Routes>
