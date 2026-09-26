@@ -1,4 +1,4 @@
-**Mesob House**: Immersive Heritage Dining & Digital Hospitality Experience
+ **Mesob House**: Immersive Heritage Dining & Digital Hospitality Experience
 
 Authentic Ethiopian & Eritrean Heritage Dining, Communal Feasting, and Digital Hospitality Platform.
 
@@ -81,7 +81,7 @@ Ensure you have Node.js (v16+ recommended) and npm installed.
 
 2. Clone the Repository
 
-git clone https://github.com/your-username/mesob-house.git
+git clone https://github.com/AbdiSerbessa/mesob-house.git
 cd mesob-house
 
 
