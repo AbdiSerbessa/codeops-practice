@@ -1,8 +1,8 @@
 // src/app/menu/page.js
 import fs from 'fs';
 import path from 'path';
-import CategoryBar from './CategoryBar';
-import DishList from './DishList'; // Or your list component
+import FilterShell from './FilterShell';
+import DishList from './DishList';
 
 export default async function MenuPage() {
   const filePath = path.join(process.cwd(), 'public', 'dishes.json');
@@ -10,10 +10,8 @@ export default async function MenuPage() {
   const dishes = JSON.parse(fileData);
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-amber-900">Our Menu</h2>
-      <CategoryBar />
+    <FilterShell>
       <DishList dishes={dishes} />
-    </div>
+    </FilterShell>
   );
 }
