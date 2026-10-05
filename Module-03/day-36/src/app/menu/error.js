@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 
 export default function MenuError({ error, reset }) {
-    throw new Error('Intentional test error for menu');
   useEffect(() => {
     console.error(error);
   }, [error]);
