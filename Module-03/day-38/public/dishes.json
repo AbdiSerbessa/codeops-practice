@@ -1,0 +1,6 @@
+[
+  { "id": "1", "name": "Doro Wat", "description": "Traditional spicy chicken stew served with injera.", "price": 15.99 },
+  { "id": "2", "name": "Kitfo", "description": "Minced raw beef seasoned with mitmita and niter kibe.", "price": 18.50 },
+  { "id": "3", "name": "Shiro", "description": "Thick chickpea puree simmered in traditional spices.", "price": 12.00 },
+  { "id": "4", "name": "Tibs", "description": "Sautéed chunks of beef or lamb with onions and peppers.", "price": 16.50 }
+]
