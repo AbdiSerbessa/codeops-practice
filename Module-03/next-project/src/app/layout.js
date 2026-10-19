@@ -36,61 +36,62 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={inter.className}>
       <body className="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
         <Providers>
-          <header className="bg-amber-900 text-white shadow-md p-4">
-            <div className="max-w-6xl mx-auto flex justify-between items-center">
-              <Link href="/" className="text-xl font-bold tracking-wide">
-                Addis Eats
-              </Link>
-              <nav className="flex items-center space-x-4">
-                <Link href="/" className="hover:text-amber-200 transition-colors">
-                  Home
-                </Link>
-                <Link href="/menu" className="hover:text-amber-200 transition-colors">
-                  Menu
-                </Link>
-                <Link href="/cart" className="hover:text-amber-200 transition-colors">
-                  Cart
-                </Link>
-                <Link href="/checkout" className="hover:text-amber-200 transition-colors">
-                  Checkout
-                </Link>
+          <header className="bg-amber-900 text-white shadow-md p-4 w-full">
+  <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+    <Link href="/" className="text-xl font-bold tracking-wide">
+      Addis Eats
+    </Link>
+    
+    <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm">
+      <Link href="/" className="hover:text-amber-200 transition-colors">
+        Home
+      </Link>
+      <Link href="/menu" className="hover:text-amber-200 transition-colors">
+        Menu
+      </Link>
+      <Link href="/cart" className="hover:text-amber-200 transition-colors">
+        Cart
+      </Link>
+      <Link href="/checkout" className="hover:text-amber-200 transition-colors">
+        Checkout
+      </Link>
 
-                {session?.role === 'staff' && (
-                  <Link href="/kitchen" className="text-amber-300 hover:text-amber-100 font-semibold transition-colors">
-                    Kitchen
-                  </Link>
-                )}
+      {session?.role === 'staff' && (
+        <Link href="/kitchen" className="text-amber-300 hover:text-amber-100 font-semibold transition-colors">
+          Kitchen
+        </Link>
+      )}
 
-                {session ? (
-                  <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-amber-800">
-                    <span className="text-xs sm:text-sm text-amber-100">
-                      Welcome, <span className="font-semibold text-white">{session.email}</span>
-                    </span>
-                    <form action="/api/auth/signout" method="POST">
-                      <button
-                        type="submit"
-                        className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
-                      >
-                        Logout
-                      </button>
-                    </form>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-3 ml-2">
-                    <Link href="/auth/login" className="hover:text-amber-400 transition-colors">
-                      Login
-                    </Link>
-                    <Link
-                      href="/auth/register"
-                      className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors"
-                    >
-                      Register
-                    </Link>
-                  </div>
-                )}
-              </nav>
-            </div>
-          </header>
+      {session ? (
+        <div className="flex flex-wrap items-center gap-2 sm:ml-2 sm:pl-3 sm:border-l sm:border-amber-800">
+          <span className="text-xs text-amber-100">
+            Welcome, <span className="font-semibold text-white">{session.email}</span>
+          </span>
+          <form action="/api/auth/signout" method="POST">
+            <button
+              type="submit"
+              className="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="flex items-center gap-2 ml-1">
+          <Link href="/auth/login" className="hover:text-amber-400 transition-colors px-1">
+            Login
+          </Link>
+          <Link
+            href="/auth/register"
+            className="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm rounded-lg transition-colors whitespace-nowrap"
+          >
+            Register
+          </Link>
+        </div>
+      )}
+    </nav>
+  </div>
+</header>
           <main className="flex-grow max-w-6xl mx-auto w-full p-4">
             {children}
           </main>
