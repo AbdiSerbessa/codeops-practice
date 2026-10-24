@@ -1,4 +1,4 @@
-// src/app/track/[id]/page.jsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -32,14 +32,16 @@ export default function OrderTrackingPage({ params }) {
     }
     resolveParams();
   }, [params]);
-
-  useEffect(() => {
+useEffect(() => {
     if (!orderId) return;
 
     // Connect to Server-Sent Events stream
     const eventSource = new EventSource(`/api/orders/${orderId}/stream`);
 
-    setIsConnected(true);
+    // Set connection status to true only when the stream successfully opens
+    eventSource.onopen = () => {
+      setIsConnected(true);
+    };
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -75,7 +77,6 @@ export default function OrderTrackingPage({ params }) {
       setIsConnected(false);
     };
   }, [orderId]);
-
   const handleExportCsv = () => {
     const csvData = history.map((h) => ({
       'Order ID': orderId,

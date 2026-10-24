@@ -1,4 +1,3 @@
-// src/app/track/[id]/DeliveryMap.jsx
 'use client';
 
 import { useEffect } from 'react';
