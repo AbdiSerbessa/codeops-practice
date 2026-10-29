@@ -1,7 +1,9 @@
 /**
  * In-memory mock database and helper utilities for Addis Eats.
- * Provides data access functions for dishes, orders, and session management.
+ * Provides data access functions for dishes, orders, users, and session management.
  */
+
+import { cookies } from 'next/headers';
 
 // Mock dish records
 const mockDishes = [
@@ -97,41 +99,51 @@ const mockDishes = [
   }
 ];
 
-// Persistent global orders store across hot reloads and server requests
-global.dbStore = global.dbStore || {
-  orders: [
-    {
-      id: 'ord_309',
-      customer: 'Guluma Shigute',
-      neighborhood: 'Phone: 0911124529',
-      total: 350,
-      totalAmount: 350,
-      date: '2026-10-28',
-      status: 'PENDING',
-      courierLocation: [8.9806, 38.7578],
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'ord_239',
-      customer: 'Serbessa',
-      neighborhood: 'Phone: 0943350427',
-      total: 400,
-      totalAmount: 400,
-      date: '2026-10-28',
-      status: 'PENDING',
-      courierLocation: [8.9806, 38.7578],
-      updatedAt: new Date().toISOString(),
-    },
-  ],
-};
+// Persistent global store across hot reloads with fail-safe initialization
+global.dbStore = global.dbStore || {};
+global.dbStore.orders = global.dbStore.orders || [
+  {
+    id: 'ord_309',
+    customer: 'Guluma Shigute',
+    neighborhood: 'Phone: 0911124529',
+    total: 350,
+    totalAmount: 350,
+    date: '2026-10-28',
+    status: 'PENDING',
+    courierLocation: [8.9806, 38.7578],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'ord_239',
+    customer: 'Serbessa',
+    neighborhood: 'Phone: 0943350427',
+    total: 400,
+    totalAmount: 400,
+    date: '2026-10-28',
+    status: 'PENDING',
+    courierLocation: [8.9806, 38.7578],
+    updatedAt: new Date().toISOString(),
+  },
+];
 
-// Mock authenticated user session with staff role for admin access
-const mockSessionUser = {
-  id: "user_addis_101",
-  name: "Abebe Bikila",
-  email: "abebe@example.com",
-  role: "staff",
-};
+global.dbStore.users = global.dbStore.users || [
+  {
+    id: "user_abdi_19",
+    name: "Abdi Serbessa",
+    email: "abdiserbessa19@gmail.com",
+    password: "Ab094335",
+    role: "user",
+    phone: "0943350427"
+  },
+  {
+    id: "user_addis_101",
+    name: "Abebe Bikila",
+    email: "abebe@example.com",
+    password: "password123",
+    role: "staff",
+    phone: "0911000000"
+  }
+];
 
 /**
  * ORM-style database query interface
@@ -149,6 +161,13 @@ export const db = {
       return global.dbStore.orders.find((o) => o.id === targetId) || null;
     },
   },
+  user: {
+    findUnique: async ({ where }) => {
+      const email = where?.email;
+      const usersList = global.dbStore?.users || [];
+      return usersList.find(u => u.email.toLowerCase() === email?.toLowerCase()) || null;
+    }
+  }
 };
 
 /**
@@ -159,6 +178,44 @@ export async function getDish(id) {
   return dish || null;
 }
 
+/**
+ * Find user by email (Auto-registers dynamic users if logged in via session)
+ *//**
+ * Find user by email (Auto-registers dynamic users with initial password)
+ */
+export async function getUserByEmail(email, initialPassword = null) {
+  if (!email) return null;
+  const usersList = global.dbStore?.users || [];
+  let user = usersList.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+  // Automatically register dynamic users and save their password
+  if (!user && email.includes('@')) {
+    user = {
+      id: `user_${Math.random().toString(36).substring(2, 9)}`,
+      name: email.split('@')[0],
+      email: email.toLowerCase(),
+      password: initialPassword || "Ab094335", // Store exact password for dynamic accounts
+      role: 'user',
+      phone: '0943350427'
+    };
+    global.dbStore.users.push(user);
+  }
+
+  return user;
+}
+
+/**
+ * Verify user password strictly against stored user account credentials
+ */
+export async function verifyUserPassword(email, password) {
+  if (!email || !password) return false;
+  
+  const user = await getUserByEmail(email);
+  if (!user || !user.password) return false;
+
+  // Enforce strict equality matching against stored password
+  return user.password === password;
+}
 /**
  * Create a new order in memory
  */
@@ -173,9 +230,11 @@ export async function createOrder(data) {
         )
       : 350);
 
+  const session = await getSession();
+
   const newOrder = {
     id: `ord_${Math.floor(100 + Math.random() * 900)}`,
-    customer: data.customerName || data.customer || mockSessionUser.name,
+    customer: data.customerName || data.customer || session?.name || 'Valued Customer',
     neighborhood: data.neighborhood || 'Bole, Addis Ababa',
     total: computedTotal,
     totalAmount: computedTotal,
@@ -221,8 +280,35 @@ export async function markCancelled(id) {
 }
 
 /**
- * Read current authenticated user session
+ * Read current authenticated user session dynamically from cookies
  */
 export async function getSession() {
-  return mockSessionUser;
+  try {
+    const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll();
+
+    for (const cookie of allCookies) {
+      const val = cookie.value;
+      if (!val) continue;
+
+      try {
+        const parsed = JSON.parse(val);
+        const email = parsed.email || parsed.user?.email || parsed.userData?.email;
+        if (email) {
+          const found = await getUserByEmail(email);
+          if (found) return found;
+        }
+      } catch (e) {
+        if (val.includes('@')) {
+          const found = await getUserByEmail(val.trim());
+          if (found) return found;
+        }
+      }
+    }
+  } catch (err) {
+    // cookies() might fail outside request scope
+  }
+
+  const usersList = global.dbStore?.users || [];
+  return usersList[0] || { email: "abdiserbessa19@gmail.com", name: "Abdi Serbessa" };
 }

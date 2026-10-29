@@ -1,19 +1,20 @@
 // src/app/dashboard/RevenueChart.jsx
 'use client';
 
-export default function RevenueChart({ revenueData, timeData }) {
-  const combinedData = [
-    { date: '2026-10-14', revenue: 450, orders: 1 },
-    { date: '2026-10-15', revenue: 320, orders: 1 },
-    { date: '2026-10-16', revenue: 800, orders: 1 },
-    { date: '2026-10-17', revenue: 270, orders: 1 },
-    { date: '2026-10-18', revenue: 550, orders: 1 },
+export default function RevenueChart({ chartData = [] }) {
+  // Fallback if no order data exists yet
+  const combinedData = chartData.length > 0 ? chartData : [
+    { date: new Date().toISOString().split('T')[0], revenue: 0, orders: 0 }
   ];
+
+  // Calculate max values for dynamic scaling of bar heights
+  const maxRevenue = Math.max(...combinedData.map(d => d.revenue), 100);
+  const maxOrders = Math.max(...combinedData.map(d => d.orders), 1);
 
   return (
     <div className="grid grid-cols-1 gap-6">
       {/* Combined Revenue & Orders Chart */}
-      <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 shadow-xl">
+      <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 shadow-xl overflow-visible">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
           <div>
             <h3 className="text-lg font-semibold text-amber-400">Daily Performance Overview</h3>
@@ -29,20 +30,20 @@ export default function RevenueChart({ revenueData, timeData }) {
           </div>
         </div>
 
-        {/* Added pt-12 so the tooltip has plenty of room at the top */}
-        <div className="h-72 flex items-end gap-6 border-b border-stone-700 pb-2 px-2 pt-12">
+        {/* Generous top padding (pt-24) and overflow-visible so tooltips never get cut off */}
+        <div className="h-72 flex items-end gap-6 border-b border-stone-700 pb-2 px-2 pt-24 overflow-x-auto overflow-y-visible">
           {combinedData.map((item) => {
-            const revenueHeight = Math.min(100, (item.revenue / 1000) * 100);
-            const orderHeight = Math.min(100, item.count * 30);
+            const revenueHeight = Math.min(100, Math.max(10, (item.revenue / maxRevenue) * 100));
+            const orderHeight = Math.min(100, Math.max(15, (item.orders / maxOrders) * 100));
 
             return (
-              <div key={item.date} className="flex-1 flex flex-col items-center h-full justify-end group relative">
+              <div key={item.date} className="flex-1 min-w-[70px] flex flex-col items-center h-full justify-end group relative overflow-visible">
                 
-                {/* Fixed Hover Tooltip Positioned Cleanly Above */}
-                <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-stone-950 border border-amber-600/60 px-3 py-1.5 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-30 whitespace-nowrap text-xs">
-                  <p className="text-amber-400 font-semibold">{item.date}</p>
-                  <p className="text-stone-200">Revenue: <span className="text-amber-300 font-medium">{item.revenue} ETB</span></p>
-                  <p className="text-stone-200">Orders: <span className="text-amber-300 font-medium">{item.orders}</span></p>
+                {/* Fully visible hover tooltip positioned safely above the bar */}
+                <div className="absolute bottom-[calc(100%+12px)] left-1/2 -translate-x-1/2 bg-stone-950 border border-amber-500 px-3 py-2 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 text-xs space-y-1 whitespace-nowrap">
+                  <p className="text-amber-400 font-bold border-b border-stone-800 pb-1">{item.date}</p>
+                  <p className="text-stone-200">Revenue: <span className="text-amber-300 font-semibold">{item.revenue} ETB</span></p>
+                  <p className="text-stone-200">Orders: <span className="text-amber-300 font-semibold">{item.orders}</span></p>
                 </div>
 
                 {/* Bars & Markers container */}
@@ -54,7 +55,7 @@ export default function RevenueChart({ revenueData, timeData }) {
                   />
                   {/* Order Indicator Marker */}
                   <div
-                    style={{ height: `${Math.max(25, orderHeight)}%` }}
+                    style={{ height: `${orderHeight}%` }}
                     className="w-2 bg-amber-400 rounded-full shadow-lg hover:bg-amber-300 transition-colors"
                   />
                 </div>

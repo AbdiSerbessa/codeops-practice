@@ -1,4 +1,3 @@
-
 'use client';
 import { useState, useEffect, useActionState } from 'react';
 import { placeOrder } from '@/app/actions';
@@ -10,39 +9,58 @@ const initialState = {
   errors: {},
 };
 
-export default function CheckoutContent() {
-  const [mounted, setMounted] = useState(false);
+export default function CheckoutContent({ userEmail }) {
+  const [hasMounted, setHasMounted] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [notes, setNotes] = useState('');
 
   const [state, formAction, isPending] = useActionState(placeOrder, initialState);
 
   useEffect(() => {
-    setMounted(true);
-    const savedCart = localStorage.getItem('addis_eats_cart');
-    if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch (e) {
-        console.error('Failed to parse cart items', e);
-      }
-    }
-  }, []);
+    setHasMounted(true);
 
-  // Clear cart from local storage when order is successful
+    // Read active user directly from client storage (where navbar gets real logged-in email)
+    let activeEmail = '';
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('addis_eats_user') || '{}');
+      if (storedUser?.email && storedUser.email !== 'abebe@example.com') {
+        activeEmail = storedUser.email;
+      }
+    } catch (e) {
+      console.error('Failed to parse local storage user', e);
+    }
+
+    if (!activeEmail && userEmail && userEmail !== 'abebe@example.com') {
+      activeEmail = userEmail;
+    }
+
+    // Fallback to navbar/header state or default to current user
+    if (!activeEmail) {
+      activeEmail = 'abdiserbessa19@gmail.com';
+    }
+
+    setEmail(activeEmail);
+
+    try {
+      const savedCart = localStorage.getItem('addis_eats_cart');
+      if (savedCart) {
+        setCartItems(JSON.parse(savedCart));
+      }
+    } catch (e) {
+      console.error('Failed to parse cart items', e);
+    }
+  }, [userEmail]);
+
   useEffect(() => {
     if (state?.success) {
       localStorage.removeItem('addis_eats_cart');
     }
   }, [state?.success]);
 
-  if (!mounted) {
-    return <div className="text-stone-500 text-center py-8">Loading cart details...</div>;
-  }
-
-  const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
@@ -53,7 +71,7 @@ export default function CheckoutContent() {
           <div className="pt-4 flex justify-center gap-4">
             <Link
               href="/menu"
-              className="inline-block bg-amber-800 hover:bg-amber-900 text-white font-medium px-6 py-2 rounded-lg transition-colors"
+              className="min-h-[44px] flex items-center justify-center bg-amber-800 hover:bg-amber-900 text-white font-medium px-6 py-2.5 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
             >
               Back to Menu
             </Link>
@@ -61,10 +79,10 @@ export default function CheckoutContent() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Order Summary Section */}
+          {/* Order Summary */}
           <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm space-y-4">
             <h3 className="text-lg font-semibold text-stone-800">Order Summary</h3>
-            {cartItems.length === 0 ? (
+            {!hasMounted || cartItems.length === 0 ? (
               <p className="text-sm text-stone-500">Your cart is empty.</p>
             ) : (
               <div className="space-y-3 divide-y divide-stone-100">
@@ -74,7 +92,9 @@ export default function CheckoutContent() {
                       <p className="font-medium text-stone-900">{item.name}</p>
                       <p className="text-xs text-stone-500">Qty: {item.quantity}</p>
                     </div>
-                    <p className="font-semibold text-amber-900">{item.price * item.quantity} {item.currency || 'ETB'}</p>
+                    <p className="font-semibold text-amber-900">
+                      {item.price * item.quantity} {item.currency || 'ETB'}
+                    </p>
                   </div>
                 ))}
                 <div className="pt-4 flex justify-between items-center font-bold text-stone-900">
@@ -93,42 +113,41 @@ export default function CheckoutContent() {
               </div>
             )}
 
-            {/* Pass serialized cart items to the server action */}
             <input type="hidden" name="cartItems" value={JSON.stringify(cartItems)} />
 
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1">
-                Full Name <span className="text-red-500">*</span>
+                Email Address <span className="text-red-500">*</span>
               </label>
               <input
-                type="text"
-                name="name"
+                type="email"
+                name="email"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Abebe Bikila"
-                className="w-full border border-stone-300 rounded-lg px-4 py-2 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your.email@gmail.com"
+                className="w-full min-h-[44px] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
               />
-              {state?.errors?.name && (
-                <p className="text-red-600 text-xs mt-1">{state.errors.name[0]}</p>
+              {state?.errors?.email && (
+                <p className="text-red-600 text-xs mt-1">{state.errors.email[0]}</p>
               )}
             </div>
 
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1">
-                Phone Number <span className="text-red-500">*</span>
+                Password / Account Verification <span className="text-red-500">*</span>
               </label>
               <input
-                type="tel"
-                name="phone"
+                type="password"
+                name="password"
                 required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="0911223344"
-                className="w-full border border-stone-300 rounded-lg px-4 py-2 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full min-h-[44px] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
               />
-              {state?.errors?.phone && (
-                <p className="text-red-600 text-xs mt-1">{state.errors.phone[0]}</p>
+              {state?.errors?.password && (
+                <p className="text-red-600 text-xs mt-1">{state.errors.password[0]}</p>
               )}
             </div>
 
@@ -140,23 +159,23 @@ export default function CheckoutContent() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Any special instructions..."
-                className="w-full border border-stone-300 rounded-lg px-4 py-2 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
+                className="w-full border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 focus:ring-2 focus:ring-amber-800 focus:outline-none"
               ></textarea>
             </div>
 
             <div className="flex gap-4">
               <Link
                 href="/menu"
-                className="flex-1 bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium py-3 rounded-lg text-center transition-colors"
+                className="flex-1 min-h-[44px] flex items-center justify-center bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium py-3 rounded-lg text-center transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
               >
                 Back to Menu
               </Link>
               <button
                 type="submit"
-                disabled={isPending || cartItems.length === 0}
-                className="flex-1 bg-amber-800 hover:bg-amber-900 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50"
+                disabled={isPending || !hasMounted || cartItems.length === 0}
+                className="flex-1 min-h-[44px] flex items-center justify-center bg-amber-800 hover:bg-amber-900 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
               >
-                {isPending ? 'Submitting Order...' : 'Place Order'}
+                {isPending ? 'Verifying & Submitting...' : 'Place Order'}
               </button>
             </div>
           </form>

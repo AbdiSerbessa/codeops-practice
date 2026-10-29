@@ -1,12 +1,72 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createOrder, getSession, markCancelled, updateOrderStatus as updateDbOrderStatus } from '@/lib/db';
+import { cookies } from 'next/headers';
+import { createOrder, getSession, markCancelled, updateOrderStatus as updateDbOrderStatus, verifyUserPassword } from '@/lib/db';
 import { orderSchema } from '@/lib/schema';
 
 export async function placeOrder(prevState, formData) {
   try {
-    // 1. Extract cartItems array or fallback to single dishId
+    const cookieStore = await cookies();
+    
+    // 1. Dynamically extract active session email
+    let activeEmail = '';
+    const allCookies = cookieStore.getAll();
+    for (const cookie of allCookies) {
+      const val = cookie.value;
+      if (!val) continue;
+
+      if (val.includes('@') && !val.includes('{')) {
+        activeEmail = val.trim();
+        break;
+      }
+
+      try {
+        const parsed = JSON.parse(val);
+        if (parsed.email) {
+          activeEmail = parsed.email.trim();
+          break;
+        }
+        if (parsed.user?.email) {
+          activeEmail = parsed.user.email.trim();
+          break;
+        }
+      } catch (e) {
+        // Skip non-JSON cookies
+      }
+    }
+
+    const submittedEmail = (formData.get('email') || '').toString().trim().toLowerCase();
+    const submittedPassword = (formData.get('password') || '').toString().trim();
+
+    const sessionEmail = (activeEmail || submittedEmail).toLowerCase();
+
+    const errors = {};
+
+    // 2. Strict Account Binding: Submitted email must match logged-in account
+    if (activeEmail && submittedEmail !== sessionEmail) {
+      errors.email = [`Must match your active logged-in account email (${sessionEmail}).`];
+    }
+
+    // 3. True Password Verification against Database Record
+    if (!submittedPassword) {
+      errors.password = ['Password is required for account verification.'];
+    } else {
+      const isValidPassword = await verifyUserPassword(sessionEmail, submittedPassword);
+      if (!isValidPassword) {
+        errors.password = ['Incorrect password. Please enter the valid password for your account (e.g., Br786778).'];
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return {
+        success: false,
+        message: 'Security validation failed: Invalid credentials provided.',
+        errors,
+      };
+    }
+
+    // 4. Process Cart & Order Items
     const cartItemsRaw = formData.get('cartItems');
     let dishId = formData.get('dishId');
     let quantity = Number(formData.get('quantity') || 1);
@@ -24,23 +84,18 @@ export async function placeOrder(prevState, formData) {
       }
     }
 
-    // 2. Compute total amount for all items in the cart
     const totalAmount = parsedCart.length > 0
-      ? parsedCart.reduce(
-          (sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1),
-          0
-        )
+      ? parsedCart.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0)
       : 0;
 
     const rawData = {
-      name: formData.get('name'),
-      phone: formData.get('phone'),
-      dishId: dishId || 'default-dish-id', // Ensures dishId is present for orderSchema validation
+      name: submittedEmail.split('@')[0] || 'Valued Customer',
+      phone: '0943350427',
+      dishId: dishId || 'default-dish-id',
       quantity: quantity,
       notes: formData.get('notes'),
     };
 
-    // 3. Validate form data using Zod schema
     const validationResult = orderSchema.safeParse(rawData);
     if (!validationResult.success) {
       return {
@@ -50,20 +105,14 @@ export async function placeOrder(prevState, formData) {
       };
     }
 
-    // 4. Get current session user
-    const session = await getSession();
-    if (!session) {
-      return { success: false, message: 'Unauthorized. Please log in.' };
-    }
-
-    // 5. Save complete order data (including totalAmount & cartItems) to mock db
     const newOrder = await createOrder({
       ...validationResult.data,
+      email: submittedEmail,
+      userId: sessionEmail,
       cartItems: parsedCart,
       totalAmount,
     });
 
-    // 6. Revalidate cache for checkout, cart, and dashboard
     revalidatePath('/checkout');
     revalidatePath('/cart');
     revalidatePath('/dashboard');
@@ -96,13 +145,9 @@ export async function cancelOrder(orderId) {
 
 export async function updateOrderStatus(orderId, newStatus) {
   try {
-    // Call centralized db status update
     const updatedOrder = await updateDbOrderStatus(orderId, newStatus);
-    
-    // Revalidate dashboard and live order tracking page
     revalidatePath('/dashboard');
     revalidatePath(`/track/${orderId}`);
-
     return { success: true, order: updatedOrder, message: `Status updated to ${newStatus}` };
   } catch (error) {
     return { success: false, message: error.message };

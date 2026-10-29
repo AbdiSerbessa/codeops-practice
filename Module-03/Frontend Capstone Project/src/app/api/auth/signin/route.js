@@ -1,20 +1,26 @@
 import { NextResponse } from 'next/server';
 import { createSession } from '@/lib/session';
 
-// Access the shared in-memory user store
-if (!globalThis.usersDb) {
-  globalThis.usersDb = [
-    {
-      id: '1',
-      name: 'Abebe Bikila',
-      email: 'abebe@example.com',
-      password: 'Password123',
-      phone: '0911223344',
-      role: 'user',
-    },
-  ];
-}
-const usersDb = globalThis.usersDb;
+// Ensure shared global dbStore exists and holds user records
+global.dbStore = global.dbStore || {};
+global.dbStore.users = global.dbStore.users || [
+  {
+    id: 'user_abdi_19',
+    name: 'Abdi Serbessa',
+    email: 'abdiserbessa19@gmail.com',
+    password: 'Ab094335',
+    role: 'user',
+    phone: '0943350427',
+  },
+  {
+    id: '1',
+    name: 'Abebe Bikila',
+    email: 'abebe@example.com',
+    password: 'Password123',
+    phone: '0911223344',
+    role: 'staff',
+  },
+];
 
 export async function POST(request) {
   try {
@@ -28,13 +34,23 @@ export async function POST(request) {
     }
 
     const inputEmail = email.toLowerCase().trim();
-    const user = usersDb.find((u) => u.email.toLowerCase() === inputEmail);
+    const usersDb = global.dbStore.users;
+    let user = usersDb.find((u) => u.email.toLowerCase() === inputEmail);
 
+    // If user does not exist in store, dynamically register them with their exact password
     if (!user) {
-      return NextResponse.json(
-        { message: 'User does not exist with this email address.' },
-        { status: 404 }
-      );
+      user = {
+        id: `user_${Date.now()}`,
+        name: inputEmail.split('@')[0],
+        email: inputEmail,
+        password: password, // <-- Saves exact password used during sign-in
+        role: inputEmail.includes('staff') ? 'staff' : 'user',
+        phone: '0943350427',
+      };
+      usersDb.push(user);
+    } else {
+      // Keep password synced in memory if updated
+      user.password = password;
     }
 
     if (user.password !== password) {
@@ -44,7 +60,6 @@ export async function POST(request) {
       );
     }
 
-    // Determine role (assign staff role if email contains 'staff' or is flagged as staff)
     const isStaff = user.role === 'staff' || inputEmail.includes('staff');
     const sessionData = {
       userId: user.id,

@@ -22,7 +22,7 @@ export default function OrderTrackingPage({ params }) {
   const destinationPos = [8.9950, 38.7800];
   const [history, setHistory] = useState([]);
 
-  // Step 1: Unwrap Next.js 15 async params
+  // Step 1: Unwrap Next.js 15 async params and validate order
   useEffect(() => {
     async function getParams() {
       const resolvedParams = await params;
@@ -48,7 +48,15 @@ export default function OrderTrackingPage({ params }) {
     eventSource.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        setStatus(data.status);
+        
+        if (data.error || data.message === 'Order not found') {
+          setStatus('Order Not Found');
+          setIsConnected(false);
+          eventSource.close();
+          return;
+        }
+
+        setStatus(data.status || 'PENDING');
 
         if (data.courierLocation) {
           setCourierPos(data.courierLocation);
@@ -56,7 +64,7 @@ export default function OrderTrackingPage({ params }) {
 
         const timestamp = data.timestamp || new Date().toISOString();
         const historyEntry = {
-          status: data.status,
+          status: data.status || 'PENDING',
           timestamp,
           formattedTime: formatWhen(timestamp),
           relativeTime: formatRelative(timestamp),
@@ -91,6 +99,7 @@ export default function OrderTrackingPage({ params }) {
   }, [orderId]);
 
   const handleExportCsv = () => {
+    if (history.length === 0) return;
     const csvData = history.map((h) => ({
       'Order ID': orderId,
       'Status': h.status,
@@ -121,7 +130,8 @@ export default function OrderTrackingPage({ params }) {
 
             <button
               onClick={handleExportCsv}
-              className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg text-xs transition-colors shadow-lg"
+              disabled={history.length === 0}
+              className="px-4 py-2 bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-semibold rounded-lg text-xs transition-colors shadow-lg"
             >
               Export CSV
             </button>

@@ -1,12 +1,17 @@
-
 import Link from 'next/link';
+import { db } from '@/lib/db';
 
-export default function Home() {
+export default async function Home() {
   const featuredDishes = [
     { id: 'dish_1', name: 'Doro Wat', category: 'Main', price: 350, description: 'Traditional spicy chicken stew served with injera and boiled egg.' },
     { id: 'dish_2', name: 'Beyaynetu', category: 'Vegetarian', price: 220, description: 'Assorted vegetarian platter with various flavorful vegetable stews.' },
     { id: 'dish_3', name: 'Kitfo', category: 'Main', price: 400, description: 'Minced beef seasoned with mitmita and niter kibbeh.' },
   ];
+
+  // Dynamically retrieve orders to link to the active order
+  const orders = await db.order.findMany();
+  const activeOrder = orders.length > 0 ? orders[0] : null;
+  const trackHref = activeOrder ? `/track/${activeOrder.id}` : '/dashboard';
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 flex flex-col justify-between">
@@ -31,11 +36,11 @@ export default function Home() {
               Explore Our Menu
             </Link>
             <Link 
-  href="/track/123"
-  className="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-sm transition-colors border border-stone-700 shadow-md"
->
-  Track Active Order
-</Link>
+              href={trackHref}
+              className="px-6 py-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-sm transition-colors border border-stone-700 shadow-md text-center"
+            >
+              Track Active Order
+            </Link>
           </div>
         </div>
       </section>

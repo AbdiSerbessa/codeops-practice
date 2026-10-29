@@ -15,15 +15,12 @@ export default function DishList() {
   const selectedCategory = searchParams.get('category') || 'All';
   const page = searchParams.get('page') || '1';
 
-  // Conditional SWR key: uses null key when search is empty if strict search-only mode is desired, 
-  // or fetches base menu with category and page when search is active/inactive.
   const swrKey = `/api/menu?search=${search}&category=${selectedCategory}&page=${page}`;
 
   const { data, error, isLoading } = useSWR(swrKey, fetcher, {
-    keepPreviousData: true, // Prevents list flashing between searches, category clicks, and pagination
+    keepPreviousData: true,
   });
 
-  // Extract dishes array and pagination metadata returned from the API handler
   const dishes = data?.dishes || data || [];
   const totalPages = data?.totalPages || 1;
 
@@ -33,7 +30,6 @@ export default function DishList() {
     router.replace(`/menu?${params.toString()}`, { scroll: false });
   };
 
-  // Initial loading state (only shown on initial paint before any cache/data exists)
   if (isLoading && !data) {
     return (
       <div className="text-center py-12 bg-white border border-stone-200 rounded-xl">
@@ -68,13 +64,13 @@ export default function DishList() {
             <div className="relative w-full h-48 bg-stone-100">
               {dish.image ? (
                 <Image
-  src={dish.image}
-  alt={dish.name || 'Ethiopian Dish'}
-  fill
-  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-  priority={index === 0}
-  className="object-cover"
-/>
+                  src={dish.image}
+                  alt={dish.name || 'Ethiopian Dish'}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                  priority={index === 0}
+                  className="object-cover"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs font-medium">
                   No Image Available
@@ -97,7 +93,7 @@ export default function DishList() {
               <div className="space-y-2 mt-4">
                 <Link
                   href={`/menu/${dish.id}`}
-                  className="text-center block w-full bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium py-2 rounded-lg transition-colors"
+                  className="text-center block w-full bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium py-2.5 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
                 >
                   View Details
                 </Link>
@@ -113,7 +109,7 @@ export default function DishList() {
         <button
           disabled={Number(page) <= 1}
           onClick={() => handlePageChange(Number(page) - 1)}
-          className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors"
+          className="min-h-[44px] px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 cursor-pointer"
         >
           Previous
         </button>
@@ -125,7 +121,7 @@ export default function DishList() {
         <button
           disabled={Number(page) >= totalPages}
           onClick={() => handlePageChange(Number(page) + 1)}
-          className="px-4 py-2 bg-amber-800 hover:bg-amber-900 text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors"
+          className="min-h-[44px] px-4 py-2.5 bg-amber-800 hover:bg-amber-900 text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 cursor-pointer"
         >
           Next
         </button>
