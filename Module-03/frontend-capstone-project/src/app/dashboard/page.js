@@ -1,9 +1,17 @@
 // src/app/dashboard/page.js
+export const dynamic = 'force-dynamic'; // Ensures auth check executes live on every request
+
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import RevenueChart from './RevenueChart';
 import OrderTable from '../orders/OrderTable';
 import LoadingSkeleton from '../orders/loading';
-import { db } from '@/lib/db';
+import { db, getSession } from '@/lib/db';
+
+export const metadata = {
+  title: 'DashBoard',
+};
 
 // Fetch and aggregate live orders from the database with configurable sorting
 async function getDashboardData(sort = 'date', order = 'desc') {
@@ -82,9 +90,56 @@ async function getDashboardData(sort = 'date', order = 'desc') {
 }
 
 export default async function DashboardPage({ searchParams }) {
+  // 1. ABSOLUTE SECURITY GUARD: Check cookies and session immediately
+  const cookieStore = await cookies();
+  let sessionEmail = '';
+  let userRole = '';
+
+  // Extract from getSession helper if active
+  try {
+    const session = await getSession();
+    if (session?.email) sessionEmail = session.email;
+    if (session?.role) userRole = session.role;
+  } catch (e) {
+    // Ignore session helper errors
+  }
+
+  // Fallback to direct cookie extraction if getSession is unpopulated
+  if (!sessionEmail) {
+    const rawCookie =
+      cookieStore.get('addis_eats_user')?.value ||
+      cookieStore.get('session')?.value ||
+      '';
+
+    if (rawCookie) {
+      if (rawCookie.includes('@') && !rawCookie.includes('{')) {
+        sessionEmail = rawCookie.trim();
+      } else {
+        try {
+          const parsed = JSON.parse(rawCookie);
+          sessionEmail = parsed.email || parsed.user?.email || '';
+          userRole = parsed.role || parsed.user?.role || '';
+        } catch (e) {
+          // Non-JSON cookie format
+        }
+      }
+    }
+  }
+
+  const cleanEmail = sessionEmail.toLowerCase().trim();
+  const isAdminEmail =
+    cleanEmail === 'abdiserbessa19@gmail.com' ||
+    (cleanEmail.length > 0 && cleanEmail.includes('staff'));
+  const isStaffRole = userRole.toLowerCase() === 'staff';
+
+  // If not admin or staff, immediately redirect away
+  if (!isAdminEmail && !isStaffRole) {
+    redirect('/menu?error=unauthorized');
+  }
+
   // Await searchParams to safely resolve parameters in Next.js App Router
   const resolvedParams = await searchParams;
-  
+
   // Extract sort and order parameters, defaulting to descending order so newest orders appear first
   const sort = resolvedParams?.sort || 'date';
   const order = resolvedParams?.order || 'desc';
@@ -96,7 +151,9 @@ export default async function DashboardPage({ searchParams }) {
       <div className="max-w-6xl mx-auto space-y-8">
         <div>
           <h1 className="text-3xl font-extrabold text-amber-500">Admin Dashboard</h1>
-          <p className="text-stone-400 text-sm mt-1">Real-time business insights, neighborhood revenue, and order management.</p>
+          <p className="text-stone-400 text-sm mt-1">
+            Real-time business insights, neighborhood revenue, and order management.
+          </p>
         </div>
 
         {/* Charts Section */}

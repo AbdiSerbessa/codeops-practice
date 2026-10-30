@@ -54,7 +54,7 @@ export async function placeOrder(prevState, formData) {
     } else {
       const isValidPassword = await verifyUserPassword(sessionEmail, submittedPassword);
       if (!isValidPassword) {
-        errors.password = ['Incorrect password. Please enter the valid password for your account (e.g., Br786778).'];
+        errors.password = ['Incorrect password. Please enter the valid password for your account.'];
       }
     }
 
@@ -154,5 +154,46 @@ export async function updateOrderStatus(orderId, newStatus) {
   }
 }
 
+/**
+ * NEW: Strictly validates login credentials against the database 
+ * to prevent unregistered emails and incorrect passwords from signing in.
+ */
+export async function loginAction(prevState, formData) {
+  try {
+    const email = (formData.get('email') || '').toString().trim().toLowerCase();
+    const password = (formData.get('password') || '').toString().trim();
+
+    if (!email || !password) {
+      return {
+        success: false,
+        message: 'Email and password are required.',
+      };
+    }
+
+    const isValid = await verifyUserPassword(email, password);
+    if (!isValid) {
+      return {
+        success: false,
+        message: 'Invalid email or password. Please check your credentials or register first.',
+      };
+    }
+
+    const cookieStore = await cookies();
+    cookieStore.set('addis_eats_user', email, { path: '/' });
+
+    return {
+      success: true,
+      message: 'Signed in successfully!',
+      userEmail: email,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || 'Authentication failed.',
+    };
+  }
+}
+
 export const submitOrderAction = placeOrder;
 export const cancelOrderAction = cancelOrder;
+export const loginUserAction = loginAction;

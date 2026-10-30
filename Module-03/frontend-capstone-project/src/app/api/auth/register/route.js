@@ -1,11 +1,27 @@
 import { NextResponse } from 'next/server';
 import { createSession } from '@/lib/session';
 
-// Initialize global in-memory database
-if (!globalThis.usersDb) {
-  globalThis.usersDb = [];
-}
-const usersDb = globalThis.usersDb;
+// Ensure shared global dbStore exists and holds user records (matches signin route)
+global.dbStore = global.dbStore || {};
+global.dbStore.users = global.dbStore.users || [
+  {
+    id: 'user_abdi_19',
+    name: 'Abdi Serbessa',
+    email: 'abdiserbessa19@gmail.com',
+    password: 'Ab094335',
+    role: 'user',
+    phone: '0943350427',
+  },
+  {
+    id: '1',
+    name: 'Abebe Bikila',
+    email: 'abebe@example.com',
+    password: 'Password123',
+    phone: '0911223344',
+    role: 'staff',
+  },
+];
+const usersDb = global.dbStore.users;
 
 export async function POST(request) {
   try {

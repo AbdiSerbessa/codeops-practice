@@ -1,11 +1,10 @@
-
 export default function robots() {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/cart', '/checkout'], // Exclude private user routes as specified
+      disallow: ['/cart', '/checkout'],
     },
-    sitemap: 'http://localhost:3000/sitemap.xml',
+    sitemap: 'https://codeops-practice-f4qz.vercel.app/sitemap.xml',
   };
 }

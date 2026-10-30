@@ -35,24 +35,17 @@ export async function POST(request) {
 
     const inputEmail = email.toLowerCase().trim();
     const usersDb = global.dbStore.users;
-    let user = usersDb.find((u) => u.email.toLowerCase() === inputEmail);
+    const user = usersDb.find((u) => u.email.toLowerCase() === inputEmail);
 
-    // If user does not exist in store, dynamically register them with their exact password
+    // STRICT CHECK: Reject if user does not exist in store
     if (!user) {
-      user = {
-        id: `user_${Date.now()}`,
-        name: inputEmail.split('@')[0],
-        email: inputEmail,
-        password: password, // <-- Saves exact password used during sign-in
-        role: inputEmail.includes('staff') ? 'staff' : 'user',
-        phone: '0943350427',
-      };
-      usersDb.push(user);
-    } else {
-      // Keep password synced in memory if updated
-      user.password = password;
+      return NextResponse.json(
+        { message: 'Account not found. Please register first.' },
+        { status: 401 }
+      );
     }
 
+    // Verify password against stored user record
     if (user.password !== password) {
       return NextResponse.json(
         { message: 'Invalid password. Please try again.' },

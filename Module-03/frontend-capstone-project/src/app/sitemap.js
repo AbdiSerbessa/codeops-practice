@@ -2,7 +2,7 @@
 import { db } from '@/lib/db';
 
 export default async function sitemap() {
-  const baseUrl = 'http://localhost:3000'; // Update with your production domain later
+  const baseUrl ='https://codeops-practice-f4qz.vercel.app'; 
 
   // 1. Fetch all dishes dynamically from the database
   const dishes = await db.dish.findMany();
