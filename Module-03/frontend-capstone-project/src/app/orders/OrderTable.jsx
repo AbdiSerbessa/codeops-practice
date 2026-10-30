@@ -71,7 +71,7 @@ export default function OrderTable({ orders = [], searchParams }) {
               <th className="py-3 px-4">
                 <Link href={toggleSort('customer')} className="hover:text-amber-400">Customer ↕</Link>
               </th>
-              <th className="py-3 px-4">Neighborhood</th>
+              <th className="py-3 px-4">Location</th>
               <th className="py-3 px-4">
                 <Link href={toggleSort('total')} className="hover:text-amber-400">Total (ETB) ↕</Link>
               </th>
