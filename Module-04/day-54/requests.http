@@ -1,0 +1,23 @@
+### 1. Get all orders
+GET http://localhost:3000/api/orders
+
+### 2. Create a new order (Success case)
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "customer": "Abdi",
+  "area": "Bole",
+  "totalSantim": 15000,
+  "telebirrPhone": "0911223344"
+}
+
+### 3. Test validation error (totalSantim is negative -> returns 400)
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "customer": "Abdi",
+  "area": "Bole",
+  "totalSantim": -5
+}
