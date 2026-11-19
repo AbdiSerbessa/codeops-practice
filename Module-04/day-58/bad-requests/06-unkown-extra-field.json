@@ -1,0 +1,9 @@
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "totalSantim": 9999999,
+  "lines": [{ "dishId": 101, "quantity": 1 }]
+}

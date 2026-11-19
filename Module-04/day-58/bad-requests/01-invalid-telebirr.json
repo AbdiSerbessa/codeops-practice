@@ -1,0 +1,8 @@
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "12345",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 101, "quantity": 1 }]
+}
