@@ -1,0 +1,45 @@
+### 1. All orders (default Page<T>)
+GET http://localhost:3000/api/orders
+
+### 2. Filter & paginate (?limit=5 returns 5 items, page 2 via offset=5)
+GET http://localhost:3000/api/orders?limit=5&offset=5&sort=total_desc
+
+### 3. Invalid limit (?limit=999 -> 400 Bad Request)
+GET http://localhost:3000/api/orders?limit=999
+
+### 4. Filter by status & area
+GET http://localhost:3000/api/orders?status=PENDING&area=Bole
+
+### 5. Static route: pending orders
+GET http://localhost:3000/api/orders/pending
+
+### 6. Orders for existing restaurant (id=1 -> Page<Order>)
+GET http://localhost:3000/api/restaurants/1/orders
+
+### 7. Orders for missing restaurant (id=99 -> 404 Not Found, not [])
+GET http://localhost:3000/api/restaurants/99/orders
+
+### 8. Update order status (PATCH -> 200 OK)
+PATCH http://localhost:3000/api/orders/2/status
+Content-Type: application/json
+
+{
+  "status": "PREPARING"
+}
+
+### 9. Invalid status value (PATCH -> 400 Bad Request)
+PATCH http://localhost:3000/api/orders/2/status
+Content-Type: application/json
+
+{
+  "status": "INVALID_STATUS"
+}
+
+### 10. Delete existing order (DELETE -> 204 No Content, empty body)
+DELETE http://localhost:3000/api/orders/13
+
+### 11. Delete non-existent order (DELETE -> 404 Not Found)
+DELETE http://localhost:3000/api/orders/999
+
+### 12. Confirm deleted order is gone
+GET http://localhost:3000/api/orders/14
