@@ -1,0 +1,55 @@
+### 1. Unversioned path returns 404
+GET http://localhost:3000/api/restaurants
+
+### 2. Versioned restaurants list returns 200 with Page<Restaurant>
+GET http://localhost:3000/api/v1/restaurants
+
+### 3. Create restaurant -> 201 Created with Location header
+POST http://localhost:3000/api/v1/restaurants
+Content-Type: application/json
+
+{
+  "name": "Habesha Kitfo House",
+  "area": "Bole",
+  "cuisine": "Traditional"
+}
+
+### 4. Orders list with descending sort (?sort=-totalSantim)
+GET http://localhost:3000/api/v1/orders?sort=-totalSantim
+
+### 5. Orders list with sparse fieldsets (?fields= shrinks payload)
+GET http://localhost:3000/api/v1/orders?fields=id,totalSantim
+
+### 6. Multi-value comma-separated status filter
+GET http://localhost:3000/api/v1/orders?status=PENDING,PREPARING
+
+### 7. Limit cap validation (?limit=999 -> 400 Bad Request)
+GET http://localhost:3000/api/v1/orders?limit=999
+
+### 8. Nested orders for existing restaurant (id=1 -> 200 Page<Order>)
+GET http://localhost:3000/api/v1/restaurants/1/orders
+
+### 9. Create order -> 201 Created with Location header
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Abebe Bikila",
+  "area": "Bole",
+  "totalSantim": 125000
+}
+
+### 10. Update order status -> 200 OK
+PATCH http://localhost:3000/api/v1/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "OUT_FOR_DELIVERY"
+}
+
+### 11. DELETE order first time -> 204 No Content (empty body)
+DELETE http://localhost:3000/api/v1/orders/14
+
+### 12. DELETE same order second time -> 204 No Content (idempotent)
+DELETE http://localhost:3000/api/v1/orders/14
