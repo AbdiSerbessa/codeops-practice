@@ -1,0 +1,135 @@
+### 1. Happy-path Create Order -> 201 Created (server computes totalSantim)
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+X-Request-Id: req-happy-001
+
+{
+  "restaurantId": 1,
+  "customerName": "Abdi Sarbesa",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "tipSantim": 5000,
+  "lines": [
+    { "dishId": 101, "quantity": 2 },
+    { "dishId": 102, "quantity": 1 }
+  ]
+}
+
+### 2. Valid Status Transition (PENDING -> PREPARING) -> 200 OK
+PATCH http://localhost:3000/api/v1/orders/2/status
+Content-Type: application/json
+
+{
+  "status": "PREPARING"
+}
+
+### 3. Invalid Status Transition (DELIVERED -> PENDING) -> 409 Conflict
+PATCH http://localhost:3000/api/v1/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "PENDING"
+}
+
+### 4. Invalid TeleBirr Number -> 400 Bad Request
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Abdi Sarbesa",
+  "customerPhone": "12345",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 101, "quantity": 1 }]
+}
+
+### 5. Forced TypeError -> 500 Internal Server Error (no stack trace)
+GET http://localhost:3000/api/v1/orders/debug/boom
+### 6. Unknown Extra Field (forbidNonWhitelisted) -> 400 Bad Request
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "totalSantim": 9999999,
+  "lines": [{ "dishId": 101, "quantity": 1 }]
+}
+
+### 7. Missing Restaurant (Existence Guard) -> 404 Not Found
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 999,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 101, "quantity": 1 }]
+}
+
+### 8. Missing Dish (Existence Guard) -> 404 Not Found
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 999, "quantity": 1 }]
+}
+
+### 9. Closed Restaurant (State Guard) -> 409 Conflict
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 2,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Piazza",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 201, "quantity": 1 }]
+}
+
+### 10. Sold-Out Dish (State Guard) -> 409 Conflict
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 103, "quantity": 1 }]
+}
+
+### 11. Dish Belongs to Different Restaurant (Relationship Guard) -> 422 Unprocessable Entity
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "customerName": "Bekele Abebe",
+  "customerPhone": "0911223344",
+  "area": "Bole",
+  "deliveryMode": "ASAP",
+  "lines": [{ "dishId": 201, "quantity": 1 }]
+}
+
+### 12. Invalid Status Transition -> 409 Conflict
+PATCH http://localhost:3000/api/v1/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "PENDING"
+}
