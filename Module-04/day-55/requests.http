@@ -1,0 +1,35 @@
+### 1. Get all dishes (8 seeded dishes)
+GET http://localhost:3000/api/dishes
+
+### 2. Get dishes filtered by restaurantId=1
+GET http://localhost:3000/api/dishes?restaurantId=1
+
+
+### 3. Get single dish by id (and test 404 with /999)
+GET http://localhost:3000/api/dishes/9
+
+
+
+### 4. Create a valid new dish
+POST http://localhost:3000/api/dishes
+Content-Type: application/json
+
+{
+  "name": "Awaze Tibs",
+  "priceSantim": 62000,
+  "restaurantId": 1
+}
+
+### 5. Reject dish whose restaurantId does not exist (422 Unprocessable Entity)
+POST http://localhost:3000/api/dishes
+Content-Type: application/json
+
+{
+  "name": "Ghost Dish",
+  "priceSantim": 50000,
+  "restaurantId": 3
+}
+
+
+### one restaurant
+GET http://localhost:3000/api/restaurants?area=Bole
