@@ -1,0 +1,39 @@
+
+> day-60@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m10:01:16 PM[0m] Starting compilation in watch mode...
+
+[[90m10:01:21 PM[0m] Found 0 errors. Watching for file changes.
+
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mStarting Nest application...[39m [90m{"context":"NestFactory"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mAppModule dependencies initialized[39m [90m{"context":"InstanceLoader"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mLoggerModule dependencies initialized[39m [90m{"context":"InstanceLoader"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mOrdersModule dependencies initialized[39m [90m{"context":"InstanceLoader"}[39m
+[2026-11-19 22:01:25.703 +0300] [33mWARN[39m: [36mUnsupported route path: "/api/*". In previous versions, the symbols ?, *, and + were used to denote optional or repeating path parameters. The latest version of "path-to-regexp" now requires the use of named parameters. For example, instead of using a route like /users/* to capture all routes starting with "/users", you should use /users/{*path}. The braces keep the wildcard optional, so it covers the same paths as /users/* did, while /users/*path is narrower and requires at least one extra segment. For more details, refer to the migration guide. Attempting to auto-convert to "/api/{*path}"...[39m [90m{"context":"LegacyRouteConverter"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mOrdersController {/api/orders} (version: 1):[39m [90m{"context":"RoutesResolver"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mMapped {/api/orders, GET} (version: 1) route[39m [90m{"context":"RouterExplorer"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mMapped {/api/orders/slow, GET} (version: 1) route[39m [90m{"context":"RouterExplorer"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mMapped {/api/orders/:id, GET} (version: 1) route[39m [90m{"context":"RouterExplorer"}[39m
+[2026-11-19 22:01:25.703 +0300] [32mINFO[39m: [36mMapped {/api/orders, POST} (version: 1) route[39m [90m{"context":"RouterExplorer"}[39m
+[2026-11-19 22:01:25.704 +0300] [32mINFO[39m: [36mNest application successfully started[39m [90m{"context":"NestApplication"}[39m
+[2026-11-19 22:01:35.882 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","context":"OrdersService","area":"all","action":"list_orders"}[39m
+[2026-11-19 22:01:35.889 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","res":{"statusCode":200},"responseTime":11}[39m
+[2026-11-19 22:04:37.096 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","context":"OrdersService","area":"all","action":"list_orders"}[39m
+[2026-11-19 22:04:37.098 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","res":{"statusCode":200},"responseTime":3}[39m
+[2026-11-19 22:04:42.239 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","context":"OrdersService","area":"all","action":"list_orders"}[39m
+[2026-11-19 22:04:42.240 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders"},"requestId":"req-d60-order-002","res":{"statusCode":200},"responseTime":2}[39m
+[2026-11-19 22:05:00.649 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders?area=bole"},"requestId":"req-d60-filter-001","context":"OrdersService","area":"bole","action":"list_orders"}[39m
+[2026-11-19 22:05:00.650 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders?area=bole"},"requestId":"req-d60-filter-001","res":{"statusCode":200},"responseTime":1}[39m
+[2026-11-19 22:05:02.432 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders?area=bole"},"requestId":"req-d60-filter-001","context":"OrdersService","area":"bole","action":"list_orders"}[39m
+[2026-11-19 22:05:02.432 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders?area=bole"},"requestId":"req-d60-filter-001","res":{"statusCode":200},"responseTime":1}[39m
+[2026-11-19 22:05:14.459 +0300] [32mINFO[39m: [90m{"req":{"method":"POST","url":"/api/v1/orders"},"requestId":"req-d60-order-001","context":"OrdersService","orderId":4,"area":"bole","action":"order_created"}[39m
+[2026-11-19 22:05:14.460 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"POST","url":"/api/v1/orders"},"requestId":"req-d60-order-001","res":{"statusCode":201},"responseTime":12}[39m
+[2026-11-19 22:05:33.280 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders/1"},"requestId":"req-d60-get-one-001","context":"OrdersService","orderId":1,"action":"get_order"}[39m
+[2026-11-19 22:05:33.282 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders/1"},"requestId":"req-d60-get-one-001","res":{"statusCode":200},"responseTime":3}[39m
+[2026-11-19 22:06:02.912 +0300] [33mWARN[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders/9999"},"requestId":"req-d60-not-found-001","context":"OrdersService","orderId":9999,"action":"order_not_found"}[39m
+[2026-11-19 22:06:02.914 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders/9999"},"requestId":"req-d60-not-found-001","res":{"statusCode":404},"responseTime":2}[39m
+[2026-11-19 22:06:13.075 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders/not-a-number"},"requestId":"req-d60-bad-id-001","res":{"statusCode":400},"responseTime":2}[39m
+[2026-11-19 22:06:27.191 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"POST","url":"/api/v1/orders"},"requestId":"req-d60-invalid-body-001","res":{"statusCode":400},"responseTime":3}[39m
+[2026-11-19 22:07:26.767 +0300] [32mINFO[39m: [90m{"req":{"method":"GET","url":"/api/v1/orders/slow"},"requestId":"req-d60-slow-001","context":"OrdersService","delayMs":6000,"action":"slow_report_started"}[39m
+[2026-11-19 22:07:32.780 +0300] [32mINFO[39m: [36mrequest completed[39m [90m{"req":{"method":"GET","url":"/api/v1/orders/slow"},"requestId":"req-d60-slow-001","res":{"statusCode":200},"responseTime":6013}[39m
