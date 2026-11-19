@@ -1,0 +1,81 @@
+@baseUrl = http://localhost:3000
+@apiKey = dev-secret-key
+@requestIdCreate = req-d60-order-001
+@requestIdFetch = req-d60-order-002
+
+### 1. List all orders (verifies structured JSON log + shared requestId)
+GET http://localhost:3000/api/v1/orders
+x-request-id: {{requestIdFetch}}
+x-api-key: {{apiKey}}
+
+###
+
+### 2. List orders filtered by area
+GET {{baseUrl}}/api/v1/orders?area=bole
+x-request-id: req-d60-filter-001
+x-api-key: {{apiKey}}
+
+###
+
+### 3. Create valid order with Authorization, x-api-key, and customerPhone (tests redaction + 201)
+POST {{baseUrl}}/api/v1/orders
+Content-Type: application/json
+x-request-id: {{requestIdCreate}}
+x-api-key: {{apiKey}}
+Authorization: Bearer super-secret-jwt-token
+
+{
+  "restaurant": "Yod Abyssinia",
+  "area": "bole",
+  "customerPhone": "+251911223344",
+  "totalSantim": 85000
+}
+
+###
+
+### 4. Fetch order by ID (verifies service log carries requestId without method argument)
+GET {{baseUrl}}/api/v1/orders/1
+x-request-id: req-d60-get-one-001
+x-api-key: {{apiKey}}
+
+###
+
+### 5. Fetch missing order (verifies 404 Not Found + warning log)
+GET {{baseUrl}}/api/v1/orders/9999
+x-request-id: req-d60-not-found-001
+x-api-key: {{apiKey}}
+
+###
+
+### 6. Invalid numeric order ID (verifies 400 Bad Request from ParseIntPipe)
+GET {{baseUrl}}/api/v1/orders/not-a-number
+x-request-id: req-d60-bad-id-001
+x-api-key: {{apiKey}}
+
+###
+
+### 7. Create invalid order body (verifies 400 Bad Request from ValidationPipe)
+POST {{baseUrl}}/api/v1/orders
+Content-Type: application/json
+x-request-id: req-d60-invalid-body-001
+x-api-key: {{apiKey}}
+
+{
+  "restaurant": "",
+  "area": "",
+  "customerPhone": "",
+  "totalSantim": -50
+}
+
+###
+
+### 8. Check Swagger UI availability (200 in dev/non-production, 404 when NODE_ENV=production)
+GET {{baseUrl}}/docs
+x-request-id: req-d60-docs-check-001
+
+###
+
+### 9. Check slow endpoint (optional — waits ~6s)
+GET {{baseUrl}}/api/v1/orders/slow
+x-request-id: req-d60-slow-001
+x-api-key: {{apiKey}}
