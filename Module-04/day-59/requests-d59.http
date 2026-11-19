@@ -1,0 +1,56 @@
+### 1. Missing API Key -> 401 Unauthorized (check x-request-id response header)
+GET http://localhost:3000/api/v1/orders
+
+### 2. Wrong API Key -> 403 Forbidden
+GET http://localhost:3000/api/v1/orders
+x-api-key: wrong-key
+
+### 3. Valid API Key + Custom x-request-id Echoed -> 200 OK
+GET http://localhost:3000/api/v1/orders
+x-api-key: dev-secret-key
+x-request-id: req-d59-003
+
+### 4. ParseAreaPipe lowercase ("bole") -> 200 OK
+GET http://localhost:3000/api/v1/orders?area=bolE
+x-api-key: dev-secret-key
+
+### 5. ParseAreaPipe uppercase ("BOLE") -> 200 OK
+GET http://localhost:3000/api/v1/orders?area=BOLE
+x-api-key: dev-secret-key
+
+### 6. ParseAreaPipe invalid ("adama") -> 400 Bad Request
+GET http://localhost:3000/api/v1/orders?area=adama
+x-api-key: dev-secret-key
+
+### 7. @Roles("staff") without role header -> 403 Forbidden
+GET http://localhost:3000/api/v1/orders/staff-queue
+x-api-key: dev-secret-key
+
+### 8. @Roles("staff") with customer role -> 403 Forbidden
+GET http://localhost:3000/api/v1/orders/staff-queue
+x-api-key: dev-secret-key
+x-role: customer
+
+### 9. @Roles("staff") with staff role -> 200 OK
+GET http://localhost:3000/api/v1/orders/staff-queue
+x-api-key: dev-secret-key
+x-role: staff
+
+### 10. Create Order -> 201 Created
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+x-api-key: dev-secret-key
+
+{
+  "restaurant": "Habesha 2000",
+  "area": "BOLE",
+  "totalSantim": 85000
+}
+
+### 11. Verify Newly Created Bole Order Appears -> 200 OK
+GET http://localhost:3000/api/v1/orders?area=bole
+x-api-key: dev-secret-key
+
+### 12. TimeoutInterceptor (6s service delay hits 5s cutoff) -> 408 Request Timeout
+GET http://localhost:3000/api/v1/orders/slow
+x-api-key: dev-secret-key
