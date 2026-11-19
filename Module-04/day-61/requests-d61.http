@@ -1,0 +1,110 @@
+@baseUrl = http://localhost:3000
+
+### 1. Public route: /restaurants works with NO token (Criterion 4 -> 200 OK)
+GET {{baseUrl}}/restaurants
+
+###
+
+### 2. Protected route: /orders fails with NO token (Criterion 4 -> 401 Unauthorized)
+GET {{baseUrl}}/orders
+
+###
+
+### 3. Register a new user (Criterion 1 & 2 -> 201 Created, NO passwordHash/refreshHash in response)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "abdi.test@addiseats.et",
+  "password": "StrongPassword123!"
+}
+
+###
+
+### 4. Register duplicate email (Deliverable -> 409 Conflict)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "abdi.test@addiseats.et",
+  "password": "StrongPassword123!"
+}
+
+###
+
+### 5a. Login with wrong password (Deliverable -> 401 "Invalid credentials")
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "abdi.test@addiseats.et",
+  "password": "WrongPassword!"
+}
+
+###
+
+### 5b. Login with non-existent email (Deliverable -> same 401 "Invalid credentials" message)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "nobody@addiseats.et",
+  "password": "StrongPassword123!"
+}
+
+###
+
+### 6. Login with valid credentials (captures accessToken & refreshToken; Criterion 2 -> no hashes)
+# @name loginReq
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "abdi.test@addiseats.et",
+  "password": "StrongPassword123!"
+}
+
+###
+
+### 7. Protected route: GET /orders WITH valid Bearer token (Criterion 4 -> 200 OK)
+GET {{baseUrl}}/orders
+Authorization: Bearer {{loginReq.response.body.accessToken}}
+
+###
+
+### 8. Protected route: GET /auth/me returns req.user (Deliverable -> 200 OK)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{loginReq.response.body.accessToken}}
+
+###
+
+### 9. Tampered JWT payload (modify one character in the middle segment -> Criterion 3 -> 401 Unauthorized)
+GET {{baseUrl}}/orders
+Authorization: Bearer {{loginReq.response.body.accessToken}}tampered
+
+###
+
+### 10. Refresh & rotate tokens (Criterion 1 -> 200 OK with new accessToken & refreshToken)
+# @name refreshReq
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{loginReq.response.body.refreshToken}}"
+}
+
+###
+
+### 11. Replay old rotated refreshToken (verifies rotation invalidated the old token -> 401 Unauthorized)
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{loginReq.response.body.refreshToken}}"
+}
+
+###
+
+### 12. Call /auth/me with the NEW rotated accessToken (200 OK)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{refreshReq.response.body.accessToken}}
