@@ -1,0 +1,108 @@
+### Register a new customer
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "almaz@example.et",
+  "password": "Password123!"
+}
+
+### Try the same email again — expect 409
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "almaz@example.et",
+  "password": "Password123!"
+}
+
+### Invalid email — expect 400
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "not-an-email",
+  "password": "Password123!"
+}
+
+### Short password — expect 400
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "new@example.et",
+  "password": "123"
+}
+
+### Extra role field — expect 400
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "new@example.et",
+  "password": "Password123!",
+  "roles": ["admin"]
+}
+
+
+
+
+
+### Login with the registered user
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "almaz@example.et",
+  "password": "Password123!"
+}
+
+### Wrong password — expect same 401 message
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "almaz@example.et",
+  "password": "WrongPassword123!"
+}
+
+### Unknown email — expect same 401 message
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nobody@example.et",
+  "password": "Password123!"
+}
+
+
+
+@host = http://localhost:3000/api
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWxtYXpAZXhhbXBsZS5ldCIsInJvbGVzIjpbImN1c3RvbWVyIl0sImlhdCI6MTc5NTE4MTgxMSwiZXhwIjoxNzk1MTgyNzExfQ.O7qnpuSJHdxg0WrkhI_oRAv7Vsmtm7PzIjzX636xhew
+
+### No token — expect 401
+GET {{host}}/auth/me
+
+### Valid token — expect 200 and the user object
+GET {{host}}/auth/me
+Authorization: Bearer {{accessToken}}
+
+### Tampered token — expect 401
+GET {{host}}/auth/me
+Authorization: Bearer {{accessToken}}x
+
+
+
+### Refresh using the refresh token returned by login
+POST http://localhost:3000/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc5NTE4MTg4OCwiZXhwIjoxNzk1Nzg2Njg4fQ.7i6uxKJJl8An6F9KM9n9UMwtHGRG8y7TLaZw-wFeRYo"
+
+}
+
+
+### Logout — expect 200 and { "message": "Logged out" }
+POST {{host}}/auth/logout
+Authorization: Bearer {{accessToken}}
