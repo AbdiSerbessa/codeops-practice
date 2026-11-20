@@ -28,4 +28,12 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     order.status = status;
     return order;
   }
+
+  async delete(id: string): Promise<void> {
+    const index = this.orders.findIndex((o) => o.id === id);
+    if (index === -1) {
+      throw new NotFoundException('Order not found');
+    }
+    this.orders.splice(index, 1);
+  }
 }

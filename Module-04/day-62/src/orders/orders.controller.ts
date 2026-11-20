@@ -8,6 +8,9 @@ import {
   Patch,
   Post,
   Req,
+  Delete,
+  HttpCode,
+  HttpStatus,
   UseGuards,
 } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
@@ -55,6 +58,12 @@ export class OrdersController {
       item: body.item,
       status: 'pending',
     });
+  }
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Roles('admin')
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.ordersRepo.delete(id);
   }
 
   @Get(':id')

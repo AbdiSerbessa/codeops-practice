@@ -1,7 +1,7 @@
 import type { AuthenticatedUser } from '../auth/jwt.strategy.js';
 import type { Order } from './order.entity.js';
 
-export type OrderAction = 'read' | 'cancel' | 'updateStatus';
+export type OrderAction = 'read' | 'cancel' | 'updateStatus'| 'delete';
 
 export function assertNever(value: never): never {
   throw new Error(`Unhandled order action: ${String(value)}`);
@@ -34,6 +34,8 @@ export class OrderPolicy {
           order.courierId !== undefined &&
           order.courierId === user.id
         );
+        case 'delete':
+        return user.roles.includes('admin');
       default:
         return assertNever(action);
     }

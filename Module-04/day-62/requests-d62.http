@@ -150,3 +150,25 @@ Content-Type: application/json
 {
   "refreshToken": "{{cust1Login.response.body.refreshToken}}"
 }
+
+### 18. Login as admin
+# @name adminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 19. Non-admin attempting DELETE /orders/:id -> 403 Forbidden (customer1)
+DELETE {{baseUrl}}/orders/order-2
+Authorization: Bearer {{cust1Login.response.body.accessToken}}
+
+###
+
+### 20. Admin deleting an order -> 204 No Content
+DELETE {{baseUrl}}/orders/order-2
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
