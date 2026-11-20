@@ -1,0 +1,152 @@
+@baseUrl = http://localhost:3000
+
+### 1. Login as customer1 (owns order-1 and order-2)
+# @name cust1Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "customer1@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 2. Login as customer2 (owns order-3; stranger to order-1)
+# @name cust2Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "customer2@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 3. Login as courier (assigned to order-1 and order-2)
+# @name courierLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "courier@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 4. Login as staff (bypass policy & sees all orders)
+# @name staffLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "staff@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 5. Collection scoping: customer1 sees only their 2 orders
+GET {{baseUrl}}/orders
+Authorization: Bearer {{cust1Login.response.body.accessToken}}
+
+###
+
+### 6. Collection scoping: customer2 sees only their 1 order
+GET {{baseUrl}}/orders
+Authorization: Bearer {{cust2Login.response.body.accessToken}}
+
+###
+
+### 7. Collection scoping: courier sees only assigned orders (2 orders)
+GET {{baseUrl}}/orders
+Authorization: Bearer {{courierLogin.response.body.accessToken}}
+
+###
+
+### 8. Collection scoping: staff sees all seeded orders (3 orders)
+GET {{baseUrl}}/orders
+Authorization: Bearer {{staffLogin.response.body.accessToken}}
+
+###
+
+### 9. Stranger order -> 404 Not Found (customer2 requesting order-1)
+GET {{baseUrl}}/orders/order-1
+Authorization: Bearer {{cust2Login.response.body.accessToken}}
+
+###
+
+### 10. Forbidden role/action on accessible order -> 403 Forbidden (customer1 trying to updateStatus on order-1)
+PATCH {{baseUrl}}/orders/order-1/status
+Authorization: Bearer {{cust1Login.response.body.accessToken}}
+Content-Type: application/json
+
+{
+  "status": "delivered"
+}
+
+###
+
+### 11. Allowed cancel by owner on pending order -> 200 OK (customer1 cancelling order-1)
+PATCH {{baseUrl}}/orders/order-1/cancel
+Authorization: Bearer {{cust1Login.response.body.accessToken}}
+
+###
+
+### 12. Staff bypass -> 200 OK (staff updating status on order-3)
+PATCH {{baseUrl}}/orders/order-3/status
+Authorization: Bearer {{staffLogin.response.body.accessToken}}
+Content-Type: application/json
+
+{
+  "status": "preparing"
+}
+
+### 13. Register a new user -> 201 Created (returns SafeUser without passwordHash/refreshHash)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "newuser@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 14. Duplicate registration -> 409 Conflict
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "newuser@addiseats.et",
+  "password": "Password123!"
+}
+
+###
+
+### 15. Check current authenticated user -> 200 OK (shows id, email, roles, restaurantId)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{staffLogin.response.body.accessToken}}
+
+###
+
+### 16. Refresh tokens -> 200 OK (rotates accessToken and refreshToken)
+# @name rotatedTokens
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{cust1Login.response.body.refreshToken}}"
+}
+
+###
+
+### 17. Reuse old rotated refresh token -> 401 Unauthorized (invalidates stored refreshHash)
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{cust1Login.response.body.refreshToken}}"
+}
