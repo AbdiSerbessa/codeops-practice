@@ -8,4 +8,5 @@ export interface OrdersRepository {
   findAll(): Promise<Order[]>;
   create(order: Order): Promise<Order>;
   updateStatus(id: string, status: OrderStatus): Promise<Order>;
+  delete(id: string): Promise<void>;
 }
